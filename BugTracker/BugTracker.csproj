@@ -249,6 +249,12 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Template\css\AJStyles.css" />
+    <Content Include="zTest\blank - Copy %282%29.html" />
+    <Content Include="zTest\blank - Copy %283%29.html" />
+    <Content Include="zTest\blank - Copy.html" />
+    <Content Include="zTest\blank.html" />
+    <Content Include="zTest\blank - Copy %284%29 LayoutTest.html" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -305,6 +311,7 @@
     <Content Include="Template\css\icons\linea-icons\linea.css" />
     <Content Include="Template\css\spinners.css" />
     <Content Include="Template\css\style.css" />
+    <Content Include="Template\img\blank-profile-picture.svg" />
     <Content Include="Template\js\cbpFWTabs.js" />
     <Content Include="Template\js\custom.js" />
     <Content Include="Template\js\dashboard1.js" />

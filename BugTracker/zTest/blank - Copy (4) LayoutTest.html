@@ -1,34 +1,34 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <link rel="icon" type="image/png" sizes="16x16" href="../Template/plugins/images/favicon.png">
-    <title>Elite Admin - is a responsive admin template</title>
-    <!-- Bootstrap Core CSS -->
-    <link href="../Template/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Menu CSS -->
-    <link href="../Template/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.css" rel="stylesheet">
-    <!-- animation CSS -->
-    <link href="../Template/css/animate.css" rel="stylesheet">
-    <!-- Custom CSS -->
-    <link href="../Template/css/style.css" rel="stylesheet">
-    <!-- color CSS you can use different color css from css/colors folder -->
-    <link href="../Template/css/colors/blue.css" id="theme" rel="stylesheet">
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="">
+<meta name="author" content="">
+<link rel="icon" type="image/png" sizes="16x16" href="../Template/plugins/images/favicon.png">
+<title>Elite Admin - is a responsive admin template</title>
+<!-- Bootstrap Core CSS -->
+<link href="../Template/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+<!-- Menu CSS -->
+<link href="../Template/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.css" rel="stylesheet">
+<!-- animation CSS -->
+<link href="../Template/css/animate.css" rel="stylesheet">
+<!-- Custom CSS -->
+<link href="../Template/css/style.css" rel="stylesheet">
+<!-- color CSS you can use different color css from css/colors folder -->
+<link href="../Template/css/colors/blue.css" id="theme"  rel="stylesheet">
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
 
 </head>
 <body class="fix-sidebar">
 
 
-    <!-- Preloader -->
-    <div class="preloader">
-        <div class="cssload-speeding-wheel"></div>
-    </div>
+<!-- Preloader -->
+<div class="preloader">
+  <div class="cssload-speeding-wheel"></div>
+</div>
     <div id="wrapper">
         <!--Body Wrapper-->
         <!-- Top Navigation -->
@@ -177,7 +177,7 @@
         <!-- End Top Navigation -->
         <!-- Left navbar-header -->
         <div class="navbar-default sidebar" role="navigation">
-            <!-- Start Left navbar-header Collapse -->
+            <!-- Left navbar-header Collapse -->
             <div class="sidebar-nav navbar-collapse slimscrollsidebar">
                 <ul class="nav" id="side-menu">
                     <!-- Hidden Search for Mobile -->
@@ -294,8 +294,7 @@
                     <li><a href="faq.html" class="waves-effect"><i class="fa fa-circle-o text-success"></i> <span class="hide-menu">Faqs</span></a></li>
                     <!-- Start Support Menu Section -->
                 </ul>
-            </div> 
-            <!-- End Left navbar-header Collapse -->
+            </div><!-- Left navbar-header Collapse -->
         </div>
         <!-- Left navbar-header end -->
 
@@ -327,12 +326,6 @@
                     <div class="col-md-12">
                         <div class="white-box">
                             <h3 class="box-title">Blank Starter page</h3>
-                            @if (Request.IsAuthenticated) { 
-                            @RenderBody()
-                            }
-                            else{ 
-                               @RenderPage("../Views/Account/Login.cshtml");
-                            }
                         </div>
                     </div>
                 </div>
@@ -400,66 +393,21 @@
 
 
     </div>
-    <!--End Body Wrapper-->
-    <!-- jQuery -->
-    <script src="../Template/plugins/bower_components/jquery/dist/jquery.min.js"></script>
-    <!-- Bootstrap Core JavaScript -->
-    <script src="../Template/bootstrap/dist/js/bootstrap.min.js"></script>
-    <!-- Menu Plugin JavaScript -->
-    <script src="../Template/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.js"></script>
-    <!--slimscroll JavaScript -->
-    <script src="../Template/js/jquery.slimscroll.js"></script>
-    <!--Wave Effects -->
-    <script src="../Template/js/waves.js"></script>
-    <!-- Custom Theme JavaScript -->
-    <script src="../Template/js/custom.js"></script>
-    <!--Style Switcher -->
-    <script src="../Template/plugins/bower_components/styleswitcher/jQuery.style.switcher.js"></script>
+<!--End Body Wrapper-->
+
+<!-- jQuery -->
+<script src="../Template/plugins/bower_components/jquery/dist/jquery.min.js"></script>
+<!-- Bootstrap Core JavaScript -->
+<script src="../Template/bootstrap/dist/js/bootstrap.min.js"></script>
+<!-- Menu Plugin JavaScript -->
+<script src="../Template/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.js"></script>
+<!--slimscroll JavaScript -->
+<script src="../Template/js/jquery.slimscroll.js"></script>
+<!--Wave Effects -->
+<script src="../Template/js/waves.js"></script>
+<!-- Custom Theme JavaScript -->
+<script src="../Template/js/custom.js"></script>
+<!--Style Switcher -->
+<script src="../Template/plugins/bower_components/styleswitcher/jQuery.style.switcher.js"></script>
 </body>
 </html>
-
-
-@*<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
-    @Styles.Render("~/Content/css")
-    @Scripts.Render("~/bundles/modernizr")
-
-</head>
-<body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
-                </ul>
-                @Html.Partial("_LoginPartial")
-            </div>
-        </div>
-    </div>
-    <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
-        </footer>
-    </div>
-
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
-    @RenderSection("scripts", required: false)
-</body>
-</html>*@
