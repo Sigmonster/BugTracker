@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNet.Identity;
 using Microsoft.Owin.Security;
 
+
 namespace BugTracker.Models
 {
     public class IndexViewModel
@@ -12,6 +13,26 @@ namespace BugTracker.Models
         public string PhoneNumber { get; set; }
         public bool TwoFactor { get; set; }
         public bool BrowserRemembered { get; set; }
+        public string UserDisplayName { get; set; }
+        public string UserFirstName { get; set; }
+        public string UserLastName { get; set; }
+        public string UserEmail { get; set; }
+        public string UserUserName { get; set; }
+    }
+    public class EditAccountViewModel
+    {
+        [Required]
+        [StringLength(40, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 4)]
+        [Display(Name = "Display Name")]
+        public string UserDisplayName { get; set; }
+        [Required]
+        [StringLength(20, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 2)]
+        [Display(Name = "First Name")]
+        public string UserFirstName { get; set; }
+        [Required]
+        [StringLength(20, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 2)]
+        [Display(Name = "Last Name")]
+        public string UserLastName { get; set; }
     }
 
     public class ManageLoginsViewModel

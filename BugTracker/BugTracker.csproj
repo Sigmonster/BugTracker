@@ -213,6 +213,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\BTController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Global.asax.cs">
@@ -2865,6 +2866,15 @@
     <Content Include="Template\plugins\bower_components\tinymce\skins\lightgray\fonts\tinymce.woff" />
     <Content Include="Template\plugins\images\assets\photothumb.db" />
     <Content Include="Template\plugins\images\large\.DS_Store" />
+    <Content Include="Views\Shared\_RegisterPartial.cshtml" />
+    <Content Include="Views\Shared\_ExternalLoginsListPartial.cshtml" />
+    <Content Include="Views\Manage\EditAccount.cshtml" />
+    <Content Include="Views\BT\Admin.cshtml" />
+    <Content Include="Views\BT\Create.cshtml" />
+    <Content Include="Views\BT\Delete.cshtml" />
+    <Content Include="Views\BT\Details.cshtml" />
+    <Content Include="Views\BT\Edit.cshtml" />
+    <Content Include="Views\BT\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

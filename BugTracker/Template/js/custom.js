@@ -240,5 +240,17 @@ $(document).ready(function() {
         $("#loginform").slideUp();
         $("#recoverform").fadeIn();
     });
-
-
+    // Hide recover password, show login.
+    $('#back-to-login').click(function () {
+        $("#recoverform").fadeOut();
+        $("#loginform").slideDown();
+    });
+    //Hide Login, show register.
+    $('#go-to-register').click(function () {
+        $("#loginform").slideUp();
+        $("#registerform").fadeIn();
+    });
+    $('#to-login-from-register').click(function () {
+        $("#registerform").fadeOut();
+        $("#loginform").slideDown();
+    });

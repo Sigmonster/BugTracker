@@ -32,9 +32,9 @@ namespace BugTracker.Controllers
             {
                 return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
             }
-            private set 
-            { 
-                _signInManager = value; 
+            private set
+            {
+                _signInManager = value;
             }
         }
 
@@ -61,6 +61,7 @@ namespace BugTracker.Controllers
                 : message == ManageMessageId.Error ? "An error has occurred."
                 : message == ManageMessageId.AddPhoneSuccess ? "Your phone number was added."
                 : message == ManageMessageId.RemovePhoneSuccess ? "Your phone number was removed."
+                : message == ManageMessageId.EditAccountSuccess ? "Your Account settings were saved!."
                 : "";
 
             var userId = User.Identity.GetUserId();
@@ -70,8 +71,14 @@ namespace BugTracker.Controllers
                 PhoneNumber = await UserManager.GetPhoneNumberAsync(userId),
                 TwoFactor = await UserManager.GetTwoFactorEnabledAsync(userId),
                 Logins = await UserManager.GetLoginsAsync(userId),
-                BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId)
+                BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId),
+                UserDisplayName = CurrentUserDisplayName(),
+                UserFirstName = CurrentUserFirstName(),
+                UserLastName = CurrentUserLastName(),
+                UserEmail = CurrentUserEmail(),
+                UserUserName = CurrentUserUserName()
             };
+
             return View(model);
         }
 
@@ -214,7 +221,44 @@ namespace BugTracker.Controllers
         }
 
         //
+        //Get: /Manage/EditAccount
+        [Authorize]
+        public ActionResult EditAccount()
+        {
+            var model = new EditAccountViewModel
+            {
+                UserDisplayName = CurrentUserDisplayName(),
+                UserFirstName = CurrentUserFirstName(),
+                UserLastName = CurrentUserLastName()
+           };
+            return View(model);
+        }
+        //
+        //Post: /Manage/EditAccount
+        [HttpPost]
+        [Authorize]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> EditAccount(EditAccountViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+            var user = UserManager.FindById(User.Identity.GetUserId());
+            user.FirstName = model.UserFirstName;
+            user.LastName = model.UserLastName;
+            user.DisplayName = model.UserDisplayName;
+            var result = await UserManager.UpdateAsync(user);
+            if (result != null)
+            {
+
+            }
+
+            return RedirectToAction("Index", new { Message = ManageMessageId.EditAccountSuccess });
+        }
+        //
         // GET: /Manage/ChangePassword
+        [ValidateAntiForgeryToken]
         public ActionResult ChangePassword()
         {
             return View();
@@ -332,8 +376,7 @@ namespace BugTracker.Controllers
 
             base.Dispose(disposing);
         }
-
-#region Helpers
+        #region Helpers
         // Used for XSRF protection when adding external logins
         private const string XsrfKey = "XsrfId";
 
@@ -381,9 +424,42 @@ namespace BugTracker.Controllers
             SetPasswordSuccess,
             RemoveLoginSuccess,
             RemovePhoneSuccess,
+            EditAccountSuccess,
             Error
         }
 
-#endregion
+
+        #endregion
+        //AJ Custom Lookups
+        public string CurrentUserDisplayName()
+        {
+            var user = UserManager.FindById(User.Identity.GetUserId());
+            var UserDisplayName = user.DisplayName;
+            return (UserDisplayName);
+        }
+        public string CurrentUserFirstName()
+        {
+            var user = UserManager.FindById(User.Identity.GetUserId());
+            var UserFirstName = user.FirstName;
+            return (UserFirstName);
+        }
+        public string CurrentUserLastName()
+        {
+            var user = UserManager.FindById(User.Identity.GetUserId());
+            var UserLastName = user.LastName;
+            return (UserLastName);
+        }
+        public string CurrentUserUserName()
+        {
+            var user = UserManager.FindById(User.Identity.GetUserId());
+            var UserUserName = user.UserName;
+            return (UserUserName);
+        }
+        public string CurrentUserEmail()
+        {
+            var user = UserManager.FindById(User.Identity.GetUserId());
+            var UserEmail = user.Email;
+            return (UserEmail);
+        }
     }
 }

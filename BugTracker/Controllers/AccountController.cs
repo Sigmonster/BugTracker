@@ -9,6 +9,8 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using BugTracker.Models;
+using System.Text;
+using System.Diagnostics;
 
 namespace BugTracker.Controllers
 {
@@ -147,10 +149,15 @@ namespace BugTracker.Controllers
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterViewModel model)
-        {
+        {   
+            //Create DisplayName
+            StringBuilder dn = new StringBuilder();
+            dn.Append(model.FirstName + " " + model.LastName);
+            model.DisplayName = dn.ToString();
+
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, LastName = model.LastName, DisplayName = model.DisplayName };
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, FirstName = model.FirstName, LastName = model.LastName, DisplayName = model.DisplayName };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {

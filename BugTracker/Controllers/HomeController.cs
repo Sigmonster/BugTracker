@@ -10,7 +10,13 @@ namespace BugTracker.Controllers
     {
         public ActionResult Index()
         {
-            return RedirectToAction("Login","Account");
+            if (Request.IsAuthenticated)
+            {
+                return View();
+            }
+
+            return RedirectToAction("Login", "Account");
+            
         }
 
         public ActionResult About()
@@ -26,5 +32,6 @@ namespace BugTracker.Controllers
 
             return View();
         }
+
     }
 }

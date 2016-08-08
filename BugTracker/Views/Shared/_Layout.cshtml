@@ -20,7 +20,7 @@
     <link href="../Template/css/colors/blue.css" id="theme" rel="stylesheet">
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-
+    <link href="../Template/css/AJStyles.css" rel="stylesheet" />
 </head>
 <body class="fix-sidebar">
 
@@ -158,8 +158,16 @@
                             <li><a href="javascript:void(0)"><i class="ti-email"></i> Notification Inbox</a></li>
                             <li role="separator" class="divider"></li>
                             <li><a href="javascript:void(0)"><i class="ti-settings"></i> Account Setting</a></li>
+                            <li>@Html.ActionLink("Account Settings","Index", "Manage")</li>
                             <li role="separator" class="divider"></li>
                             <li><a href="javascript:void(0)"><i class="fa fa-power-off"></i> Logout</a></li>
+                            <li>
+                                @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+                                {
+                                    @Html.AntiForgeryToken()
+                                }
+                                <a href="javascript:document.getElementById('logoutForm').submit()">Log off</a>
+                            </li>
                         </ul>
                         <!-- /.dropdown-user -->
                     </li>
@@ -249,7 +257,8 @@
                     <!-- End Main Menu Section -->
                     <!-- Start Drop-Down 2.1 -->
                     <!-- Start Next Menu Section -->
-                    <li class="nav-small-cap">--- Next Menu Section</li>
+
+                    @*<li class="nav-small-cap">--- Next Menu Section</li>
                     <li>
                         <a href="javascript:void(0)" class="waves-effect active"><i data-icon="&#xe008;" class="linea-icon linea-basic fa-fw"></i> <span class="hide-menu">Drop-Down 2.1<span class="fa arrow"></span><span class="label label-rouded label-purple pull-right">15</span></span></a>
                         <ul class="nav nav-second-level">
@@ -292,7 +301,7 @@
                     <li><a href="documentation.html" class="waves-effect"><i class="fa fa-circle-o text-danger"></i> <span class="hide-menu">Documentation</span></a></li>
                     <li><a href="gallery.html" class="waves-effect"><i class="fa fa-circle-o text-info"></i> <span class="hide-menu">Gallery</span></a></li>
                     <li><a href="faq.html" class="waves-effect"><i class="fa fa-circle-o text-success"></i> <span class="hide-menu">Faqs</span></a></li>
-                    <!-- Start Support Menu Section -->
+                    <!-- End Support Menu Section -->*@
                 </ul>
             </div> 
             <!-- End Left navbar-header Collapse -->
@@ -308,7 +317,7 @@
                 <!--Start Title Row-->
                 <div class="row bg-title">
                     <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
-                        <h4 class="page-title">Starter Page</h4>
+                        <h4 class="page-title">@ViewBag.Title.</h4>
                     </div>
                     <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
                         <ol class="breadcrumb">
@@ -322,21 +331,27 @@
 
 
 
+
+
                 <!-- Start Main Body Content-->
                 <div class="row">
                     <div class="col-md-12">
-                        <div class="white-box">
-                            <h3 class="box-title">Blank Starter page</h3>
-                            @if (Request.IsAuthenticated) { 
+                        @*<div class="white-box">*@
+                            @*<h3 class="box-title">Blank Starter page</h3>*@
+                            @*@if (Request.IsAuthenticated) {*@ 
                             @RenderBody()
-                            }
-                            else{ 
-                               @RenderPage("../Views/Account/Login.cshtml");
-                            }
-                        </div>
+                            @*}
+                            else{
+                                    Url.Action("Login", "Account");
+                                    @RenderPage("../Views/Account/Login.cshtml");
+                                }*@
+                                    
+                        @*</div>*@
                     </div>
                 </div>
                 <!-- End Main Body Content-->
+
+
 
 
 
@@ -415,6 +430,7 @@
     <script src="../Template/js/custom.js"></script>
     <!--Style Switcher -->
     <script src="../Template/plugins/bower_components/styleswitcher/jQuery.style.switcher.js"></script>
+    @RenderSection("scripts", required: false)
 </body>
 </html>
 

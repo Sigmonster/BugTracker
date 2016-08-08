@@ -79,7 +79,6 @@ namespace BugTracker.Models
         [Display(Name = "Last Name")]
         public string LastName { get; set; }
 
-        [Required]
         [Display(Name = "Display Name")]
         public string DisplayName { get; set; }
 

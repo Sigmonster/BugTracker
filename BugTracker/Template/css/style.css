@@ -3836,6 +3836,9 @@ table.focus-on tbody tr.focused td {
 #recoverform {
   display: none;
 }
+#registerform{
+    display:none;
+}
 /*Pricing*/
 .pricing-box {
   position: relative;
