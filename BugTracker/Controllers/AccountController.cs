@@ -53,14 +53,31 @@ namespace BugTracker.Controllers
                 _userManager = value;
             }
         }
+        //public class LoginGroupModel
+        //{
+        //    public LoginViewModel LoginViewModel { get; set; }
+        //    public ForgotPasswordViewModel ForgotPasswordViewModel { get; set; }
+        //    public RegisterViewModel RegisterViewModel { get; set; }
+        //}
+
 
         //
         // GET: /Account/Login
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
+            LoginViewModel LoginViewModel = new LoginViewModel();
+            ForgotPasswordViewModel ForgotPasswordViewModel = new ForgotPasswordViewModel();
+            RegisterViewModel RegisterViewModel = new RegisterViewModel();
+            LoginGroupModel LoginGroupModel = new LoginGroupModel();
+
+            LoginGroupModel.LoginViewModel = LoginViewModel;
+            LoginGroupModel.ForgotPasswordViewModel = ForgotPasswordViewModel;
+            LoginGroupModel.RegisterViewModel = RegisterViewModel;
+
             ViewBag.ReturnUrl = returnUrl;
-            return View();
+            //return View();
+            return View(LoginGroupModel);
         }
 
         //
@@ -70,9 +87,17 @@ namespace BugTracker.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
         {
+            LoginGroupModel LoginGroupModel = new LoginGroupModel();
+            LoginGroupModel.LoginViewModel = model;
+            ForgotPasswordViewModel ForgotPasswordViewModel = new ForgotPasswordViewModel();
+            RegisterViewModel RegisterViewModel = new RegisterViewModel();
+            LoginGroupModel.ForgotPasswordViewModel = ForgotPasswordViewModel;
+            LoginGroupModel.RegisterViewModel = RegisterViewModel;
+
             if (!ModelState.IsValid)
             {
-                return View(model);
+                ModelState.AddModelError("", "Invalid login attempt.");
+                return View(LoginGroupModel);
             }
 
             // This doesn't count login failures towards account lockout
@@ -89,7 +114,7 @@ namespace BugTracker.Controllers
                 case SignInStatus.Failure:
                 default:
                     ModelState.AddModelError("", "Invalid login attempt.");
-                    return View(model);
+                    return RedirectToLocal(returnUrl);
             }
         }
 
@@ -242,7 +267,7 @@ namespace BugTracker.Controllers
                 string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
                 var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);		
                 await UserManager.SendEmailAsync(user.Id, "Reset Password", "Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>");
-                return RedirectToAction("ForgotPasswordConfirmation", "Account");
+                return View("ForgotPasswordConfirmation");
             }
 
             // If we got this far, something failed, redisplay form

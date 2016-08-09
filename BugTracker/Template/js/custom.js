@@ -250,7 +250,9 @@ $(document).ready(function() {
         $("#loginform").slideUp();
         $("#registerform").fadeIn();
     });
+//Hide Register, show login
     $('#to-login-from-register').click(function () {
         $("#registerform").fadeOut();
         $("#loginform").slideDown();
     });
+    

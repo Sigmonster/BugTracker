@@ -3,3 +3,6 @@
 .center-block{
     float:none;
 }
+.login-err-box ul{
+    list-style-type:none;
+}

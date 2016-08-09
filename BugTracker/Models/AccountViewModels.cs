@@ -45,6 +45,12 @@ namespace BugTracker.Models
         [Display(Name = "Email")]
         public string Email { get; set; }
     }
+    public class LoginGroupModel
+    {
+        public LoginViewModel LoginViewModel { get; set; }
+        public ForgotPasswordViewModel ForgotPasswordViewModel { get; set; }
+        public RegisterViewModel RegisterViewModel { get; set; }
+    }
 
     public class LoginViewModel
     {
@@ -60,6 +66,14 @@ namespace BugTracker.Models
 
         [Display(Name = "Remember me?")]
         public bool RememberMe { get; set; }
+    }
+
+    public class ForgotPasswordViewModel
+    {
+        [Required]
+        [EmailAddress]
+        [Display(Name = "Email")]
+        public string Email { get; set; }
     }
 
     public class RegisterViewModel
@@ -115,11 +129,5 @@ namespace BugTracker.Models
         public string Code { get; set; }
     }
 
-    public class ForgotPasswordViewModel
-    {
-        [Required]
-        [EmailAddress]
-        [Display(Name = "Email")]
-        public string Email { get; set; }
-    }
+
 }

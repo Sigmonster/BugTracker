@@ -65,6 +65,7 @@ namespace BugTracker.Controllers
                 : "";
 
             var userId = User.Identity.GetUserId();
+            var user = UserManager.FindById(userId);
             var model = new IndexViewModel
             {
                 HasPassword = HasPassword(),
@@ -72,11 +73,11 @@ namespace BugTracker.Controllers
                 TwoFactor = await UserManager.GetTwoFactorEnabledAsync(userId),
                 Logins = await UserManager.GetLoginsAsync(userId),
                 BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId),
-                UserDisplayName = CurrentUserDisplayName(),
-                UserFirstName = CurrentUserFirstName(),
-                UserLastName = CurrentUserLastName(),
-                UserEmail = CurrentUserEmail(),
-                UserUserName = CurrentUserUserName()
+                UserDisplayName = user.DisplayName,
+                UserFirstName = user.FirstName,
+                UserLastName = user.LastName,
+                UserEmail = user.Email,
+                UserUserName = user.UserName
             };
 
             return View(model);
@@ -225,11 +226,12 @@ namespace BugTracker.Controllers
         [Authorize]
         public ActionResult EditAccount()
         {
+            var user = UserManager.FindById(User.Identity.GetUserId());
             var model = new EditAccountViewModel
             {
-                UserDisplayName = CurrentUserDisplayName(),
-                UserFirstName = CurrentUserFirstName(),
-                UserLastName = CurrentUserLastName()
+                UserDisplayName = user.DisplayName,
+                UserFirstName = user.FirstName,
+                UserLastName = user.LastName
            };
             return View(model);
         }
@@ -253,7 +255,6 @@ namespace BugTracker.Controllers
             {
 
             }
-
             return RedirectToAction("Index", new { Message = ManageMessageId.EditAccountSuccess });
         }
         //
@@ -427,39 +428,6 @@ namespace BugTracker.Controllers
             EditAccountSuccess,
             Error
         }
-
-
         #endregion
-        //AJ Custom Lookups
-        public string CurrentUserDisplayName()
-        {
-            var user = UserManager.FindById(User.Identity.GetUserId());
-            var UserDisplayName = user.DisplayName;
-            return (UserDisplayName);
-        }
-        public string CurrentUserFirstName()
-        {
-            var user = UserManager.FindById(User.Identity.GetUserId());
-            var UserFirstName = user.FirstName;
-            return (UserFirstName);
-        }
-        public string CurrentUserLastName()
-        {
-            var user = UserManager.FindById(User.Identity.GetUserId());
-            var UserLastName = user.LastName;
-            return (UserLastName);
-        }
-        public string CurrentUserUserName()
-        {
-            var user = UserManager.FindById(User.Identity.GetUserId());
-            var UserUserName = user.UserName;
-            return (UserUserName);
-        }
-        public string CurrentUserEmail()
-        {
-            var user = UserManager.FindById(User.Identity.GetUserId());
-            var UserEmail = user.Email;
-            return (UserEmail);
-        }
     }
 }
