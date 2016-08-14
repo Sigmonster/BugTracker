@@ -14,6 +14,6 @@ namespace BugTracker.Models
         public int TicketID { get; set; }
         //Foreign Key Tables
         public virtual ApplicationUser User { get; set; }//Holds Associated User
-        public virtual TicketPost Post { get; set; }//Holds Associated Ticket
+        public virtual TicketPost Ticket { get; set; }//Holds Associated Ticket
     }
 }

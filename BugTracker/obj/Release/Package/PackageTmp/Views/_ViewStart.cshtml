@@ -1,0 +1,12 @@
+﻿@if (Request.IsAuthenticated)
+{
+
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+else
+{
+    //Url.Action("Login", "Account");
+@*@RenderPage("../Views/Account/Login.cshtml");*@
+    Layout = null;
+}

@@ -12,38 +12,19 @@ namespace BugTracker.Models
         public int Id { get; set; }
         [DisplayFormat(DataFormatString = "{0:MMM dd}", ApplyFormatInEditMode = true)]
         public DateTimeOffset? UpdatedTime { get; set; }
-        public virtual ApplicationUser UpdatedByUserID { get; set; }//Holds Associated User who updated
-
-
         //Previous Data Saved before changes
         [Required]
-        public string PreviousTitle { get; set; }
-        [Required]
         [AllowHtml]
-        public string PreviousDescription { get; set; }
-        //Foreign Keys(Changeable)
-        [Required]
-        public int PreviousTicketStatusID { get; set; }//FK
-        [Required]
-        public int PreviousTicketTypeID { get; set; }//FK
-        [Required]
-        public int PreviousTicketPriorityID { get; set; }//FK
+        public string BodyData { get; set; }
         //Foreign Keys(Un-Changeable)
         [Required]
         public int TicketId { get; set; }//FK
         [Required]
-        public int ProjectId { get; set; }//FK
-        [Required]
-        public int OwnerUserId { get; set; }//FK
-        //Foreign Key Tables
-        public virtual TicketStatuses TicketStatus { get; set; }//Holds Associated Ticket Status 
-        public virtual TicketTypes TicketType { get; set; }//Holds Associated Ticket Type
-        public virtual TicketPriorities TicketPriority { get; set; }//Holds Associated Ticket Priority
+        public int UpdatedByUserId { get; set; }//FK
+
         //Foreign Key (Un-Changeable)Tables
-        public virtual TicketPost Post { get; set; }//Holds Associated Ticket
-        public virtual Projects Project { get; set; }//Holds Associated Project
-        public virtual ApplicationUser OwnerUser { get; set; }//Holds Associated User Owner
-        public virtual ApplicationUser UpdatedByUser { get; set; }//Holds Associated User who updated
+        public virtual ApplicationUser UpdatedByUser { get; set; }//Holds Associated User that updated
+        public virtual TicketPost Ticket { get; set; }//Holds Associated Ticket
 
 
 

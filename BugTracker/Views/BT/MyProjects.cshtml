@@ -1,0 +1,110 @@
+﻿@model IEnumerable<BugTracker.Models.Projects>
+
+
+@{
+    ViewBag.Title = "MyProjects";
+}
+<div class="col-md-6">
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            <strong>@ViewBag.Title</strong><br />
+            All projects that I am a member.
+            <div class="pull-right"><a href="#" data-perform="panel-collapse"><i class="ti-minus"></i></a> </div>
+            <br />
+            <br />
+        </div>
+        <div class="panel-wrapper collapse in" aria-expanded="true">
+            <div class="panel-body">
+                <br />
+                @*Form Start*@
+                <div class="table-responsive">
+                    <table id="myTable2" class="table table-striped hover compact myDT">
+                        <thead>
+                            <tr>
+                                <th>Project Name</th>
+                                <th>Options</th>
+                                <th>Assigned Users #</th>
+                                <th>Ticket #</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                           @foreach (var item in Model)
+                           {
+                            <tr class="epu-tbl-row">
+                                <td>
+                                   @Html.DisplayFor(modelItem => item.Name)
+                                </td>
+                                <td>
+                                    <div class="btn-group m-r-10">
+                                        <button aria-expanded="false" data-toggle="dropdown" class="btn btn-default btn-outline dropdown-toggle waves-effect waves-light" type="button"> <i class="fa fa-bars m-r-5"></i> <span class="caret"></span></button>
+                                        <ul role="menu" class="dropdown-menu">
+                                            @if (User.IsInRole("Project Manager") || User.IsInRole("Admin"))
+                                            {
+                                                <li><a href="@Url.Action("ProjectEdit", "Admin", new { id = item.Id })">Edit Project</a></li>
+                                                <li><a href="@Url.Action("EditProjectUsers", "BT", new { id = item.Id })">Add/RM Users</a></li>
+                                            }
+                                            <li><a href="@Url.Action("ProjectDetails", "Admin", new { id = item.Id })">View Project Details</a></li>
+                                            <li><a href="#">View Project Tickets</a></li>
+                                        </ul>
+                                    </div>
+                                </td>
+                                <td>
+                                    @item.Users.Count()
+                                </td>
+                                <td>
+                                    @item.Tickets.Count()
+                                </td>
+                            </tr>
+                           }
+                        </tbody>
+                    </table>
+                    <br />
+                    <br />
+                    <br />
+                    <br />
+                    @*<input type="submit" form="FormId" value="Submit" class="btn btn-default" />*@
+                    <p class="text-muted">If you feel you are missing a project, contact your Project Manager.</p>
+                </div>
+                @*End Form*@
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@*<h2>MyProjects</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            My Projects
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                <div class="btn-group m-r-10">
+                    <button aria-expanded="false" data-toggle="dropdown" class="btn btn-default btn-outline dropdown-toggle waves-effect waves-light" type="button"> <i class="fa fa-pencil-square m-r-5"></i> <span class="caret"></span></button>
+                    <ul role="menu" class="dropdown-menu">
+                        @if (User.IsInRole("Project Manager") || User.IsInRole("Admin"))
+                        {
+                            <li><a href="@Url.Action("ProjectEdit", "Admin", new { id = item.Id })">Edit Project</a></li>
+                                        <li><a href="@Url.Action("EditProjectUsers", "BT", new { id = item.Id })">Add/RM Users</a></li>
+                        }
+                        <li><a href="#">View Project Details</a></li>
+                        <li class="divider"></li>
+                        <li><a href="#">View Project Tickets</a></li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+    }
+
+</table>*@

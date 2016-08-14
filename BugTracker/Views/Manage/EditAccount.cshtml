@@ -1,0 +1,41 @@
+﻿@model BugTracker.Models.EditAccountViewModel
+@{
+    ViewBag.Title = "Account Settings";
+}
+
+<div class="white-box">
+    <h2>Change Password.</h2>
+
+    @using (Html.BeginForm("EditAccount", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+    {
+        @Html.AntiForgeryToken()
+        <hr />
+        @Html.ValidationSummary("", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(m => m.UserFirstName, new { @class = "col-md-2 control-label" })
+            <div class="col-md-6">
+                @Html.EditorFor(m => m.UserFirstName, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.UserLastName, new { @class = "col-md-2 control-label" })
+            <div class="col-md-6">
+                @Html.EditorFor(m => m.UserLastName, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.UserDisplayName, new { @class = "col-md-2 control-label" })
+            <div class="col-md-6">
+                @Html.EditorFor(m => m.UserDisplayName, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    }
+</div>
+@*@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}*@

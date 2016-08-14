@@ -1,0 +1,21 @@
+﻿
+@{
+    ViewBag.Title = "Forbidden";
+    string ErrorCode = (string)ViewData["ErrorCode"];
+}
+<div class="white-box" style="background-color:darkgray">
+    <section id="wrapper" class="error-page">
+        
+            <div class="error-body text-center" style="color:#2b2b2b">
+                <h1>403</h1>
+                <h3 class="text-uppercase">Forbidden Error</h3>
+                <p class="m-t-30 m-b-30 text-uppercase">There was a permissions or access error when attempting to process the request.</p>
+                <p class="m-t-30 m-b-30 text-uppercase">If you feel that you have reached this page in error, please contact your Systems Administrator.</p>
+                <b><p class="m-t-30 m-b-30 text-uppercase">Error Code: @ErrorCode </p></b>
+                <div>
+                    <a href="@Url.Action("Index","Home")" class="btn btn-info btn-rounded waves-effect waves-light m-b-40">Back to home</a>
+                </div>
+                <p class="m-t-30 m-b-30 text-uppercase">2016 © Sigmonster Enterprises.</p>
+</div>
+</section>
+    </div>

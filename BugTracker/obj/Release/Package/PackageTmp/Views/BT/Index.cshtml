@@ -1,0 +1,59 @@
+﻿@model IEnumerable<BugTracker.Models.Projects>
+@{
+    ViewBag.Title = "All Projects";
+}
+
+
+
+
+<div class="col-sm-12">
+    <div class="white-box">
+        <h3 class="box-title m-b-0">Sortable table</h3>
+        <p class="text-muted m-b-30">Basic sortable table</p>
+        <table data-toggle="table" data-url="https://api.github.com/users/wenzhixin/repos?type=owner&sort=full_name&direction=asc&per_page=100&page=1" data-sort-name="stargazers_count" data-height="280" data-mobile-responsive="true" data-sort-order="desc" class="table">
+            <thead>
+                <tr>
+                    <th data-field="name"
+                        data-sortable="true">Name</th>
+                    <th data-field="stargazers_count" data-sortable="true" data-width="100"> Stars </th>
+                    <th data-field="forks_count"
+                        data-sortable="true" data-width="100">Forks</th>
+                    <th data-field="description"
+                        data-sortable="true">Description</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+</div>
+
+<div class="white-box col-xs-6">
+    <div class="panel-heading">
+        Projects
+    </div>
+    <p>
+        @Html.ActionLink("Create New", "Create")
+    </p>
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>

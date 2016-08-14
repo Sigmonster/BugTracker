@@ -217,16 +217,16 @@
     <Compile Include="Controllers\BTController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
-    <Compile Include="Controllers\TicketPostsController.cs" />
+    <Compile Include="Controllers\TicketController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\UserRolesHelper.cs" />
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\BTViewModel.cs" />
     <Compile Include="Models\AdminViewModel.cs" />
     <Compile Include="Models\Projects.cs" />
-    <Compile Include="Models\ProjectUsers.cs" />
     <Compile Include="Models\TicketComment.cs" />
     <Compile Include="Models\TicketNotification.cs" />
     <Compile Include="Models\TicketPost.cs" />
@@ -255,7 +255,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Template\css\AJStyles.css" />
-    <Content Include="zTest\blank - Copy %282%29.html" />
+    <Content Include="zTest\blank - DTableForm.html" />
     <Content Include="zTest\blank - Copy %283%29.html" />
     <Content Include="zTest\blank - Copy.html" />
     <Content Include="zTest\blank.html" />
@@ -2874,21 +2874,29 @@
     <Content Include="Views\Shared\_RegisterPartial.cshtml" />
     <Content Include="Views\Shared\_ExternalLoginsListPartial.cshtml" />
     <Content Include="Views\Manage\EditAccount.cshtml" />
-    <Content Include="Views\BT\Admin.cshtml" />
-    <Content Include="Views\BT\Create.cshtml" />
-    <Content Include="Views\BT\Delete.cshtml" />
-    <Content Include="Views\BT\Details.cshtml" />
-    <Content Include="Views\BT\Edit.cshtml" />
-    <Content Include="Views\BT\Index.cshtml" />
+    <Content Include="Views\Admin\Dashboard.cshtml" />
+    <Content Include="Views\Admin\ProjectCreate.cshtml" />
+    <Content Include="Views\Admin\ProjectDelete.cshtml" />
+    <Content Include="Views\Admin\ProjectEdit.cshtml" />
+    <Content Include="Views\Admin\Projects.cshtml" />
     <Content Include="Views\Shared\_ForgotPasswordPartial.cshtml" />
     <Content Include="Views\Shared\_BTListProjects.cshtml" />
-    <Content Include="Views\TicketPosts\Create.cshtml" />
-    <Content Include="Views\TicketPosts\Delete.cshtml" />
-    <Content Include="Views\TicketPosts\Details.cshtml" />
-    <Content Include="Views\TicketPosts\Edit.cshtml" />
-    <Content Include="Views\TicketPosts\Index.cshtml" />
-    <Content Include="Views\Admin\Index.cshtml" />
-    <Content Include="Views\Admin\EditUser.cshtml" />
+    <Content Include="Views\Ticket\Create.cshtml" />
+    <Content Include="Views\Ticket\Delete.cshtml" />
+    <Content Include="Views\Ticket\Details.cshtml" />
+    <Content Include="Views\Ticket\Edit.cshtml" />
+    <Content Include="Views\Ticket\Index.cshtml" />
+    <Content Include="Views\Admin\EditUsers.cshtml" />
+    <Content Include="Views\Admin\EditUserRoles.cshtml" />
+    <Content Include="Views\Shared\_LoginFormPartial.cshtml" />
+    <Content Include="Views\Admin\ProjectEditUsers.cshtml" />
+    <Content Include="Views\BT\MyProjects.cshtml" />
+    <Content Include="Views\BT\EditProjectUsers.cshtml" />
+    <Content Include="Views\BT\_UsersInProjectPartial.cshtml" />
+    <Content Include="Views\BT\_UsersRMProjectPartial.cshtml" />
+    <Content Include="Views\BT\Err403.cshtml" />
+    <Content Include="Views\BT\ProjectDetails.cshtml" />
+    <Content Include="Views\Shared\_DisplayTicketsPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

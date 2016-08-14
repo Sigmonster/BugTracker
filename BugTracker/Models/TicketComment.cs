@@ -13,12 +13,12 @@ namespace BugTracker.Models
         [Required]
         [DisplayFormat(DataFormatString = "{0:MMM dd}", ApplyFormatInEditMode = true)]
         public DateTimeOffset Created { get; set; }
-        public string Comment { get; set; }
+        public string CommentBody { get; set; }
         //Foreign Keys
         public string UserID { get; set; }
         public int TicketID { get; set; }
         //Foreign Key Tables
         public virtual ApplicationUser User { get; set; }//Holds Associated User
-        public virtual TicketPost TicketPost { get; set; }//Holds Associated Ticket
+        public virtual TicketPost Ticket { get; set; }//Holds Associated Ticket
     }
 }

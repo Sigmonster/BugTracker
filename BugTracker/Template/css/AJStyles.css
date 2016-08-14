@@ -6,3 +6,11 @@
 .login-err-box ul{
     list-style-type:none;
 }
+/*Edit Project Users*/
+.panel-heading strong{
+    font-size: 20px;
+}
+/*DataTable Project Users*/
+.epu-tbl-row:hover{
+    background-color: #a5eeff;
+}

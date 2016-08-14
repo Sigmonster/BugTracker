@@ -1,0 +1,27 @@
+﻿@model BugTracker.Models.Projects
+
+
+<div class="white-box">
+    <div>
+        <h4>Projects</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Name)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Name)
+            </dd>
+
+        </dl>
+    </div>
+    <p>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+    <a href="@Url.Action("Create", "Ticket", new { projectId = Model.Id })" class="fcbtn btn btn-info btn-outline btn-1d">Create Ticket</a>
+</div>
+
+@Html.Partial("_DisplayTicketsPartial")
+

@@ -1,0 +1,30 @@
+﻿@model BugTracker.Models.AdminUserViewModel
+@{
+    ViewBag.Title = "EditUser";
+}
+
+<h2>Settings</h2>
+
+@using (Html.BeginForm("EditUserRoles", "Admin", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+    <hr />
+        @Html.ValidationSummary("", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(m => m.Roles, new { @class = "col-md-2 control-label" })
+            <div class="col-md-6">
+                @Html.ListBox("SelectedRoles", Model.Roles)
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.SelectedRoles, new { @class = "col-md-2 control-label" })
+            <div class="col-md-6">
+                @Html.EditorFor(m => m.SelectedRoles, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+}

@@ -9,15 +9,15 @@ namespace BugTracker.Models
     {
         public Projects()//Constructor
         {//These HashSets get all TicketIDs and Users associated with the Project
-            this.TicketIDs = new HashSet<TicketPost>();
-            this.Users = new HashSet<ProjectUsers>();
+            this.Tickets = new HashSet<TicketPost>();
+            this.Users = new HashSet<ApplicationUser>();
 
         }
         public int Id { get; set; }
         public string Name { get; set; }
         //Holds Lists of Associated records
-        public virtual ICollection<TicketPost> TicketIDs { get; set; }
-        public virtual ICollection<ProjectUsers> Users { get; set; }
+        public virtual ICollection<TicketPost> Tickets { get; set; }
+        public virtual ICollection<ApplicationUser> Users { get; set; }
 
     }
 }

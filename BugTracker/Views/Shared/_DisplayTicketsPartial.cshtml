@@ -1,0 +1,75 @@
+﻿@using BugTracker.Models
+@model Projects
+@{ 
+    var DispTicketsVM = (ICollection<TicketPost>)ViewData["ProjectTickets"];
+}
+
+<div class="col-md-12">
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            <strong>Tickets</strong><br />
+            All tickets for @Model.Name
+            <div class="pull-right"><a href="#" data-perform="panel-collapse"><i class="ti-minus"></i></a> </div>
+            <br />
+            <br />
+        </div>
+        <div class="panel-wrapper collapse in" aria-expanded="true">
+            <div class="panel-body">
+                <br />
+                <div class="table-responsive">
+                    <table class="table table-striped hover compact myDT">
+                        <thead>
+                            <tr>
+                                <th>Ticket #</th>
+                                <th>Owner/Submitter</th>
+                                <th>Assigned to</th>
+                                <th>Description</th>
+                                <th>Priority</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            @foreach (var item in DispTicketsVM)
+                            {
+                                <tr class="epu-tbl-row">
+                                    <td>
+                                        @item.Id
+                                    </td>
+                                    <td>
+                                        @item.OwnerUser.DisplayName
+                                    </td>
+
+                                    <td>
+                                        @if (item.AssignedToUser != null)
+                                        {
+                                            @item.AssignedToUser.DisplayName
+                                        }
+                                        else
+                                        {
+                                            @:UnAssigned
+                                        }
+                                    </td>
+                                    <td>
+                                        @item.Description
+                                    </td>
+                                    <td>
+                                        @item.TicketPriority.Name
+                                    </td>
+                                    <td>
+                                        @item.TicketStatus.Name
+                                    </td>
+                                </tr>
+                            }
+
+                        </tbody>
+                    </table>
+                    <br />
+                    <br />
+                    <br />
+                    <br />
+                    <p class="text-muted">Displaying All Tickets for the Project.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

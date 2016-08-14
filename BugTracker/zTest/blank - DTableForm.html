@@ -1,0 +1,46 @@
+﻿<div class="col-md-6">
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            <strong>@*TitleHere*@</strong><br />
+            @*Short Description*@
+            <div class="pull-right"><a href="#" data-perform="panel-collapse"><i class="ti-minus"></i></a> </div>
+            <br />
+            <br />
+        </div>
+        <div class="panel-wrapper collapse in" aria-expanded="true">
+            <div class="panel-body">
+                @*Form Start*@
+                <div class="table-responsive">
+                    <table id="myTable2" class="table table-striped hover compact myDT">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>Display Name</th>
+                                <th>Email</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @*Start For Loop*@
+                            <tr class="epu-tbl-row">
+                                <td>
+                                    @*@Html.CheckBoxFor(m => Model.Users[i].IsChecked)
+                                    @Html.HiddenFor(m => Model.Users[i].UserId)
+                                    @Html.HiddenFor(m => Model.Users[i].UserDisplayName)*@
+                                </td>
+                                <td>
+                                    @*@Model.Users[i].UserDisplayName*@
+                                </td>
+                                <td>
+                                    @*@Model.Users[i].UserEmail*@
+                                </td>
+                            </tr>
+                            @*End For Loop*@
+                        </tbody>
+                    </table>
+                    <input type="submit" @*form="RMProjectUserForm"*@  value="Submit" class="btn btn-default" />
+                </div>
+                @*End Form*@
+            </div>
+        </div>
+    </div>
+</div>

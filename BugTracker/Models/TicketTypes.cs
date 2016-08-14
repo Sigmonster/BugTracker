@@ -9,11 +9,11 @@ namespace BugTracker.Models
     {
         public TicketTypes()//Constructor
         {//This HashSet gets all TicketIDs associated with the TicketType
-            this.TicketIDs = new HashSet<TicketPost>();
+            this.Tickets = new HashSet<TicketPost>();
         }
         public int Id { get; set; }
         public string Name { get; set; }
         //Holds Lists of Associated records
-        public virtual ICollection<TicketPost> TicketIDs { get; set; }
+        public virtual ICollection<TicketPost> Tickets { get; set; }
     }
 }

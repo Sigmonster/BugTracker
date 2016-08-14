@@ -18,7 +18,6 @@ namespace BugTracker.Models
         }
         public int Id { get; set; }
         //check format
-        [Required]
         [DisplayFormat(DataFormatString = "{0:MMM dd}", ApplyFormatInEditMode = true)]
         public DateTimeOffset Created { get; set; }
         //check format
@@ -32,13 +31,11 @@ namespace BugTracker.Models
         //Foreign Keys
         [Required]
         public int ProjectID { get; set; }//FK
-        [Required]
         public int TicketStatusID { get; set; }//FK
         [Required]
         public int TicketTypeID { get; set; }//FK
         [Required]
         public int TicketPriorityID { get; set; }//FK
-        [Required]
         public string OwnerUserID { get; set; }//FK
         public string AssignedToUserID { get; set; }//FK
         public string UpdatedByUserID { get; set; }//FK
@@ -49,7 +46,7 @@ namespace BugTracker.Models
         public virtual TicketTypes TicketType { get; set; }//Holds Associated Ticket Type
         public virtual TicketPriorities TicketPriority { get; set; }//Holds Associated Ticket Priority
         public virtual ApplicationUser OwnerUser { get; set; }//Holds Associated User
-        public virtual ApplicationUser AssignedUser { get; set; }//Holds Associated User
+        public virtual ApplicationUser AssignedToUser { get; set; }//Holds Associated User
         public virtual ApplicationUser UpdatedByUser { get; set; }//Holds Associated User
 
 

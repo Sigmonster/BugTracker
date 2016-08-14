@@ -64,7 +64,7 @@ namespace BugTracker.Controllers
         //
         // GET: /Account/Login
         [AllowAnonymous]
-        public ActionResult Login(string returnUrl)
+        public ActionResult Login(/*string returnUrl*/)
         {
             LoginViewModel LoginViewModel = new LoginViewModel();
             ForgotPasswordViewModel ForgotPasswordViewModel = new ForgotPasswordViewModel();
@@ -75,7 +75,7 @@ namespace BugTracker.Controllers
             LoginGroupModel.ForgotPasswordViewModel = ForgotPasswordViewModel;
             LoginGroupModel.RegisterViewModel = RegisterViewModel;
 
-            ViewBag.ReturnUrl = returnUrl;
+            //ViewBag.ReturnUrl = returnUrl;
             //return View();
             return View(LoginGroupModel);
         }
@@ -85,7 +85,7 @@ namespace BugTracker.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
+        public async Task<ActionResult> Login(LoginViewModel model)
         {
             LoginGroupModel LoginGroupModel = new LoginGroupModel();
             LoginGroupModel.LoginViewModel = model;
@@ -96,8 +96,8 @@ namespace BugTracker.Controllers
 
             if (!ModelState.IsValid)
             {
-                ModelState.AddModelError("", "Invalid login attempt.");
-                return View(LoginGroupModel);
+               ModelState.AddModelError("", "Invalid login attempt.");
+               return View(LoginGroupModel);
             }
 
             // This doesn't count login failures towards account lockout
@@ -106,15 +106,17 @@ namespace BugTracker.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
-                    return RedirectToLocal(returnUrl);
+                    //return RedirectToLocal(returnUrl);
+                    return RedirectToAction("Index", "Home");
                 case SignInStatus.LockedOut:
                     return View("Lockout");
-                case SignInStatus.RequiresVerification:
-                    return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
+                //case SignInStatus.RequiresVerification:
+                //    return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
                 case SignInStatus.Failure:
                 default:
                     ModelState.AddModelError("", "Invalid login attempt.");
-                    return RedirectToLocal(returnUrl);
+                    //return RedirectToLocal(returnUrl);
+                    return View(LoginGroupModel);
             }
         }
 
