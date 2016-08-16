@@ -1,0 +1,85 @@
+﻿@using BugTracker.Models
+@model DispTicketsVM
+
+@{ 
+//var DispTicketsVM = (DispTicketsVM)ViewData["TicketsCollection"];
+
+
+}
+
+<div class="col-md-12">
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            <div class="pull-left">
+                <strong>Tickets</strong><br />
+                @Model.TitleDesc
+            </div>
+                <div class="pull-right ticket-box-header-btns"><a href="#" data-perform="panel-collapse"><i class="ti-minus"></i></a> </div>
+                <br />
+            <br />
+            </div>
+        <div class="panel-wrapper collapse in" aria-expanded="true">
+            <div class="panel-body">
+                <div class="table-responsive">
+                    <table class="table table-striped compact myDT">
+                        <thead>
+                            <tr>
+                                <th>Created</th>
+                                <th>Updated</th>
+                                <th>Ticket #</th>
+                                <th>Title</th>
+                                <th>Owner/Submitter</th>
+                                <th>Assigned to</th>
+                                <th>Description</th>
+                                <th>Priority</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody class="disp-tick-tbody">
+                            @foreach (var item in Model.TicketList.OrderByDescending(m=>m.Created))
+                            {
+                                <tr class="epu-tbl-row">
+                                    <td>
+                                        @item.Created
+                                    </td>
+                                    <td>
+                                        @item.Updated
+                                    </td>
+                                    <td>
+                                        <a href="@Url.Action("Ticket","BT", new { Id = item.Id })">@item.Id</a>
+                                    </td>
+                                    <td>
+                                        @item.Title
+                                    </td>
+                                    <td>
+                                        @item.OwnerUser.DisplayName
+                                    </td>
+                                    <td>
+                                        @if (item.AssignedToUser != null)
+                                        {
+                                            @item.AssignedToUser.DisplayName
+                                        }
+                                        else
+                                        {
+                                            @:UnAssigned
+                                        }
+                                    </td>
+                                    <td>
+                                        @item.Description
+                                    </td>
+                                    <td>
+                                        @item.TicketPriority.Name
+                                    </td>
+                                    <td>
+                                        @item.TicketStatus.Name
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                    <br />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

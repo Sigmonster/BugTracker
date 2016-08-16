@@ -1,0 +1,352 @@
+﻿@using BugTracker.Models
+@model TicketPost
+
+@{ 
+    ViewBag.Title = "Ticket Details Page";
+}
+
+
+<div class="col-md-12">
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            <strong>@Model.Title</strong><br />
+            Ticket Info
+            <div class="pull-right"><a href="#" data-perform="panel-collapse"><i class="ti-minus"></i></a> </div>
+            <br />
+            <br />
+        </div>
+        <div class="panel-wrapper collapse in" aria-expanded="true">
+            <div class="panel-body ticket-details-panelbody">
+                @*Form Start*@
+                <!-- Nav tabs -->
+                <ul class="nav customtab nav-tabs" role="tablist">
+                    <li role="presentation" class="active"><a href="#maindetails8" aria-controls="maindetails" role="tab" data-toggle="tab" aria-expanded="true"><span class="visible-xs"><i class="ti-home"></i></span><span class="hidden-xs"> Main Details</span></a></li>
+                    <li role="presentation" class=""><a href="#moredetails8" aria-controls="profile" role="tab" data-toggle="tab" aria-expanded="false"><span class="visible-xs"><i class="ti-user"></i></span> <span class="hidden-xs">More Details</span></a></li>
+                    <li role="presentation" class=""><a href="#history8" aria-controls="messages" role="tab" data-toggle="tab" aria-expanded="false"><span class="visible-xs"><i class="ti-email"></i></span> <span class="hidden-xs">History</span></a></li>
+                    <li role="presentation" class=""><a href="#edit8" aria-controls="settings" role="tab" data-toggle="tab" aria-expanded="false"><span class="visible-xs"><i class="ti-settings"></i></span> <span class="hidden-xs">Edit</span></a></li>
+                </ul>
+                <!-- Tab panes -->
+                <div class="tab-content">
+                    <div role="tabpanel" class="tab-pane fade in active" id="maindetails8">
+                        <div class="col-md-12">
+                            <form class="form-horizontal" role="form">
+                                <div class="form-body">
+                                    <h3 class="box-title">Ticket Info</h3>
+                                    <hr class="m-t-0 m-b-40">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-3">Title:</label>
+                                                <div class="col-md-9">
+                                                    <p class="form-control-static"> @Model.Title </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--/span-->
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-3">Status:</label>
+                                                <div class="col-md-9">
+                                                    <p class="form-control-static"> @Model.TicketStatus.Name </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--/span-->
+                                    </div>
+                                    <!--/row-->
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-3">Assigned to:</label>
+                                                <div class="col-md-9">
+                                                    <p class="form-control-static">@((Model.AssignedToUser != null) ? Model.AssignedToUser.DisplayName : "Unassigned")</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--/span-->
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-3">Type:</label>
+                                                <div class="col-md-9">
+                                                    <p class="form-control-static"> @Model.TicketType.Name </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--/span-->
+                                    </div>
+                                    <!--/row-->
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-3">Project:</label>
+                                                <div class="col-md-9">
+                                                    <p class="form-control-static"> @Model.Project.Name </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--/span-->
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-3">Priority:</label>
+                                                <div class="col-md-9">
+                                                    <p class="form-control-static"> @Model.TicketPriority.Name </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--/span-->
+                                    </div>
+                                    <!--/row-->
+                                    <h3 class="box-title">Ticket Description:</h3>
+                                    <hr class="m-t-0 m-b-40">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-1"></label>
+                                                <div class="col-md-10">
+                                                    @Html.DisplayFor(m => m.Description)
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div role="tabpanel" class="tab-pane fade" id="moredetails8">
+                        <div class="col-md-6">
+                            <div class="table-responsive">
+                                <table class="table table-striped">
+                                    <colgroup>
+                                        <col class="col-xs-4">
+                                        <col class="col-xs-7">
+                                    </colgroup>
+                                    <thead>
+                                        @*<tr>
+                                                <th>#</th>
+                                                <th>Details</th>
+                                            </tr>*@
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <th scope="row">
+                                                <b>Created</b>
+                                            </th>
+                                            <td>@Model.Created</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">
+                                                <b>Last-Updated</b>
+                                            </th>
+                                            <td>@Model.Updated</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">
+                                                <b>Updated By</b>
+                                            </th>
+                                            <td>@((Model.UpdatedByUser != null) ? Model.UpdatedByUser.DisplayName : "N/A")</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">
+                                                <b>Owner/Submitter</b>
+                                            </th>
+                                            <td>@Model.OwnerUser.DisplayName</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">
+                                                <b>Comments</b>
+                                            </th>
+                                            <td>@Model.TicketComments.Count()</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">
+                                                <b>Attachements</b>
+                                            </th>
+                                            <td>@Model.TicketAttachments.Count()</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">
+                                                <b>Changes/Edits</b>
+                                            </th>
+                                            <td>@Model.TicketHistories.Count()</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="col-md-5 pull-right">
+                            <p>Ticket Attachement List Here...</p>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div role="tabpanel" class="tab-pane fade" id="history8">
+                        <div class="col-md-6">
+                            <h3>Ticket History Here....</h3>
+                            <h4>Ticket History Here....</h4>
+                        </div>
+                        <div class="col-md-5 pull-right">
+                            <p>Ticket History Here....</p>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div role="tabpanel" class="tab-pane fade" id="edit8">
+                        @using (Html.BeginForm("EditTicketForm", "BT", new { Id = Model.Id }, FormMethod.Post, new { @class = "form-horizontal", role = "form", id = "editTicketForm" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label" for="example-input-small">Title</label>
+                                <div class="col-sm-6">
+                                    <input type="text" id="example-input-small" name="example-input-small" class="form-control input-sm" placeholder="@Model.Title">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label" for="example-input-small">Status</label>
+                                <div class="col-sm-6">
+                                    @Html.DropDownList("TicketStatusID", null, htmlAttributes: new { @class = "form-control" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label" for="example-input-small">Priority</label>
+                                <div class="col-sm-6">
+                                    @Html.DropDownList("TicketPriorityID", null, htmlAttributes: new { @class = "form-control" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label" for="example-input-small">Type</label>
+                                <div class="col-sm-6">
+                                    @Html.DropDownList("TicketTypeID", null, htmlAttributes: new { @class = "form-control" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label" for="example-input-small">Description</label>
+                                <div class="col-sm-6">
+                                    @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+                                </div>
+                            </div>
+                            <input type="submit" form="editTicketForm" value="Save" class="fcbtn btn btn-info btn-outline btn-1d" />
+                        }
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @*End Form*@
+    </div>
+</div>
+
+
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Details</title>
+</head>
+<body>
+    <div>
+        <h4>TicketPost</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.OwnerUser.FirstName)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.OwnerUser.FirstName)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Project.Name)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Project.Name)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.TicketPriority.Name)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.TicketPriority.Name)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.TicketStatus.Name)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.TicketStatus.Name)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.TicketType.Name)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.TicketType.Name)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.UpdatedByUser.FirstName)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.UpdatedByUser.FirstName)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.TicketStatus)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.TicketStatus)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Created)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Created)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Updated)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Updated)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Title)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Title)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Description)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Description)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.AssignedToUserID)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.AssignedToUserID)
+            </dd>
+    
+        </dl>
+    </div>
+    <p>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+</body>
+

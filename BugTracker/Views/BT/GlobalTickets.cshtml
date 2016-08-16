@@ -1,0 +1,14 @@
+﻿@using BugTracker.Models
+
+@{
+    ViewBag.Title = "My Home Page";
+}
+
+@{
+var DispTicketsVM_AllTickets = (DispTicketsVM)ViewData["DispTicketsVM_AllTickets"];
+}
+
+
+@Html.Partial("_DisplayTicketsPartial_VM", DispTicketsVM_AllTickets)
+
+

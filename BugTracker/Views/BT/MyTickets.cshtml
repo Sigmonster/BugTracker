@@ -1,0 +1,15 @@
+﻿@using BugTracker.Models
+
+@{
+    ViewBag.Title = "My Tickets Page";
+}
+
+@{
+var DispTicketsVM_Owner = (DispTicketsVM)ViewData["DispTicketsVM_Owner"];
+}
+
+
+@Html.Partial("_DisplayTicketsPartial")
+
+@Html.Partial("_DisplayTicketsPartial_VM", DispTicketsVM_Owner)
+
