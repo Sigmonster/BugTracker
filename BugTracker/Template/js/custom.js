@@ -256,3 +256,106 @@ $(document).ready(function() {
         $("#loginform").slideDown();
     });
     
+//JQuery DataTables
+    $(document).ready(function () {
+        var table = $('.myDT').DataTable({
+            "order": [],//Disable Initial Sort
+            dom: 'Blfrtip',
+            buttons: [
+          {
+              extend: 'collection',
+              buttons: ['columnsToggle']
+          }],
+            'columnDefs': [
+                {
+                 "targets": [0],
+                 'searchable': true,
+                 'orderable':false,
+            }, {
+                "targets": [2],
+                "visible": false,
+
+            }, {
+                "targets": [6],
+                "visible": false,
+            }, {
+                "targets": [8],
+                "visible": false,
+            }, {
+                "targets": ["10"],
+                "visible": false,
+            }],
+            "lengthMenu": [10, 25, 50, 75, 100]
+
+            //$(document).ready(function () {
+            //    var table = $('.examplemyDT').DataTable({
+            //'columnDefs': [{
+            //    'targets': 0,//targeted column(left-hand is 0)
+            //   'searchable': false,//can't search the above col
+            //   'orderable': false,//can't sort the above col
+            //  'className': 'dt-body-center',//centers above col data
+            //'render': function (data, type, full, meta) {
+            //      return '<input type="checkbox" name="id[]" value="' + $('<div/>').text(data).html() + '">';
+            //  }
+            //}]
+            //        "displayLength": 25,
+            //        "drawCallback": function (settings) {
+            //            var api = this.api();
+            //            var rows = api.rows({ page: 'current' }).nodes();
+            //            var last = null;
+
+            //            api.column(2, { page: 'current' }).data().each(function (group, i) {
+            //                if (last !== group) {
+            //                    $(rows).eq(i).before(
+            //                      '<tr class="group"><td colspan="5">' + group + '</td></tr>'
+            //                      );
+
+            //                    last = group;
+            //                }
+            //            });
+            //        }
+            //});
+        });
+        
+
+        $('.tk-status:contains("Open")').addClass('ticket-label ticket-Open'); 
+        $('.tk-status:contains("InProgress")').addClass('ticket-label ticket-InProgress');
+        $('.tk-status:contains("Pending")').addClass('ticket-label ticket-Pending');
+        $('.tk-status:contains("Resolved")').addClass('ticket-label ticket-Resolved');
+
+        $('.tk-priority:contains("Critical")').addClass('ticket-label ticket-Critical');
+        $('.tk-priority:contains("Major")').addClass('ticket-label ticket-Major');
+        $('.tk-priority:contains("Minor")').addClass('ticket-label ticket-Minor');
+        $('.tk-priority:contains("Trivial")').addClass('ticket-label ticket-Trivial');
+        $('.tk-priority:contains("Blocker")').addClass('ticket-label ticket-Blocker');
+
+        $('.tk-type:contains("Bug")').addClass('ticket-label ticket-Bug');
+        $('.tk-type:contains("Task")').addClass('ticket-label ticket-Task');
+        $('.tk-type:contains("Feature")').addClass('ticket-label ticket-Feature');
+
+
+
+        //new $.fn.dataTable.Buttons( table, {
+        //    buttons: [
+        //        {
+        //            extend: 'collection',
+        //            buttons: [ 'columnsToggle' ]
+        //        }
+        //    ]
+        //});
+        //new $.fn.dataTable.Buttons(table, {
+        //    buttons: [
+        //        {
+        //            extend: 'columnToggle',
+        //            columns: ':gt(4)'
+        //        }
+        //    ]
+        //});
+    //    new $.fn.dataTable.Buttons(table, {
+    //        buttons: [
+    //            'copy', 'excel', 'pdf'
+    //        ]
+    //    });
+    //    table.buttons().container()
+    //.appendTo($('.col-sm-6:eq(0)', table.table().container()));
+    });

@@ -23,33 +23,61 @@
                 <div class="table-responsive">
                     <table class="table table-striped compact myDT">
                         <thead>
-                            <tr>
+                            <tr class="ticket-tbl-row">
+                                <th>#</th>
                                 <th>Created</th>
                                 <th>Updated</th>
-                                <th>Ticket #</th>
-                                <th>Title</th>
-                                <th>Owner/Submitter</th>
-                                <th>Assigned to</th>
-                                <th>Description</th>
-                                <th>Priority</th>
                                 <th>Status</th>
+                                <th>Priority</th>
+                                <th>Type</th>
+                                <th>Project</th>
+                                <th>Title</th>
+                                <th>Owner</th>
+                                <th>Assigned</th>
+                                <th>Description</th>
                             </tr>
                         </thead>
-                        <tbody class="disp-tick-tbody">
-                            @foreach (var item in Model.TicketList.OrderByDescending(m=>m.Created))
+                        <tbody class="disp-tick-tbody display" cellspacing="0" width="100%">
+                            @foreach (var item in Model.TicketList.OrderByDescending(m => m.Created))
                             {
-                                <tr class="epu-tbl-row">
-                                    <td>
-                                        @item.Created
-                                    </td>
-                                    <td>
-                                        @item.Updated
-                                    </td>
+                                <tr class="ticket-tbl-row">
                                     <td>
                                         <a href="@Url.Action("Ticket","BT", new { Id = item.Id })">@item.Id</a>
                                     </td>
                                     <td>
-                                        @item.Title
+                                        <div class="ticket-tbl-time">
+                                            @Html.DisplayFor(modelItem => item.Created)
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="ticket-tbl-time">
+                                            @item.Updated
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <span class="tk-status">
+                                            @item.TicketStatus.Name
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span class="tk-priority">
+                                            @item.TicketPriority.Name
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span class="tk-type">
+                                            @item.TicketType.Name
+                                        </span>
+                                    </td>
+                                    <td>
+                                        @item.Project.Name
+                                    </td>
+
+
+                                    <td>
+                                        <div class="ticket-tbl-title">
+                                            <a href="@Url.Action("Ticket","BT", new { Id = item.Id })">@item.Title</a>
+                                        </div>
                                     </td>
                                     <td>
                                         @item.OwnerUser.DisplayName
@@ -65,14 +93,11 @@
                                         }
                                     </td>
                                     <td>
-                                        @item.Description
+                                        <div class="ticket-tbl-body">
+                                            @item.Description
+                                        </div>
                                     </td>
-                                    <td>
-                                        @item.TicketPriority.Name
-                                    </td>
-                                    <td>
-                                        @item.TicketStatus.Name
-                                    </td>
+
                                 </tr>
                             }
                         </tbody>

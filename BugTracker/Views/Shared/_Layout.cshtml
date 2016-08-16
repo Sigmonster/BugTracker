@@ -11,7 +11,10 @@
     <title>Elite Admin - is a responsive admin template</title>
     <!-- Bootstrap Core CSS -->
     <link href="~/Template/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="~/Template/plugins/bower_components/datatables/jquery.dataTables.min.css" rel="stylesheet" type="text/css" />
+    @*<link href="~/Template/plugins/bower_components/datatables/jquery.dataTables.min.css" rel="stylesheet" type="text/css" />Orgin*@
+    <link href="~/TemplateHelper/DataTables-1.10.12/media/css/jquery.dataTables.css" rel="stylesheet" />
+    <link href="~/TemplateHelper/DataTables-1.10.12/extensions/Buttons/css/buttons.dataTables.min.css" rel="stylesheet" />
+    @*<link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css" />*@
     <!-- Menu CSS -->
     <link href="~/Template/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.css" rel="stylesheet">
     <!-- animation CSS -->
@@ -23,6 +26,7 @@
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <link href="~/Template/css/AJStyles.css" rel="stylesheet" />
+
 
 </head>
 <body class="fix-sidebar">
@@ -438,7 +442,9 @@
     </div>
     <!--End Body Wrapper-->
     <!-- jQuery -->
+    @*<script src="~/TemplateHelper/DataTables-1.10.12/media/js/jquery.js"></script>*@
     <script src="~/Template/plugins/bower_components/jquery/dist/jquery.min.js"></script>
+        @*<script src="~/TemplateHelper/DataTables-1.10.12/media/js/jquery.js"></script>*@
     <!-- Bootstrap Core JavaScript -->
     <script src="~/Template/bootstrap/dist/js/bootstrap.min.js"></script>
     <!-- Menu Plugin JavaScript -->
@@ -451,9 +457,19 @@
     <script src="~/Template/js/custom.js"></script>
     <!--Style Switcher -->
     <script src="~/Template/plugins/bower_components/styleswitcher/jQuery.style.switcher.js"></script>
-    <script src="~/Template/plugins/bower_components/datatables/jquery.dataTables.min.js"></script>
+    
+    @*<script src="~/Template/plugins/bower_components/datatables/jquery.dataTables.min.js"></script>Orgin*@
+        @*<script src="~/TemplateHelper/DataTables-1.10.12/media/js/jquery.dataTables.js"></script>
+        <script src="~/TemplateHelper/DataTables-1.10.12/extensions/Buttons/js/buttons.html5.min.js"></script>
+        <script src="~/TemplateHelper/DataTables-1.10.12/extensions/Buttons/js/buttons.colVis.min.js"></script>*@
+    @*<script type="text/javascript" src="//cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>*@
+
+
+    <script src="~/TemplateHelper/DataTables-1.10.12/media/js/jquery.dataTables.js"></script>
+    <script src="~/TemplateHelper/DataTables-1.10.12/extensions/Buttons/js/dataTables.buttons.js"></script>
+    <script src="~/TemplateHelper/DataTables-1.10.12/extensions/Buttons/js/buttons.colVis.min.js"></script>
     @RenderSection("scripts", required: false) 
-    <script>
+    @*<script>
     $(document).ready(function(){
         $('.myDT').DataTable();
         $(document).ready(function() {
@@ -486,7 +502,7 @@
                     } );
                 }
             } );});})
-    </script>
+    </script>*@
 </body>
 </html>
 

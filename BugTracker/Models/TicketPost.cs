@@ -18,10 +18,10 @@ namespace BugTracker.Models
         }
         public int Id { get; set; }
         //Check format
-        [DisplayFormat(DataFormatString = "{0:MMM dd}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:g}", ApplyFormatInEditMode = true)]
         public DateTimeOffset Created { get; set; }
         //Check format
-        [DisplayFormat(DataFormatString = "{0:MMM dd}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:g}", ApplyFormatInEditMode = true)]
         public DateTimeOffset? Updated { get; set; }
         [Required]
         public string Title { get; set; }
