@@ -215,6 +215,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BTController.cs" />
+    <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\TicketController.cs" />
@@ -2897,11 +2898,18 @@
     <Content Include="Views\BT\Err403.cshtml" />
     <Content Include="Views\BT\ProjectDetails.cshtml" />
     <Content Include="Views\Shared\_DisplayTicketsPartial.cshtml" />
+    <Content Include="Views\Shared\_DisplayTicketsPartial_VM.cshtml" />
+    <Content Include="Views\BT\MyTickets.cshtml" />
+    <Content Include="Views\BT\Ticket.cshtml" />
+    <Content Include="Views\Error\FP403Error.cshtml" />
+    <Content Include="Views\Account\RegisterSucess.cshtml" />
+    <Content Include="Views\BT\GlobalTickets.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="App_Themes\Theme1\" />
     <Folder Include="Template\plugins\bower_components\etc\" />
+    <Folder Include="Uploads\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

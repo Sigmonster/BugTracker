@@ -4,7 +4,9 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
+using System.Web.Mvc;
 
 namespace BugTracker.Helpers
 {
@@ -63,6 +65,7 @@ namespace BugTracker.Helpers
             return userManager.Users.Where(u => !userIDs.Contains(u.Id)).ToList();
         }
     }
+
     public class ProjectAssignmentHelper
     {
         private ApplicationDbContext db;

@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNet.Identity
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -153,9 +154,9 @@
                     <!-- End Top Right Pencil Button-->
                     <!-- Start Top Right User Drop-Down Button-->
                     <li class="dropdown">
-                        <a class="dropdown-toggle profile-pic" data-toggle="dropdown" href="javascript:void(0)"> <img src="~/Template/img/blank-profile-picture.svg" alt="user-img" width="36" class="img-circle"><b class="hidden-xs">Username Here</b> </a>
+                        <a class="dropdown-toggle profile-pic" data-toggle="dropdown" href="javascript:void(0)"> <img src="~/Template/img/blank-profile-picture.svg" alt="user-img" width="36" class="img-circle"><b class="hidden-xs">@User.Identity.GetUserName()</b> </a>
                         <ul class="dropdown-menu dropdown-user animated flipInY">
-                            <li><a href="javascript:void(0)"><i class="ti-home"></i> My Home</a></li>
+                            <li><a href="@Url.Action("Index","Home")"><i class="ti-home"></i> My Home</a></li>
                             <li><a href="javascript:void(0)"><i class="ti-email"></i> Inbox</a></li>
                             <li><a href="javascript:void(0)"><i class="ti-email"></i> Notification Inbox</a></li>
                             <li role="separator" class="divider"></li>
@@ -204,12 +205,19 @@
                     <!-- End Hidden Search for Mobile-->
                     <!-- Start Left Nav User Section -->
                     <li class="user-pro">
-                        <a href="javascript:void(0)" class="waves-effect"><img src="~/Template/img/blank-profile-picture.svg" alt="user-img" class="img-circle"> <span class="hide-menu"> Username Here<span class="fa arrow"></span></span></a>
+                        <a href="javascript:void(0)" class="waves-effect"><img src="~/Template/img/blank-profile-picture.svg" alt="user-img" class="img-circle"> <span class="hide-menu"> @User.Identity.GetUserName()<span class="fa arrow"></span></span></a>
                         <ul class="nav nav-second-level">
-                            <li><a href="javascript:void(0)"><i class="ti-home"></i> My Home</a></li>
+                            <li><a href="@Url.Action("Index","Home")"><i class="ti-home"></i> My Home</a></li>
                             <li><a href="javascript:void(0)"><i class="ti-email"></i> Notification Inbox</a></li>
-                            <li><a href="javascript:void(0)"><i class="ti-settings"></i> Account Setting</a></li>
-                            <li><a href="javascript:void(0)"><i class="fa fa-power-off"></i> Logout</a></li>
+                            <li><a href="@Url.Action("Index","Manage")"><i class="ti-settings"></i> Account Setting</a></li>
+                            <li><a href="@Url.Action("Dashboard","Admin")"><i class="ti-settings"></i> Admin</a></li>
+                            <li>
+                                @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutFormLeftNav", @class = "navbar-right" }))
+                                {
+                                    @Html.AntiForgeryToken()
+                                }
+                                <a href="javascript:document.getElementById('logoutFormLeftNav').submit()"><i class="fa fa-power-off"></i> Log off</a>
+                            </li>
                         </ul>
                     </li>
                     <!-- End Left Nav User Section -->
@@ -219,13 +227,24 @@
                     <li>
                         <a href="index.html" class="waves-effect"><i class="linea-icon linea-basic fa-fw" data-icon="E"></i> <span class="hide-menu"> Views <span class="fa arrow"></span> <span class="label label-rouded label-custom pull-right">4</span></span></a>
                         <ul class="nav nav-second-level">
-                            <li> <a href="javascript:void(0)"><i class="ti-home"></i> My Home</a> </li>
+                            <li> <a href="@Url.Action("Index","Home")"><i class="ti-home"></i> My Home</a> </li>
                             <li> <a href="@Url.Action("MyTickets","BT")"> My Tickets</a> </li>
                             <li> <a href="@Url.Action("MyProjects","BT")"> My Projects</a> </li>
-                            <li> <a href="javascript:void(0)">Link3</a> </li>
                         </ul>
                     </li>
                     <!-- End Views -->
+                    <!--Start Project Manager Views-->
+                    <li>
+                        <a href="index.html" class="waves-effect"><i class="linea-icon linea-basic fa-fw" data-icon="E"></i> <span class="hide-menu"> Project Manager Views <span class="fa arrow"></span> <span class="label label-rouded label-custom pull-right">4</span></span></a>
+                        <ul class="nav nav-second-level">
+                            <li> <a href="@Url.Action("Index","Home")"><i class="ti-home"></i> Project Manager Home</a> </li>
+                            <li> <a href="@Url.Action("-","BT")"> Manage Projects</a> </li>
+                            <li> <a href="@Url.Action("-","BT")"> Manage Projects Tickets</a> </li>
+                            <li> <a href="@Url.Action("GlobalTickets", "BT")"> Global Tickets</a> </li>
+                            <li> <a href="@Url.Action("ProjectManager", "BT")"> Global Projects</a> </li>
+                        </ul>
+                    </li>
+                    <!--Start Project Manager Views-->
                     <!-- Start Notification Section-->
                     <li>
                         <a href="javascript:void(0)" class="waves-effect"><i class="ti-email"></i> <span class="hide-menu">Notification Inbox <span class="fa arrow"></span></span></a>
@@ -439,6 +458,8 @@
         $('.myDT').DataTable();
         $(document).ready(function() {
             var table = $('.examplemyDT').DataTable({
+                "aaSorting": [],
+                "order": [],//Disable Initial Sort
                 'columnDefs': [{
                     'targets': 0,
                     'searchable': false,
@@ -448,7 +469,6 @@
                         return '<input type="checkbox" name="id[]" value="' + $('<div/>').text(data).html() + '">';
                     }
                 }],
-                "order": [[ 2, 'asc' ]],
                 "displayLength": 25,
                 "drawCallback": function ( settings ) {
                     var api = this.api();

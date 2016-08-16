@@ -19,6 +19,7 @@ namespace BugTracker.Controllers
 
         private ApplicationDbContext db = new ApplicationDbContext();
 
+        //##########################################################################
         //BT Projects Start Section
         //List the logged in User's Assigned Projects
         // GET: BT/MyProjects
@@ -35,8 +36,8 @@ namespace BugTracker.Controllers
             return View(myProjects);
         }
         //
-        //
-        // GET: Admin/ProjectDetails/5
+        //Includes Projects Info & Tickets
+        // GET: BT/ProjectDetails/5
         public async Task<ActionResult> ProjectDetails(int? id)
         {
             if (id == null)
@@ -50,14 +51,89 @@ namespace BugTracker.Controllers
             }
 
             var pTickets= new DispTicketsVM();
-            pTickets.TLTitle = "Tickets";
-            pTickets.TLTitleDesc = "Showing Tickets from " + projects.Name.ToString();
+            //pTickets.TLTitleDesc = "Showing Tickets from " + projects.Name.ToString();
             pTickets.TicketList = projects.Tickets.ToList();
-            ViewData["ProjectTickets"] = projects.Tickets.ToList();
+            ViewData["TicketsCollection"] = projects.Tickets.ToList();
             
             return View(projects);
         }
+        //
+        //BT Projects End Section
+        //##########################################################################
 
+        //##########################################################################
+        //BT Tickets Start Section
+        //GET: BT/MyTickets
+        public ActionResult MyTickets()
+        {
+            var user = db.Users.Find(User.Identity.GetUserId());//Get User's Identity
+
+            //Passing Model to Partial for owner tickets
+            var ticketsOwner = db.TicketPosts.Where(x => x.OwnerUserID == user.Id).ToList();
+            var DispTicketsVM = new DispTicketsVM();
+            DispTicketsVM.TitleDesc = "Tickets which " + user.DisplayName + " is the Owner/Submitter.";
+            DispTicketsVM.TicketList = ticketsOwner;
+            ViewData["DispTicketsVM_Owner"] = DispTicketsVM;
+
+            //Passing list of tickets to the partialview with ViewData
+            var ticketsAssigned = db.TicketPosts.Where(x => x.AssignedToUserID == user.Id).ToList();
+            ViewBag.TicketDisplayDescription = "Tickets Assigned to " + user.DisplayName;
+            ViewData["TicketsCollection"] = ticketsAssigned;
+
+            return View();
+        }
+
+        //
+        //Ticket Details
+        //GET: BT/Ticket
+        public ActionResult Ticket(int? Id)
+        {
+            //Get Ticket & Instantiate Model
+            var ticket = db.TicketPosts.Find(Id);
+            var TicketPost = new TicketPost();
+            //Set Dropdowns for edit tab.
+            ViewBag.TicketPriorityID = new SelectList(db.TicketPriorities, "Id", "Name", ticket.TicketPriorityID);
+            ViewBag.TicketStatusID = new SelectList(db.TicketStatuses, "Id", "Name", ticket.TicketStatusID);
+            ViewBag.TicketTypeID = new SelectList(db.TicketTypes, "Id", "Name", ticket.TicketTypeID);
+
+
+            TicketPost = ticket;
+
+
+            return View(TicketPost);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditTicketForm([Bind(Include = "Id,Status,Created,Updated,Title,Description,ProjectID,TicketStatusID,TicketTypeID,TicketPriorityID,OwnerUserID,AssignedToUserID,UpdatedByUserID")] TicketPost ticketPost)
+        {
+            var currentTicket = db.TicketPosts.Find(ticketPost.Id);
+
+            var test = ticketPost;
+            return View();
+        }
+        //
+        //BT Tickets End Section
+        //#########################################################################
+
+        //#########################################################################
+        //START PROJECT MANAGER SECTION
+        // GET: BT/GlobalTickets
+        public ActionResult GlobalTickets()
+        {
+            if(User.IsInRole("Registered User"))
+            {
+                return RedirectToAction("FP403Error", "Error");
+            }
+            //Get All Tickets, Sorted by Created Date
+                var allTicketsList = db.TicketPosts.ToList().OrderByDescending(m => m.Created).ToList();
+                var DispTicketsVM_All = new DispTicketsVM();
+                DispTicketsVM_All.TitleDesc = "All Tickets, Sorted by Created Date/Time";
+                DispTicketsVM_All.TicketList = allTicketsList;
+                ViewData["DispTicketsVM_AllTickets"] = DispTicketsVM_All;
+
+
+                return View();
+        }
         //
         //
         //GET : BT/EditProjects()
@@ -74,7 +150,7 @@ namespace BugTracker.Controllers
 
             for (var i = 0; i < notInProject.Length; i++)
             {
-                list.Add(new EPSelectedVM() { UserDisplayName = notInProject[i].DisplayName, UserEmail = notInProject[i].Email, UserId = notInProject[i].Id, IsChecked = false});
+                list.Add(new EPSelectedVM() { UserDisplayName = notInProject[i].DisplayName, UserEmail = notInProject[i].Email, UserId = notInProject[i].Id, IsChecked = false });
             }
             List<EPRMSelectedVM> listRM = new List<EPRMSelectedVM>();
             var inProject = db.Projects.Find(id).Users.ToArray();
@@ -90,7 +166,7 @@ namespace BugTracker.Controllers
             EPBigVM.EPRMSelectedListVM.Users = listRM;
 
             //EPBigVM.EPSelectedVM = not needed?
-            ViewBag.Title = ViewData["ProjectName"]= EPBigVM.Project.Name;
+            ViewBag.Title = ViewData["ProjectName"] = EPBigVM.Project.Name;
             ViewData["CurrentProject"] = id;
             return View(EPBigVM);
         }
@@ -99,8 +175,10 @@ namespace BugTracker.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult EditProjectAddUser(EPSelectedListVM model, int Id)
         {
-            if (!ModelState.IsValid) { 
-                return RedirectToAction("EditProjectUsers", "BT", new { id = Id });}
+            if (!ModelState.IsValid)
+            {
+                return RedirectToAction("EditProjectUsers", "BT", new { id = Id });
+            }
 
             var currentProject = db.Projects.Find(Id);
             var selectedUsers = model.Users.Where(u => u.IsChecked.Equals(true)).ToList();//get's only users that were checked.
@@ -114,6 +192,9 @@ namespace BugTracker.Controllers
             db.SaveChanges();
             return RedirectToAction("EditProjectUsers", "BT", new { id = Id });
         }
+
+        //
+        //
         //Remove users from Project
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -137,6 +218,11 @@ namespace BugTracker.Controllers
             return RedirectToAction("EditProjectUsers", "BT", new { id = Id });
         }
         //
+        //
+        //END PROJECT MANAGER SECTION
+        //#########################################################################
+
+        //#########################################################################
         //Error Pages Section
         //403 Forbidden
         public ActionResult Err403(string errcode)
@@ -144,6 +230,7 @@ namespace BugTracker.Controllers
             ViewData["ErrorCode"] = errcode;
             return View();
         }
+
 
     }
 }

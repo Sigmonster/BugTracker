@@ -14,3 +14,13 @@
 .epu-tbl-row:hover{
     background-color: #a5eeff;
 }
+.disp-tick-tbody tr:hover{
+    background-color: #a5eeff !important;
+}
+.ticket-box-header-btns{
+        top: 11px;
+    position: relative;
+}
+.ticket-details-panelbody {
+    padding-top: 0;
+}

@@ -17,10 +17,10 @@ namespace BugTracker.Models
             this.TicketNotifications    = new HashSet<TicketNotification>();
         }
         public int Id { get; set; }
-        //check format
+        //Check format
         [DisplayFormat(DataFormatString = "{0:MMM dd}", ApplyFormatInEditMode = true)]
         public DateTimeOffset Created { get; set; }
-        //check format
+        //Check format
         [DisplayFormat(DataFormatString = "{0:MMM dd}", ApplyFormatInEditMode = true)]
         public DateTimeOffset? Updated { get; set; }
         [Required]

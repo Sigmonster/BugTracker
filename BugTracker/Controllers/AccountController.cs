@@ -11,6 +11,7 @@ using Microsoft.Owin.Security;
 using BugTracker.Models;
 using System.Text;
 using System.Diagnostics;
+using BugTracker.Helpers;
 
 namespace BugTracker.Controllers
 {
@@ -35,6 +36,7 @@ namespace BugTracker.Controllers
             get
             {
                 return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
+
             }
             private set 
             { 
@@ -195,14 +197,21 @@ namespace BugTracker.Controllers
                     string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                     var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+                    //Add new use to Registered User Role to limit access
+                    UserRolesHelper helper = new UserRolesHelper(db);
+                    var resultadd = helper.AddUserToRole(user.Id, "Registered User");
 
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("RegisterSucess", "Account");
                 }
                 AddErrors(result);
             }
 
             // If we got this far, something failed, redisplay form
             return View(model);
+        }
+        public ActionResult RegisterSucess()
+        {
+            return View();
         }
 
         // GET: /Account/ConfirmEmail
@@ -474,6 +483,7 @@ namespace BugTracker.Controllers
         #region Helpers
         // Used for XSRF protection when adding external logins
         private const string XsrfKey = "XsrfId";
+        private ApplicationDbContext db = new ApplicationDbContext();
 
         private IAuthenticationManager AuthenticationManager
         {

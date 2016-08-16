@@ -57,8 +57,7 @@ namespace BugTracker.Models
     public class DispTicketsVM
     {
         public List<TicketPost> TicketList { get; set; }
-        public string TLTitle { get; set; }
-        public string TLTitleDesc { get; set; }
+        public string TitleDesc { get; set; }
     }
 
     //################End Tickets###############

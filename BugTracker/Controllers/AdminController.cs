@@ -10,6 +10,7 @@ using BugTracker.Helpers;
 using System.Data.Entity;
 using System.Threading.Tasks;
 using System.Net;
+using System.Web.Security;
 
 namespace BugTracker.App_Start
 {
@@ -29,6 +30,7 @@ namespace BugTracker.App_Start
         //Start Edit Users Section
         //ALL User List Section
         // GET: Admin/EditUsers
+        
         public ActionResult EditUsers()
         {
             //var users2= db.ApplicationUsers;

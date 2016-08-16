@@ -18,11 +18,13 @@ namespace BugTracker.Models
         public ApplicationUser()
         {
             this.Projects = new HashSet<Projects>();
+            //this.TicketsAssigned = new HashSet<TicketPost>();
         }
         public virtual ICollection<Projects> Projects { get; set; }
+        //public virtual ICollection<TicketPost> TicketsAssigned { get; set; }
 
-    //default scaffold below
-    public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
+        //default scaffold below
+        public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {
             // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType
             var userIdentity = await manager.CreateIdentityAsync(this, DefaultAuthenticationTypes.ApplicationCookie);
