@@ -132,7 +132,7 @@
                                             <th scope="row">
                                                 <b>Created</b>
                                             </th>
-                                            <td>@Model.Created</td>
+                                            <td>@Html.DisplayFor(Model => Model.Created)</td>
                                         </tr>
                                         <tr>
                                             <th scope="row">
@@ -195,10 +195,30 @@
                             @Html.AntiForgeryToken()
                             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
+                            @Html.HiddenFor(m => m.OwnerUserID)
+                            @Html.HiddenFor(m => m.ProjectID)
+                            @Html.HiddenFor(m => m.Created)
+                            
+                            if (User.IsInRole("Admin") || User.IsInRole("ProjectManager"))
+                            {
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label" for="example-input-small">Assigned To</label>
+                                <div class="col-sm-6">
+                                    @if (Model.AssignedToUserID != null)
+                                    {
+                                        @Html.DropDownList("AssignedToUserID", null, htmlAttributes: new { @class = "form-control" })
+                                    }
+                                    else
+                                    {
+                                        @Html.DropDownList("AssignedToUserID", null, "Unassigned", htmlAttributes: new { @class = "form-control" })
+                                    }
+                                </div>
+                            </div>}
+                            else { @Html.HiddenFor(m => m.AssignedToUserID) }
                             <div class="form-group">
                                 <label class="col-sm-3 control-label" for="example-input-small">Title</label>
                                 <div class="col-sm-6">
-                                    <input type="text" id="example-input-small" name="example-input-small" class="form-control input-sm" placeholder="@Model.Title">
+                                    @Html.EditorFor(m=>m.Title)
                                 </div>
                             </div>
                             <div class="form-group">
@@ -237,7 +257,7 @@
 </div>
 
 
-<head>
+@*<head>
     <meta name="viewport" content="width=device-width" />
     <title>Details</title>
 </head>
@@ -348,5 +368,5 @@
         @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
         @Html.ActionLink("Back to List", "Index")
     </p>
-</body>
+</body>*@
 

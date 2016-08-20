@@ -10,17 +10,16 @@ namespace BugTracker.Models
     public class TicketHistory
     {
         public int Id { get; set; }
-        [DisplayFormat(DataFormatString = "{0:MMM dd}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:g}", ApplyFormatInEditMode = true)]
         public DateTimeOffset? UpdatedTime { get; set; }
-        //Previous Data Saved before changes
-        [Required]
-        [AllowHtml]
-        public string BodyData { get; set; }
+        //Previous Data & New Data
+        public string OldAndNewValues { get; set; }
+        public string PropertyChanged { get; set; }
         //Foreign Keys(Un-Changeable)
         [Required]
         public int TicketId { get; set; }//FK
         [Required]
-        public int UpdatedByUserId { get; set; }//FK
+        public string UpdatedByUserId { get; set; }//FK
 
         //Foreign Key (Un-Changeable)Tables
         public virtual ApplicationUser UpdatedByUser { get; set; }//Holds Associated User that updated

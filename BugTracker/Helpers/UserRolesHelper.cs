@@ -59,6 +59,12 @@ namespace BugTracker.Helpers
             var userIDs = roleManager.FindByName(roleName).Users.Select(r => r.UserId);
             return userManager.Users.Where(u => userIDs.Contains(u.Id)).ToList();
         }
+        public IList<ApplicationUser> GetAllUsersInRole(string roleName)
+        {
+            var userIDs = roleManager.FindByName(roleName).Users.Select(r => r.UserId);
+            return userManager.Users.Where(u => userIDs.Contains(u.Id)).ToList();
+        }
+
         public IList<ApplicationUser> UsersNotInRole(string roleName)
         {
             var userIDs = System.Web.Security.Roles.GetUsersInRole(roleName);

@@ -36,6 +36,7 @@ namespace BugTracker.Models
         public int TicketTypeID { get; set; }//FK
         [Required]
         public int TicketPriorityID { get; set; }//FK
+
         public string OwnerUserID { get; set; }//FK
         public string AssignedToUserID { get; set; }//FK
         public string UpdatedByUserID { get; set; }//FK

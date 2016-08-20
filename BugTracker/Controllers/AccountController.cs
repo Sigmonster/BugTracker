@@ -460,6 +460,15 @@ namespace BugTracker.Controllers
             return View();
         }
 
+        [ChildActionOnly]
+        public ActionResult DisplayNameAction()
+        {
+            DisplayNameViewModel model = new DisplayNameViewModel();
+            model.CurrentUser = UserManager.FindById(User.Identity.GetUserId());
+
+            return View(model.CurrentUser.ToString());
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)
@@ -479,6 +488,7 @@ namespace BugTracker.Controllers
 
             base.Dispose(disposing);
         }
+
 
         #region Helpers
         // Used for XSRF protection when adding external logins
@@ -537,6 +547,7 @@ namespace BugTracker.Controllers
                 }
                 context.HttpContext.GetOwinContext().Authentication.Challenge(properties, LoginProvider);
             }
+
         }
         #endregion
     }

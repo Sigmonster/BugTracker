@@ -10,6 +10,7 @@ using System.Web.Mvc;
 using BugTracker.Models;
 using Microsoft.AspNet.Identity;
 using System.Collections;
+using BugTracker.Helpers;
 
 namespace BugTracker.Controllers
 {
@@ -86,31 +87,140 @@ namespace BugTracker.Controllers
         //
         //Ticket Details
         //GET: BT/Ticket
-        public ActionResult Ticket(int? Id)
+        public ActionResult Ticket(int Id)
         {
+            //UserRoles Helper
+            var userRolesHelper = new UserRolesHelper(db);
             //Get Ticket & Instantiate Model
             var ticket = db.TicketPosts.Find(Id);
             var TicketPost = new TicketPost();
+            TicketPost = ticket;
             //Set Dropdowns for edit tab.
             ViewBag.TicketPriorityID = new SelectList(db.TicketPriorities, "Id", "Name", ticket.TicketPriorityID);
             ViewBag.TicketStatusID = new SelectList(db.TicketStatuses, "Id", "Name", ticket.TicketStatusID);
             ViewBag.TicketTypeID = new SelectList(db.TicketTypes, "Id", "Name", ticket.TicketTypeID);
-
-
-            TicketPost = ticket;
+            var allDevelopers = userRolesHelper.GetAllUsersInRole("Developer").OrderBy(u => u.DisplayName);
+            var developersInProject = allDevelopers.Where(u => u.Projects.Contains(ticket.Project));
+            string assignedUser;
+            if (ticket.AssignedToUserID == null)
+            {
+                assignedUser = "Unassigned";
+            }
+            else
+            {
+                assignedUser = ticket.AssignedToUserID;
+            }
+            ViewBag.AssignedToUserID = new SelectList(developersInProject, "Id", "DisplayName", assignedUser);
 
 
             return View(TicketPost);
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult EditTicketForm([Bind(Include = "Id,Status,Created,Updated,Title,Description,ProjectID,TicketStatusID,TicketTypeID,TicketPriorityID,OwnerUserID,AssignedToUserID,UpdatedByUserID")] TicketPost ticketPost)
+        public ActionResult EditTicketForm([Bind(Include = "Id,Created,Updated,Title,Description,ProjectID,TicketStatusID,TicketTypeID,TicketPriorityID,OwnerUserID,AssignedToUserID")] TicketPost ticketPost)
         {
-            var currentTicket = db.TicketPosts.Find(ticketPost.Id);
+            if (ModelState.IsValid)
+            {
+                var ticketCustomHelper = new TicketCustomHelper();
 
-            var test = ticketPost;
-            return View();
+                var currentTicket   = db.TicketPosts.Find(ticketPost.Id);//Current Ticket from the database.
+                var editedTicket    = ticketPost;//Changes that were submitted through Form Post
+                var allUsers        = db.Users;
+                var ticketEditor    = db.Users.Find(User.Identity.GetUserId());//User that edited the ticket
+                var ticketUpdatedTimeStamp = DateTimeOffset.UtcNow;
+                var changesMade = false;//is used to control one final saved of all ticket edits
+                var updateNoftication = false;//is used to control & send one generic edit message
+                db.TicketPosts.Attach(currentTicket);//Sets currentTicket ready for changes.
+
+                //All Editable Items
+                //  AssignedToUserID
+                //  TicketPriorityID
+                //  TicketTypeID
+                //  TicketStatusID       
+                //  Description
+                //  Title
+
+
+                if (currentTicket.AssignedToUserID != editedTicket.AssignedToUserID && User.IsInRole("Project Manager"))
+                {
+                    //Create Ticket Assignment History, Create Ticket Assignment Notifications, Set ticket property change
+                    ticketCustomHelper.AssignmentHistory(currentTicket, editedTicket, ticketUpdatedTimeStamp, ticketEditor, "Assignment");//History
+                    ticketCustomHelper.AssignmentNotification(currentTicket, editedTicket, ticketUpdatedTimeStamp, ticketEditor);//Notification
+                    currentTicket.AssignedToUserID = editedTicket.AssignedToUserID;//set ticket edit change
+                    changesMade = true;
+                }
+
+                if (currentTicket.TicketPriorityID != editedTicket.TicketPriorityID)
+                {
+                    //Create Ticket History, Set Ticket Edit Change
+                    var editedPropertyName = ticketCustomHelper.GetPriorityName(editedTicket.TicketPriorityID);//Get ticket priority name
+                    ticketCustomHelper.GenericHistory(currentTicket, currentTicket.TicketPriority.Name, editedPropertyName, ticketUpdatedTimeStamp, ticketEditor, "Ticket Priority");
+                    currentTicket.TicketPriorityID = editedTicket.TicketPriorityID;//Set Ticket Edit Change
+                    changesMade = true;
+                    updateNoftication = true;
+                }
+                if (currentTicket.TicketTypeID != editedTicket.TicketTypeID)
+                {
+                    //Create Ticket History, Set Ticket Edit Change
+                    var editedPropertyName = ticketCustomHelper.GetTypeName(editedTicket.TicketTypeID);//Get ticket type name
+                    ticketCustomHelper.GenericHistory(currentTicket,currentTicket.TicketType.Name, editedPropertyName, ticketUpdatedTimeStamp, ticketEditor, "Ticket Type");//History
+                    currentTicket.TicketTypeID = editedTicket.TicketTypeID;//Set Ticket Edit Change
+                    changesMade = true;
+                    updateNoftication = true;
+
+                }
+                if (currentTicket.TicketStatusID != editedTicket.TicketStatusID)
+                {
+                    //Create Ticket History, Set Ticket Edit Change
+                    var editedPropertyName = ticketCustomHelper.GetStatusName(editedTicket.TicketStatusID);//Get ticket priority name
+                    ticketCustomHelper.GenericHistory(currentTicket,currentTicket.TicketStatus.Name, editedPropertyName, ticketUpdatedTimeStamp, ticketEditor, "Ticket Status");//History
+                    currentTicket.TicketStatusID = editedTicket.TicketStatusID;//Set Ticket Edit Change
+                    changesMade = true;
+                    updateNoftication = true;
+                }
+                if (currentTicket.Description != editedTicket.Description)
+                {
+                    //Create Ticket History, Set Ticket Edit Change
+                    ticketCustomHelper.GenericHistory(currentTicket,currentTicket.Description, editedTicket.Description, ticketUpdatedTimeStamp, ticketEditor, "Ticket Description");//History
+                    currentTicket.Description = editedTicket.Description;//Set Ticket Edit Change
+                    changesMade = true;
+                    updateNoftication = true;
+                }
+                if (currentTicket.Title != editedTicket.Title)
+                {
+                    //Create Ticket History, Set Ticket Edit Change
+                    ticketCustomHelper.GenericHistory(currentTicket,currentTicket.Title, editedTicket.Title, ticketUpdatedTimeStamp, ticketEditor, "Ticket Title");//History
+                    currentTicket.Title = editedTicket.Title;//Set Ticket Edit Change
+                    changesMade = true;
+                    updateNoftication = true;
+                }
+
+                if (changesMade)
+                {
+                    //Sends Nofitication to Ticket Asignee. (Not when Assignee is changed)
+                    //(Nofication for Asignee change is sent in the Assignment section above)
+                    if (updateNoftication)
+                    {
+                        ticketCustomHelper.GenericTicketChangeNotification(currentTicket.AssignedToUserID, ticketEditor, currentTicket.Id, ticketUpdatedTimeStamp);
+                    }
+                    //Set time/editor, and save changes.
+                    currentTicket.UpdatedByUserID = ticketEditor.Id;
+                    currentTicket.Updated = ticketUpdatedTimeStamp;
+                    db.SaveChanges();
+                }
+                return RedirectToAction("Ticket", "BT", new { id = currentTicket.Id });
+            }
+
+            return RedirectToAction("Ticket", "BT", new { id = ticketPost.Id });
         }
+
+        //Gets Display Name
+        private string GetDisplayName(string userId)
+        {
+            string DisplayName = db.Users.FirstOrDefault(u => u.Id == userId).DisplayName;
+            return DisplayName;
+        }
+
         //
         //BT Tickets End Section
         //#########################################################################

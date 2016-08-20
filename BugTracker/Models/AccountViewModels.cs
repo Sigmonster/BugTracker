@@ -128,6 +128,10 @@ namespace BugTracker.Models
 
         public string Code { get; set; }
     }
+    public class DisplayNameViewModel
+    {
+        public ApplicationUser CurrentUser { get; set; }
+    }
 
 
 }

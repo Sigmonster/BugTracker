@@ -158,7 +158,7 @@
                     <!-- End Top Right Pencil Button-->
                     <!-- Start Top Right User Drop-Down Button-->
                     <li class="dropdown">
-                        <a class="dropdown-toggle profile-pic" data-toggle="dropdown" href="javascript:void(0)"> <img src="~/Template/img/blank-profile-picture.svg" alt="user-img" width="36" class="img-circle"><b class="hidden-xs">@User.Identity.GetUserName()</b> </a>
+                        <a class="dropdown-toggle profile-pic" data-toggle="dropdown" href="javascript:void(0)"> <img src="~/Template/img/blank-profile-picture.svg" alt="user-img" width="36" class="img-circle"><b class="hidden-xs">@Html.Partial("_LoginPartial")</b></a>
                         <ul class="dropdown-menu dropdown-user animated flipInY">
                             <li><a href="@Url.Action("Index","Home")"><i class="ti-home"></i> My Home</a></li>
                             <li><a href="javascript:void(0)"><i class="ti-email"></i> Inbox</a></li>
@@ -209,9 +209,9 @@
                     <!-- End Hidden Search for Mobile-->
                     <!-- Start Left Nav User Section -->
                     <li class="user-pro">
-                        <a href="javascript:void(0)" class="waves-effect"><img src="~/Template/img/blank-profile-picture.svg" alt="user-img" class="img-circle"> <span class="hide-menu"> @User.Identity.GetUserName()<span class="fa arrow"></span></span></a>
+                        <a href="javascript:void(0)" class="waves-effect"><img src="~/Template/img/blank-profile-picture.svg" alt="user-img" class="img-circle"> <span class="hide-menu"> @Html.Partial("_LoginPartial")<span class="fa arrow"></span></span></a>
                         <ul class="nav nav-second-level">
-                            <li><a href="@Url.Action("Index","Home")"><i class="ti-home"></i> My Home</a></li>
+                            <li><a href="@Url.Action("Index","Home")"><i class="ti-home"></i> MyHome</a></li>
                             <li><a href="javascript:void(0)"><i class="ti-email"></i> Notification Inbox</a></li>
                             <li><a href="@Url.Action("Index","Manage")"><i class="ti-settings"></i> Account Setting</a></li>
                             <li><a href="@Url.Action("Dashboard","Admin")"><i class="ti-settings"></i> Admin</a></li>

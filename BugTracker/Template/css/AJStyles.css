@@ -64,6 +64,7 @@
     white-space: nowrap;
     vertical-align: baseline;
     border-radius: .25em;
+    min
 }
 .ticket-Open{
     background-color:skyblue;

@@ -11,7 +11,7 @@ namespace BugTracker.Models
         public int Id { get; set; }
         //check format
         [Required]
-        [DisplayFormat(DataFormatString = "{0:MMM dd}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:g}", ApplyFormatInEditMode = true)]
         public DateTimeOffset Created { get; set; }
         public string CommentBody { get; set; }
         //Foreign Keys
