@@ -9,9 +9,7 @@
 @{
     Layout = null;
 }
-@{
-    ViewBag.Title = "Log in";
-}
+
 <!DOCTYPE html>
 
 <head>
@@ -35,51 +33,7 @@
         <div class="login-box">
             <div class="white-box">
                 <!-- Start Login Section -->
-
-    @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form", id = "loginform" }))
-    {
-        @Html.AntiForgeryToken()
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <h3 class="box-title m-b-20">Sign In</h3>
-                    <div class="form-group ">
-                        <div class="col-xs-12">
-                            @*<input class="form-control" type="text" required="" placeholder="Username">*@
-                            @Html.TextBoxFor(m => m.LoginViewModel.Email, new { @class = "form-control", placeholder = "Username", required = "" })
-                            @Html.ValidationMessageFor(m => m.LoginViewModel.Email, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-xs-12">
-                            @*<input class="form-control" type="password" required="" placeholder="Password">*@
-                            @Html.PasswordFor(m => m.LoginViewModel.Password, new { @class = "form-control", required = "", placeholder = "Password" })
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-xs-12">
-                            <div class="checkbox checkbox-primary pull-left p-t-0">
-                                @Html.CheckBoxFor(m => m.LoginViewModel.RememberMe)
-                                @Html.LabelFor(m => m.LoginViewModel.RememberMe, new { @class = "checkbox" })
-                            </div>
-                            <a href="javascript:void(0)" id="to-recover" class="text-dark pull-right"><i class="fa fa-lock m-r-5"></i> Forgot pwd?</a>
-                        </div>
-                    </div>
-                    <div class="form-group text-center m-t-20">
-                        <div class="col-xs-12">
-                            <button class="btn btn-info btn-lg btn-block text-uppercase waves-effect waves-light" form="loginform" type="submit">Log In</button>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-xs-12 col-sm-12 col-md-12 m-t-10 text-center">
-                            <div class="social"><a href="javascript:void(0)" class="btn  btn-facebook" data-toggle="tooltip" title="Login with Facebook"> <i aria-hidden="true" class="fa fa-facebook"></i> </a> <a href="javascript:void(0)" class="btn btn-googleplus" data-toggle="tooltip" title="Login with Google"> <i aria-hidden="true" class="fa fa-google-plus"></i> </a> </div>
-                        </div>
-                    </div>
-                    <div class="form-group m-b-0">
-                        <div class="col-sm-12 text-center">
-                            <p>Don't have an account? <a href="javascript:void(0)" id="go-to-register" class="text-dark pull-right"><i class="fa fa-pencil m-r-5"></i> Sign Up.</a>
-                        </div>
-                    </div>
-    }
-
+                @Html.Partial("_LoginFormPartial", Model.LoginViewModel)
                 <!-- End Login Section -->
                 <!-- Start Password Recovery Section -->
                 @Html.Partial("_ForgotPasswordPartial", Model.ForgotPasswordViewModel )

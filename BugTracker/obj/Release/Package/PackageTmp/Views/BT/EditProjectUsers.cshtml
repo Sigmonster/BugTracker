@@ -1,0 +1,16 @@
+﻿@model BugTracker.Models.EPBigVM
+
+@{
+    ViewBag.Title = "Manage Project: " + Model.Project.Name;
+}
+
+
+@Html.Partial("_UsersInProjectPartial", Model.EPSelectedListVM)
+
+
+@Html.Partial("_UsersRMProjectPartial", Model.EPRMSelectedListVM)
+
+
+
+
+  

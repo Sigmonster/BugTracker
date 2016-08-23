@@ -1,0 +1,101 @@
+﻿@model BugTracker.Models.EPSelectedListVM
+@{
+    var CurrentProject = (int)ViewData["CurrentProject"];
+    var ProjectName = (string)ViewData["ProjectName"];
+}
+<div class="col-md-6">
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            <strong>@ProjectName</strong><br />
+            Users Not In Project
+            <div class="pull-right"><a href="#" data-perform="panel-collapse"><i class="ti-minus"></i></a> </div>
+            <br />
+            <br />
+        </div>
+        <div class="panel-wrapper collapse in" aria-expanded="true">
+            <div class="panel-body">
+                @using (Html.BeginForm("EditProjectAddUser", "BT", new { Id = CurrentProject }, FormMethod.Post, new { @class = "form-horizontal", role = "form", id = "addProjectUserForm" }))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="table-responsive">
+
+                        <table id="myTableadd" class="table table-striped hover compact myDT">
+
+                            <thead id="addProjectUserFormHead" class="dt-head-right">
+                                <tr>
+                                    <th></th>
+                                    <th>Display Name</th>
+                                    <th>Email</th>
+                                </tr>
+                            </thead>
+                            <tbody id="addProjectUserFormBody">
+
+                                @for (var i = 0; i < Model.Users.Count; i++)
+                                {
+                                    <tr class="epu-tbl-row">
+                                        <td>
+                                            @Html.CheckBoxFor(m => Model.Users[i].IsChecked)
+                                            @Html.HiddenFor(m => Model.Users[i].UserId)
+                                            @Html.HiddenFor(m => Model.Users[i].UserDisplayName)
+                                        </td>
+                                        <td>
+                                             @Model.Users[i].UserDisplayName
+                                        </td>
+                                        <td>
+                                            @Model.Users[i].UserEmail
+                                        </td>
+                                    </tr>
+                                }
+
+                            </tbody>
+                        </table>
+                        <input type="submit" form="addProjectUserForm" value="Submit" class="btn btn-default" />
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+@*@using (Html.BeginForm("EditProjectAddUser", "BT", new { Id = CurrentProject }, FormMethod.Post, new { @class = "form-horizontal", role = "form", id = "addProjectUserForm" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <table class="table">
+            <tr>
+
+                <th>
+                    Display Name
+                </th>
+                <th>
+                    Email
+                </th>
+                <th></th>
+            </tr>
+
+            @for (var i = 0; i < Model.Users.Count; i++)
+            {
+                <tr>
+                    <td>
+                        @Html.CheckBoxFor(m => Model.Users[i].IsChecked)
+                        @Html.HiddenFor(m => Model.Users[i].UserId)
+                        @Html.HiddenFor(m => Model.Users[i].UserDisplayName)
+                    </td>
+                    <td>
+                        @Model.Users[i].UserDisplayName
+                    </td>
+                    @*<td>
+                            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+                            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+                            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+                        </td>
+                </tr>
+            }
+        </table>
+                            <input type="submit" value="Submit" class="btn btn-default" />
+    }*@

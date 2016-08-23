@@ -1,8 +1,10 @@
-﻿@using BugTracker.Models
-@model TicketPost
+﻿@model TicketPost
+@using BugTracker.Models
+
 
 @{ 
     ViewBag.Title = "Ticket Details Page";
+    var ticketCommentsList = (List<TicketComment>)ViewData["CommentList"];
 }
 
 
@@ -199,7 +201,7 @@
                             @Html.HiddenFor(m => m.ProjectID)
                             @Html.HiddenFor(m => m.Created)
                             
-                            if (User.IsInRole("Admin") || User.IsInRole("ProjectManager"))
+                            if (User.IsInRole("Admin") || User.IsInRole("Project Manager"))
                             {
                             <div class="form-group">
                                 <label class="col-sm-3 control-label" for="example-input-small">Assigned To</label>
@@ -255,118 +257,9 @@
         @*End Form*@
     </div>
 </div>
+@Html.Partial("_CommentsPartial", ticketCommentsList)
+@Html.Partial("_CommentAddPartial", new TicketComment() { TicketID = Model.Id })
+@Html.Partial("_TicketAttachmentPartial", new TicketAttachment() { TicketID = Model.Id })
+@*@Html.Partial("_TicketAttachment", new TicketComment() { TicketID = Model.Id })*@
 
-
-@*<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Details</title>
-</head>
-<body>
-    <div>
-        <h4>TicketPost</h4>
-        <hr />
-        <dl class="dl-horizontal">
-            <dt>
-                @Html.DisplayNameFor(model => model.OwnerUser.FirstName)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.OwnerUser.FirstName)
-            </dd>
-    
-            <dt>
-                @Html.DisplayNameFor(model => model.Project.Name)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.Project.Name)
-            </dd>
-    
-            <dt>
-                @Html.DisplayNameFor(model => model.TicketPriority.Name)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.TicketPriority.Name)
-            </dd>
-    
-            <dt>
-                @Html.DisplayNameFor(model => model.TicketStatus.Name)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.TicketStatus.Name)
-            </dd>
-    
-            <dt>
-                @Html.DisplayNameFor(model => model.TicketType.Name)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.TicketType.Name)
-            </dd>
-    
-            <dt>
-                @Html.DisplayNameFor(model => model.UpdatedByUser.FirstName)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.UpdatedByUser.FirstName)
-            </dd>
-    
-            <dt>
-                @Html.DisplayNameFor(model => model.TicketStatus)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.TicketStatus)
-            </dd>
-    
-            <dt>
-                @Html.DisplayNameFor(model => model.Created)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.Created)
-            </dd>
-    
-            <dt>
-                @Html.DisplayNameFor(model => model.Updated)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.Updated)
-            </dd>
-    
-            <dt>
-                @Html.DisplayNameFor(model => model.Title)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.Title)
-            </dd>
-    
-            <dt>
-                @Html.DisplayNameFor(model => model.Description)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.Description)
-            </dd>
-    
-            <dt>
-                @Html.DisplayNameFor(model => model.AssignedToUserID)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.AssignedToUserID)
-            </dd>
-    
-        </dl>
-    </div>
-    <p>
-        @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-        @Html.ActionLink("Back to List", "Index")
-    </p>
-</body>*@
 

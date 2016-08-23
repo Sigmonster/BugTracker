@@ -1,0 +1,144 @@
+﻿@using BugTracker.Models
+@model TicketAttachment
+@{        var currentTicket = (TicketPost)ViewData["currentTicket"];
+}
+
+<div class="col-md-6">
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            <div class="pull-left">
+                <strong>Ticket Attachments</strong>
+            </div>
+            @*Short Description*@
+            <div class="pull-right slim-heading-btns"><a href="#" data-perform="panel-collapse"><i class="ti-minus"></i></a> </div>
+            <div class="clearfix"></div>
+        </div>
+        <div class="panel-wrapper collapse in" aria-expanded="true">
+            <div class="panel-body">
+
+
+
+                @using (Html.BeginForm("AddTicketAttachment", "BT", FormMethod.Post, new { enctype = "Multipart/form-data" }))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.HiddenFor(model => model.TicketID)
+                    <div class="col-md-11 comment-add-textarea center-block">
+                        <div class="row">
+                            <input name="file" type="file" class="upload" id="fileUpload" style="width:100%;" required="required" />
+                        </div>
+                        <div class="row m-t-10">
+                            @Html.TextAreaFor(model => model.Description, new { @class = "form-control", required = "required", style = "max-width:465px" })
+                        </div>
+                        <div class="row m-t-10">
+                            <input type="submit" value="Save" class="fcbtn btn btn-info btn-outline btn-1d" />
+                        </div>
+                    </div>
+                    <br />
+
+                }
+
+                @if (currentTicket.TicketAttachments.Count() > 0)
+                {
+                    foreach (var item in currentTicket.TicketAttachments)
+                    {
+                        <blockquote class="attachment-blockquote">
+                            <h4><a class="attachment-file" href="@item.FilePath">@item.FilePath</a></h4>
+                            @item.Description
+                            <small>Uploaded by @item.User.DisplayName</small>
+                        </blockquote>
+
+                        @*<div class="attachments-wrapper col-xs-12">
+                        <div class="row">
+                            <div class="col-xs-11 center-block">
+                                <div class="row">
+                                    <div class="col-xs-6">
+                                        <div class="pull-left">
+                                            By: <b>@item.User.DisplayName</b>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-6">
+                                        <div class="pull-right">
+                                            @item.Created
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-12">
+
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <b>Description: </b><p>@item.Description</p>
+                                    </div>
+                                </div>
+                                @*<div class="row col-xs-10 center-block">
+                                    <img class="img-responsive attachment" src="@Url.Content(item.FileURL)" alt="attachment" style="width:100%; margin-bottom:-10px;" />
+                                    <div class="clearfix"></div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>*@
+                    }
+                }
+                else
+                {
+                    <p>There are no Attachements for this Ticket.</p>
+                }
+            </div>
+        </div>
+        </div>
+</div>
+@*<table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Ticket.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.User.FirstName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Created)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FilePath)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FileURL)
+            </th>
+            <th></th>
+        </tr>
+
+    @foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ticket.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.User.FirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Created)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FilePath)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FileURL)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+                @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+            </td>
+        </tr>
+    }
+
+    </table>*@

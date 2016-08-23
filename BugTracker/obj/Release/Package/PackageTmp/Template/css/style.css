@@ -3523,7 +3523,7 @@ Basic List
 .table > thead > tr.active > th,
 .table > tbody > tr.active > th,
 .table > tfoot > tr.active > th {
-  background-color: #f7fafc !important;
+  background-color: #e2f4ff;
 }
 .table > thead > tr > th,
 .table > tbody > tr > th,

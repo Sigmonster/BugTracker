@@ -3,3 +3,186 @@
 .center-block{
     float:none;
 }
+.login-err-box ul{
+    list-style-type:none;
+}
+/*Edit Project Users*/
+.panel-heading strong{
+    font-size: 20px;
+}
+/*DataTable Project Users*/
+.epu-tbl-row:hover{
+    background-color: #a5eeff;
+}
+.disp-tick-tbody tr:hover{
+    background-color: #a5eeff !important;
+}
+.ticket-box-header-btns{
+        top: 11px;
+    position: relative;
+}
+.ticket-details-panelbody {
+    padding-top: 0;
+}
+.ticket-tbl-body {
+    width:300px;
+    height: 35px;
+    padding:8px;
+    resize: both;
+    overflow: hidden;
+    border:1px solid #dcd6d6;
+}
+.ticket-tbl-title{
+    width:100px;
+    height:30px;
+    padding:8px;
+    resize: both;
+    overflow: hidden;
+    border:1px solid #dcd6d6;
+}
+.ticket-tbl-time{
+    max-width:60px;
+    height: 35px;
+    overflow:hidden;
+}
+.ticket-tbl-row td{
+    vertical-align:middle !important;
+    font-size:12px;
+
+}
+.ticket-tbl-row th{
+    font-size:13px;
+}
+.ticket-label{
+    display: inline;
+    padding: .2em .6em .3em;
+    font-size: 90%;
+    font-weight: 700;
+    line-height: 1;
+    color: #fff;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: .25em;
+    min
+}
+.ticket-Open{
+    background-color:skyblue;
+}
+.ticket-InProgress{
+    background-color:lightgreen;
+}
+.ticket-Pending{
+    background-color:cornflowerblue;
+}
+.ticket-Resolved{
+    background-color:#000000;
+}
+        /*$('.tk - priority:contains("Critical")').addClass('ticket-label ticket-Critical');
+        $('.tk - priority:contains("Major")').addClass('ticket-label ticket-Major');
+        $('.tk - priority:contains("Minor")').addClass('ticket-label ticket-Minor');
+        $('.tk - priority:contains("Trivial")').addClass('ticket-label ticket-Trivial');
+        $('.tk - priority:contains("Blocker")').addClass('ticket-label ticket-Blocker');*/
+.ticket-Critical{
+    background-color:red;
+}
+.ticket-Major{
+    background-color:orangered;
+}
+.ticket-Minor{
+    background-color:darkblue;
+}
+.ticket-Trivial{
+    background-color:#a5a4a4;
+}
+.ticket-Blocker{
+    background-color:orangered;
+}
+.ticket-Bug{
+    background-color:#069f1b;
+}
+.ticket-Task{
+    background-color:#c8a600;
+}
+.ticket-Feature{
+    background-color:#0dff00;
+}
+
+
+.button.dt-button:active:not(.disabled):hover:not(.disabled), button.dt-button.active:not(.disabled):hover:not(.disabled), div.dt-button:active:not(.disabled):hover:not(.disabled), div.dt-button.active:not(.disabled):hover:not(.disabled), a.dt-button:active:not(.disabled):hover:not(.disabled), a.dt-button.active:not(.disabled):hover:not(.disabled) {
+    box-shadow: inset 1px 1px 3px #999999;
+    background-color: #cccccc;
+    background-image: -webkit-linear-gradient(top, #eaeaea 0%, #ccc 100%);
+    background-image: -moz-linear-gradient(top, #eaeaea 0%, #ccc 100%);
+    background-image: -ms-linear-gradient(top, #eaeaea 0%, #ccc 100%);
+    background-image: -o-linear-gradient(top, #eaeaea 0%, #ccc 100%);
+    background-image: linear-gradient(to bottom, #5994ff 0%, #05e8ff 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,StartColorStr='#eaeaea', EndColorStr='#cccccc') !important;
+}
+.div.dt-button-collection button.dt-button:active:not(.disabled), div.dt-button-collection button.dt-button.active:not(.disabled), div.dt-button-collection div.dt-button:active:not(.disabled), div.dt-button-collection div.dt-button.active:not(.disabled), div.dt-button-collection a.dt-button:active:not(.disabled), div.dt-button-collection a.dt-button.active:not(.disabled) {
+    background-color: #dadada;
+    background-image: -webkit-linear-gradient(top, #f0f0f0 0%, #dadada 100%);
+    background-image: -moz-linear-gradient(top, #f0f0f0 0%, #dadada 100%);
+    background-image: -ms-linear-gradient(top, #f0f0f0 0%, #dadada 100%);
+    background-image: -o-linear-gradient(top, #f0f0f0 0%, #dadada 100%);
+    background-image: linear-gradient(to bottom, #f0f0f0 0%, #dadada 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,StartColorStr='#eaeaea', EndColorStr='#cccccc') !important;
+    box-shadow: inset 1px 1px 3px #666;
+}
+
+
+/*Comment Partial*/
+.comment-date{
+    text-align:right;
+}
+.comment-wrapper {
+    overflow-wrap:normal;
+    max-height: 275px;
+    overflow-x: hidden;
+    border: lightgray solid 1px;
+    padding: 5px;
+    margin-bottom:2em;
+}
+/*Comment Add Partial*/
+.comment-add-textarea textarea{
+    width:100%;
+    height:100px;
+}
+/*EndComment Add Partial*/
+/*End Comment Partial*/
+
+/*Slim Panel CSS*/
+/*Slim Panel Heading*/
+.slim-heading-btns{
+    top: 5px;
+    position: relative;
+}
+/*Slim Partial Dropdown*/
+.slim-btn-dropdown{
+    padding:2px 5px 2px 5px;
+    border:1px white;
+    margin-left:5px;
+
+}
+.slim-dropdown-ul{
+    min-width:80px;
+    padding:5px 0;
+}
+.slim-dropdown-ul a {
+    padding:0 10px 0 10px !important;
+
+}
+/*END Slim Panel CSS*/
+/*Ticket Attachments*/
+.attachments-wrapper {
+    overflow-wrap:normal;
+    max-height: 275px;
+    overflow-x: hidden;
+    border: lightgray solid 1px;
+    padding: 5px;
+    margin-bottom:2em;
+}
+.attachment-blockquote{
+        border-left: 5px solid #03a9f3 !important;
+}
+/*End Ticket Attachments*/

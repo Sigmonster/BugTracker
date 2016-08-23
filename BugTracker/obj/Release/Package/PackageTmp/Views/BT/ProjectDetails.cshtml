@@ -1,0 +1,108 @@
+﻿@model BugTracker.Models.Projects
+
+
+<div class="col-md-12">
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            <div class="pull-left">
+                <strong>Project: @Model.Name</strong>
+            </div>
+            @*Short Description*@
+            <div class="pull-right slim-heading-btns"><a href="#" data-perform="panel-collapse"><i class="ti-minus"></i></a> </div>
+            <div class="clearfix"></div>
+        </div>
+        <div class="panel-wrapper collapse in" aria-expanded="true">
+            <div class="panel-body">
+                <div class="col-md-12">
+                    <form class="form-horizontal" role="form">
+                        <div class="form-body">
+                            <h3 class="box-title">Proejct Info</h3>
+                            <hr class="m-t-0 m-b-40">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label col-md-3">Title:</label>
+                                        <div class="col-md-9">
+                                            <p class="form-control-static"> @Model.Name </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--/span-->
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label col-md-3">Unassigned Tickets:</label>
+                                        <div class="col-md-9">
+                                            <p class="form-control-static">@Model.Tickets.Where(t => t.AssignedToUser == null).Count()</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--/span-->
+                            </div>
+                            <!--/row-->
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label col-md-3">Project Managers</label>
+                                        <div class="col-md-9">
+                                            <p class="form-control-static">PM# here</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--/span-->
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label col-md-3">More</label>
+                                        <div class="col-md-9">
+                                            <p class="form-control-static">More#</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--/span-->
+                            </div>
+                            <!--/row-->
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label col-md-3">Developers</label>
+                                        <div class="col-md-9">
+                                            <p class="form-control-static">Developer # here</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--/span-->
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label col-md-3">More here</label>
+                                        <div class="col-md-9">
+                                            <p class="form-control-static">## </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--/span-->
+                            </div>
+                            <!--/row-->
+                        </div>
+                    </form>
+                </div>
+                <div class="clearfix"></div>
+                <dl class="dl-horizontal">
+                    <dt>
+                        Unassigned Tickets
+                    </dt>
+
+                    <dd>
+                        @Model.Tickets.Where(t => t.AssignedToUser == null).Count()
+                    </dd>
+
+                </dl>
+                <p>
+                    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+                    @Html.ActionLink("Back to List", "Index")
+                </p>
+                <a href="@Url.Action("Create", "Ticket", new { projectId = Model.Id })" class="fcbtn btn btn-info btn-outline btn-1d">Create Ticket</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+@Html.Partial("_DisplayTicketsPartial")

@@ -214,7 +214,9 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AuthActivityAttribute.cs" />
     <Compile Include="Controllers\BTController.cs" />
+    <Compile Include="Controllers\CommentsController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -3542,6 +3544,16 @@
     <Content Include="TemplateHelper\DataTables-1.10.12\ISSUE_TEMPLATE.md" />
     <Content Include="TemplateHelper\DataTables-1.10.12\media\images\Sorting icons.psd" />
     <Content Include="TemplateHelper\DataTables-1.10.12\Readme.md" />
+    <Content Include="Views\Comments\Create.cshtml" />
+    <Content Include="Views\Comments\Delete.cshtml" />
+    <Content Include="Views\Comments\Details.cshtml" />
+    <Content Include="Views\Comments\Edit.cshtml" />
+    <Content Include="Views\Comments\Index.cshtml" />
+    <Content Include="Views\Shared\_CommentsPartial.cshtml" />
+    <Content Include="Views\Shared\_TicketAttachment.cshtml" />
+    <Content Include="Views\Shared\_CommentAddPartial.cshtml" />
+    <Content Include="Views\Shared\_TicketAttachmentPartial.cshtml" />
+    <Content Include="Views\BT\_CreateTicketPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

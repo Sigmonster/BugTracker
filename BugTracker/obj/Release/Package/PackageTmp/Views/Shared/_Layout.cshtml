@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNet.Identity
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -10,6 +11,10 @@
     <title>Elite Admin - is a responsive admin template</title>
     <!-- Bootstrap Core CSS -->
     <link href="~/Template/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    @*<link href="~/Template/plugins/bower_components/datatables/jquery.dataTables.min.css" rel="stylesheet" type="text/css" />Orgin*@
+    <link href="~/TemplateHelper/DataTables-1.10.12/media/css/jquery.dataTables.css" rel="stylesheet" />
+    <link href="~/TemplateHelper/DataTables-1.10.12/extensions/Buttons/css/buttons.dataTables.min.css" rel="stylesheet" />
+    @*<link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css" />*@
     <!-- Menu CSS -->
     <link href="~/Template/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.css" rel="stylesheet">
     <!-- animation CSS -->
@@ -21,14 +26,16 @@
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <link href="~/Template/css/AJStyles.css" rel="stylesheet" />
+
+
 </head>
 <body class="fix-sidebar">
 
 
     <!-- Preloader -->
-    <div class="preloader">
+    @*<div class="preloader">
         <div class="cssload-speeding-wheel"></div>
-    </div>
+    </div>*@
     <div id="wrapper">
         <!--Body Wrapper-->
         <!-- Top Navigation -->
@@ -151,14 +158,14 @@
                     <!-- End Top Right Pencil Button-->
                     <!-- Start Top Right User Drop-Down Button-->
                     <li class="dropdown">
-                        <a class="dropdown-toggle profile-pic" data-toggle="dropdown" href="javascript:void(0)"> <img src="~/Template/img/blank-profile-picture.svg" alt="user-img" width="36" class="img-circle"><b class="hidden-xs">Username Here</b> </a>
+                        <a class="dropdown-toggle profile-pic" data-toggle="dropdown" href="javascript:void(0)"> <img src="~/Template/img/blank-profile-picture.svg" alt="user-img" width="36" class="img-circle"><b class="hidden-xs">@Html.Partial("_LoginPartial")</b></a>
                         <ul class="dropdown-menu dropdown-user animated flipInY">
-                            <li><a href="javascript:void(0)"><i class="ti-home"></i> My Home</a></li>
+                            <li><a href="@Url.Action("Index","Home")"><i class="ti-home"></i> My Home</a></li>
                             <li><a href="javascript:void(0)"><i class="ti-email"></i> Inbox</a></li>
                             <li><a href="javascript:void(0)"><i class="ti-email"></i> Notification Inbox</a></li>
                             <li role="separator" class="divider"></li>
                             <li><a href="@Url.Action("Index","Manage")"><i class="ti-settings"></i> Account Setting</a></li>
-                            <li><a href="@Url.Action("Admin","BT")"><i class="ti-settings"></i> Admin</a></li>
+                            <li><a href="@Url.Action("Dashboard","Admin")"><i class="ti-settings"></i> Admin</a></li>
                             <li role="separator" class="divider"></li>
                             <li></li>
                             <li>
@@ -202,12 +209,19 @@
                     <!-- End Hidden Search for Mobile-->
                     <!-- Start Left Nav User Section -->
                     <li class="user-pro">
-                        <a href="javascript:void(0)" class="waves-effect"><img src="~/Template/img/blank-profile-picture.svg" alt="user-img" class="img-circle"> <span class="hide-menu"> Username Here<span class="fa arrow"></span></span></a>
+                        <a href="javascript:void(0)" class="waves-effect"><img src="~/Template/img/blank-profile-picture.svg" alt="user-img" class="img-circle"> <span class="hide-menu"> @Html.Partial("_LoginPartial")<span class="fa arrow"></span></span></a>
                         <ul class="nav nav-second-level">
-                            <li><a href="javascript:void(0)"><i class="ti-home"></i> My Home</a></li>
+                            <li><a href="@Url.Action("Index","Home")"><i class="ti-home"></i> MyHome</a></li>
                             <li><a href="javascript:void(0)"><i class="ti-email"></i> Notification Inbox</a></li>
-                            <li><a href="javascript:void(0)"><i class="ti-settings"></i> Account Setting</a></li>
-                            <li><a href="javascript:void(0)"><i class="fa fa-power-off"></i> Logout</a></li>
+                            <li><a href="@Url.Action("Index","Manage")"><i class="ti-settings"></i> Account Setting</a></li>
+                            <li><a href="@Url.Action("Dashboard","Admin")"><i class="ti-settings"></i> Admin</a></li>
+                            <li>
+                                @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutFormLeftNav", @class = "navbar-right" }))
+                                {
+                                    @Html.AntiForgeryToken()
+                                }
+                                <a href="javascript:document.getElementById('logoutFormLeftNav').submit()"><i class="fa fa-power-off"></i> Log off</a>
+                            </li>
                         </ul>
                     </li>
                     <!-- End Left Nav User Section -->
@@ -217,13 +231,24 @@
                     <li>
                         <a href="index.html" class="waves-effect"><i class="linea-icon linea-basic fa-fw" data-icon="E"></i> <span class="hide-menu"> Views <span class="fa arrow"></span> <span class="label label-rouded label-custom pull-right">4</span></span></a>
                         <ul class="nav nav-second-level">
-                            <li> <a href="javascript:void(0)"><i class="ti-home"></i> My Home</a> </li>
-                            <li> <a href="javascript:void(0)">Link1</a> </li>
-                            <li> <a href="javascript:void(0)">Link2</a> </li>
-                            <li> <a href="javascript:void(0)">Link3</a> </li>
+                            <li> <a href="@Url.Action("Index","Home")"><i class="ti-home"></i> My Home</a> </li>
+                            <li> <a href="@Url.Action("MyTickets","BT")"> My Tickets</a> </li>
+                            <li> <a href="@Url.Action("MyProjects","BT")"> My Projects</a> </li>
                         </ul>
                     </li>
                     <!-- End Views -->
+                    <!--Start Project Manager Views-->
+                    <li>
+                        <a href="index.html" class="waves-effect"><i class="linea-icon linea-basic fa-fw" data-icon="E"></i> <span class="hide-menu"> Project Manager Views <span class="fa arrow"></span> <span class="label label-rouded label-custom pull-right">4</span></span></a>
+                        <ul class="nav nav-second-level">
+                            <li> <a href="@Url.Action("Index","Home")"><i class="ti-home"></i> Project Manager Home</a> </li>
+                            <li> <a href="@Url.Action("-","BT")"> Manage Projects</a> </li>
+                            <li> <a href="@Url.Action("-","BT")"> Manage Projects Tickets</a> </li>
+                            <li> <a href="@Url.Action("GlobalTickets", "BT")"> Global Tickets</a> </li>
+                            <li> <a href="@Url.Action("ProjectManager", "BT")"> Global Projects</a> </li>
+                        </ul>
+                    </li>
+                    <!--Start Project Manager Views-->
                     <!-- Start Notification Section-->
                     <li>
                         <a href="javascript:void(0)" class="waves-effect"><i class="ti-email"></i> <span class="hide-menu">Notification Inbox <span class="fa arrow"></span></span></a>
@@ -417,7 +442,9 @@
     </div>
     <!--End Body Wrapper-->
     <!-- jQuery -->
+    @*<script src="~/TemplateHelper/DataTables-1.10.12/media/js/jquery.js"></script>*@
     <script src="~/Template/plugins/bower_components/jquery/dist/jquery.min.js"></script>
+        @*<script src="~/TemplateHelper/DataTables-1.10.12/media/js/jquery.js"></script>*@
     <!-- Bootstrap Core JavaScript -->
     <script src="~/Template/bootstrap/dist/js/bootstrap.min.js"></script>
     <!-- Menu Plugin JavaScript -->
@@ -430,10 +457,54 @@
     <script src="~/Template/js/custom.js"></script>
     <!--Style Switcher -->
     <script src="~/Template/plugins/bower_components/styleswitcher/jQuery.style.switcher.js"></script>
-    @RenderSection("scripts", required: false)
+    
+    @*<script src="~/Template/plugins/bower_components/datatables/jquery.dataTables.min.js"></script>Orgin*@
+        @*<script src="~/TemplateHelper/DataTables-1.10.12/media/js/jquery.dataTables.js"></script>
+        <script src="~/TemplateHelper/DataTables-1.10.12/extensions/Buttons/js/buttons.html5.min.js"></script>
+        <script src="~/TemplateHelper/DataTables-1.10.12/extensions/Buttons/js/buttons.colVis.min.js"></script>*@
+    @*<script type="text/javascript" src="//cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>*@
+
+
+    <script src="~/TemplateHelper/DataTables-1.10.12/media/js/jquery.dataTables.js"></script>
+    <script src="~/TemplateHelper/DataTables-1.10.12/extensions/Buttons/js/dataTables.buttons.js"></script>
+    <script src="~/TemplateHelper/DataTables-1.10.12/extensions/Buttons/js/buttons.colVis.min.js"></script>
+    @RenderSection("scripts", required: false) 
+    @*<script>
+    $(document).ready(function(){
+        $('.myDT').DataTable();
+        $(document).ready(function() {
+            var table = $('.examplemyDT').DataTable({
+                "aaSorting": [],
+                "order": [],//Disable Initial Sort
+                'columnDefs': [{
+                    'targets': 0,
+                    'searchable': false,
+                    'orderable': false,
+                    'className': 'dt-body-center',
+                    'render': function (data, type, full, meta) {
+                        return '<input type="checkbox" name="id[]" value="' + $('<div/>').text(data).html() + '">';
+                    }
+                }],
+                "displayLength": 25,
+                "drawCallback": function ( settings ) {
+                    var api = this.api();
+                    var rows = api.rows( {page:'current'} ).nodes();
+                    var last=null;
+
+                    api.column(2, {page:'current'} ).data().each( function ( group, i ) {
+                        if ( last !== group ) {
+                            $(rows).eq( i ).before(
+                              '<tr class="group"><td colspan="5">'+group+'</td></tr>'
+                              );
+
+                            last = group;
+                        }
+                    } );
+                }
+            } );});})
+    </script>*@
 </body>
 </html>
-
 
 @*<!DOCTYPE html>
 <html>

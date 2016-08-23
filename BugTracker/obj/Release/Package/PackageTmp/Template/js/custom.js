@@ -256,3 +256,69 @@ $(document).ready(function() {
         $("#loginform").slideDown();
     });
     
+//JQuery DataTables
+    $(document).ready(function () {
+        var table = $('.myDT').DataTable({
+            "order": [],//Disable Initial Sort
+            dom: 'Blfrtip',
+            buttons: [
+          {
+              extend: 'collection',
+              buttons: ['columnsToggle']
+          }],
+            'columnDefs': [
+                {
+                 "targets": [0],
+                 'searchable': true,
+                 'orderable':false,
+            }, {
+                "targets": [2],
+                "visible": false,
+
+            }, {
+                "targets": [6],
+                "visible": false,
+            }, {
+                "targets": [8],
+                "visible": false,
+            }, {
+                "targets": ["10"],
+                "visible": false,
+            }],
+            "lengthMenu": [10, 25, 50, 75, 100]
+
+
+        });
+        
+
+        $('.tk-status:contains("Open")').addClass('ticket-label ticket-Open'); 
+        $('.tk-status:contains("InProgress")').addClass('ticket-label ticket-InProgress');
+        $('.tk-status:contains("Pending")').addClass('ticket-label ticket-Pending');
+        $('.tk-status:contains("Resolved")').addClass('ticket-label ticket-Resolved');
+
+        $('.tk-priority:contains("Critical")').addClass('ticket-label ticket-Critical');
+        $('.tk-priority:contains("Major")').addClass('ticket-label ticket-Major');
+        $('.tk-priority:contains("Minor")').addClass('ticket-label ticket-Minor');
+        $('.tk-priority:contains("Trivial")').addClass('ticket-label ticket-Trivial');
+        $('.tk-priority:contains("Blocker")').addClass('ticket-label ticket-Blocker');
+
+        $('.tk-type:contains("Bug")').addClass('ticket-label ticket-Bug');
+        $('.tk-type:contains("Task")').addClass('ticket-label ticket-Task');
+        $('.tk-type:contains("Feature")').addClass('ticket-label ticket-Feature');
+
+        //Standard DataTable
+        $('.myTablez').DataTable({
+            "order": []//Disable Initial Sort
+        });
+
+    });
+//End JQuery DataTables
+
+//Start Ticket Attachments
+ $(document).ready(function () {
+     $(".attachment-file").each(function () {
+         orgText = $(this).html();
+         newText = orgText.replace('/Uploads/', '');
+         $(this).html(newText);
+     })
+     });

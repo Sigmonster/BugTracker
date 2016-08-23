@@ -10,9 +10,9 @@ namespace BugTracker.Models
     {
         public int Id { get; set; }
         //check format
-        [Required]
         [DisplayFormat(DataFormatString = "{0:g}", ApplyFormatInEditMode = true)]
         public DateTimeOffset Created { get; set; }
+        [Required]
         public string CommentBody { get; set; }
         //Foreign Keys
         public string UserID { get; set; }

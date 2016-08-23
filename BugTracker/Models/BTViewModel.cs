@@ -43,8 +43,20 @@ namespace BugTracker.Models
     public class EPRMSelectedListVM{
         public List<EPRMSelectedVM> Users { get; set; }
     }
+
+    public class ProjectDetailsVM
+    {
+        public Projects Project { get; set; }
+        public List<ApplicationUser> ProjectManagers { get; set; }
+        public int DeveloperCount { get; set; }
+        public int UnassignedCount { get; set; }
+        public int TotalTickets { get; set; }
+    }
+    //
     //################End Projects################
     //
+
+
     //################Begin Tickets###############
     //
     //ProjectDetailsVM (contains tickets)
@@ -61,4 +73,12 @@ namespace BugTracker.Models
     }
 
     //################End Tickets###############
+
+    //################Begin Comments###############
+    //
+    //CommentPOSTVM
+    public class CommentPOSTVM
+    {
+
+    }
 }

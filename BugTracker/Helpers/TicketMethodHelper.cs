@@ -55,6 +55,45 @@ namespace BugTracker.Helpers
             db.SaveChanges();
 
         }
+        public void TicketCommentNotification(ApplicationUser commentor, TicketComment tComment, DateTimeOffset commentTimeStamp)
+        {
+            var assignedUserId = (db.TicketPosts.Find(tComment.TicketID).AssignedToUser != null) ? db.TicketPosts.Find(tComment.TicketID).AssignedToUser.Id : "Unassigned";
+
+            if (assignedUserId != "Unassigned")
+            {
+            var newTicketNotification = new TicketNotification();
+            newTicketNotification.Notification = commentor.DisplayName +
+                " has commented on Ticket # " + tComment.TicketID + ".";
+            newTicketNotification.TicketID = tComment.TicketID;
+            newTicketNotification.Created = commentTimeStamp;
+            newTicketNotification.UserID = assignedUserId;
+            db.TicketNotifications.Add(newTicketNotification);
+            //Save Ticket Notification
+            db.SaveChanges();
+            }
+        }
+        public void NewTicketNotification(Projects currentProject, ApplicationUser formSubmitter, DateTimeOffset timeStamp, TicketPost newticket)
+        {
+            //UserRoles Helper
+            var userRolesHelper = new UserRolesHelper(db);
+            var project = db.Projects.Find(currentProject.Id);
+            var allProjectManagers = userRolesHelper.GetAllUsersInRole("Project Manager").ToList();
+            var projectManagersInProject = allProjectManagers.Where(u => u.Projects.Contains(project)).ToList();
+
+            foreach (var item in projectManagersInProject)
+            {
+            var newTicketNotification = new TicketNotification();
+            newTicketNotification.Notification = formSubmitter.DisplayName +
+                " has added a New Ticket(#"+ newticket.Id+ ") on Project(#"+ currentProject.Id + "): " + currentProject.Name +
+                ", Ticket Priority: " + GetPriorityName(newticket.TicketPriorityID);
+            newTicketNotification.TicketID = newticket.Id;
+            newTicketNotification.Created = timeStamp;
+            newTicketNotification.UserID = item.Id;
+            db.TicketNotifications.Add(newTicketNotification);
+            //Save Ticket Notification
+            db.SaveChanges();
+            }
+        }
 
         //
         //History ############################################################
@@ -89,6 +128,8 @@ namespace BugTracker.Helpers
             db.SaveChanges();
 
         }
+
+        //Get Ticket Property Names
         public string GetPriorityName(int Id)
         {
             return db.TicketPriorities.Find(Id).Name;
@@ -101,11 +142,19 @@ namespace BugTracker.Helpers
         {
             return db.TicketTypes.Find(Id).Name;
         }
+
+        //Get User Property Data
         private string GetDisplayName(string userId)
         {
             var DisplayName = db.Users.Where(u => u.Id == userId).FirstOrDefault().DisplayName;
             return DisplayName;
         }
+        public string GetTicketAssignedUserId(int ticketId)
+        {
+            var user = (db.TicketPosts.Find(ticketId).AssignedToUser != null) ? db.TicketPosts.Find(ticketId).AssignedToUser.Id : "Unassigned";
+            return user;
+        }
+
 
     }
 

@@ -1,0 +1,11 @@
+﻿@model IEnumerable<BugTracker.Models.Projects>
+@{
+    ViewBag.Title = "Account Settings";
+}
+
+<div class="white-box">
+    @*@Model.Comments.ToList().OrderByDescending(p => p.Created)*@
+    @*@Html.Partial("_BTListProjects")*@
+    Manage: @Html.ActionLink("Projects","Projects", "Admin").
+    Manage: @Html.ActionLink("Users", "EditUsers", "Admin").
+    </div>

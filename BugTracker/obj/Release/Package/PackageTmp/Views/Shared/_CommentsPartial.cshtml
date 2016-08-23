@@ -1,0 +1,57 @@
+﻿@model IEnumerable<BugTracker.Models.TicketComment>
+
+<div class="col-md-6">
+    <div class="panel panel-info">
+        <div class="panel-heading comment-heading">
+            <div class="pull-left">
+                <strong>Comments</strong>
+                </div>
+                @*Short Description*@
+                <div class="pull-right slim-heading-btns"><a href="#" data-perform="panel-collapse"><i class="ti-minus"></i></a> </div>
+            <div class="clearfix"></div>
+            </div>
+        <div class="panel-wrapper collapse in" aria-expanded="true">
+            <div class="panel-body">
+
+                @foreach (var item in Model)
+                {
+
+                    <div class="comment-wrapper col-xs-12">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div class="row">
+                                    <div class="col-xs-6">
+                                        By:
+                                        <b>@Html.DisplayFor(modelItem => item.User.DisplayName)</b>
+                                    </div>
+                                    <div class="col-xs-6 comment-date">
+                                        @Html.DisplayFor(modelItem => item.Created)
+                                        <div class="pull-right">
+                                            <button aria-expanded="false" data-toggle="dropdown" class="btn btn-default btn-outline dropdown-toggle waves-effect waves-light slim-btn-dropdown" type="button"> <span class="caret"></span></button>
+                                            <ul role="menu" class="dropdown-menu slim-dropdown-ul">
+                                                <li><a href="#">Edit</a></li>
+                                                <li><a href="#">Delete</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br />
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        @Html.DisplayFor(modelItem => item.CommentBody)
+                                    </div>
+                                </div>
+                                <br />
+                            </div>
+                        </div>
+                    </div>
+                    <hr />
+                    @*@Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                        @Html.ActionLink("Details", "Details", new { id = item.Id }), |
+                            @Html.ActionLink("Delete", "Delete", new { id = item.Id })*@
+                }
+
+            </div>
+        </div>
+    </div>
+</div>

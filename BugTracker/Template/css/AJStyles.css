@@ -64,47 +64,42 @@
     white-space: nowrap;
     vertical-align: baseline;
     border-radius: .25em;
-    min
+
 }
-.ticket-Open{
+.ticket-Open, .status-3{
     background-color:skyblue;
 }
-.ticket-InProgress{
+.ticket-InProgress, .status-2{
     background-color:lightgreen;
 }
-.ticket-Pending{
+.ticket-Pending, .status-4{
     background-color:cornflowerblue;
 }
-.ticket-Resolved{
+.ticket-Resolved, .status-1{
     background-color:#000000;
 }
-        /*$('.tk - priority:contains("Critical")').addClass('ticket-label ticket-Critical');
-        $('.tk - priority:contains("Major")').addClass('ticket-label ticket-Major');
-        $('.tk - priority:contains("Minor")').addClass('ticket-label ticket-Minor');
-        $('.tk - priority:contains("Trivial")').addClass('ticket-label ticket-Trivial');
-        $('.tk - priority:contains("Blocker")').addClass('ticket-label ticket-Blocker');*/
-.ticket-Critical{
+.ticket-Critical, .priority-1{
     background-color:red;
 }
-.ticket-Major{
+.ticket-Major, .priority-2{
     background-color:orangered;
 }
-.ticket-Minor{
+.ticket-Minor, .priority-3{
     background-color:darkblue;
 }
-.ticket-Trivial{
+.ticket-Trivial, .priority-4{
     background-color:#a5a4a4;
 }
-.ticket-Blocker{
+.ticket-Blocker, .priority-5{
     background-color:orangered;
 }
-.ticket-Bug{
+.ticket-Bug, .type-1{
     background-color:#069f1b;
 }
-.ticket-Task{
+.ticket-Task, .type-2{
     background-color:#c8a600;
 }
-.ticket-Feature{
+.ticket-Feature, .type-3{
     background-color:#0dff00;
 }
 
@@ -129,3 +124,66 @@
     filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,StartColorStr='#eaeaea', EndColorStr='#cccccc') !important;
     box-shadow: inset 1px 1px 3px #666;
 }
+
+
+/*Comment Partial*/
+.comment-date{
+    text-align:right;
+}
+.comment-wrapper {
+    overflow-wrap:normal;
+    max-height: 275px;
+    overflow-x: hidden;
+    border: lightgray solid 1px;
+    padding: 5px;
+    margin-bottom:2em;
+}
+/*Comment Add Partial*/
+.comment-add-textarea textarea{
+    width:100%;
+    height:100px;
+    border: lightgray solid 1px;
+}
+/*EndComment Add Partial*/
+/*End Comment Partial*/
+
+/*Slim Panel CSS*/
+/*Slim Panel Heading*/
+.slim-heading-btns{
+    top: 5px;
+    position: relative;
+}
+/*Slim Partial Dropdown*/
+.slim-btn-dropdown{
+    padding:2px 5px 2px 5px;
+    border:1px white;
+    margin-left:5px;
+
+}
+.slim-dropdown-ul{
+    min-width:80px;
+    padding:5px 0;
+}
+.slim-dropdown-ul a {
+    padding:0 10px 0 10px !important;
+
+}
+/*END Slim Panel CSS*/
+/*Ticket Attachments*/
+.attachments-wrapper {
+    overflow-wrap:normal;
+    max-height: 275px;
+    overflow-x: hidden;
+    border: lightgray solid 1px;
+    padding: 5px;
+    margin-bottom:2em;
+}
+.attachment-blockquote{
+        border-left: 5px solid #03a9f3 !important;
+}
+/*End Ticket Attachments*/
+/*Start Create Ticket*/
+.create-ticket-reminders blockquote{
+        border-left: 5px solid #03a9f3 !important;
+}
+/*End Create Ticket*/

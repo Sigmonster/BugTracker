@@ -1,27 +1,110 @@
-﻿@model BugTracker.Models.Projects
+﻿@using BugTracker.Models
+@model ProjectDetailsVM
 
 
-<div class="white-box">
-    <div>
-        <h4>Projects</h4>
-        <hr />
-        <dl class="dl-horizontal">
-            <dt>
-                @Html.DisplayNameFor(model => model.Name)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.Name)
-            </dd>
-
-        </dl>
+<div class="col-md-12">
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            <div class="pull-left">
+                <strong>Project: @Model.Project.Name</strong>
+            </div>
+            @*Short Description*@
+            <div class="pull-right slim-heading-btns"><a href="#" data-perform="panel-collapse"><i class="ti-minus"></i></a> </div>
+            <div class="clearfix"></div>
+        </div>
+        <div class="panel-wrapper collapse in" aria-expanded="true">
+            <div class="panel-body">
+                <div class="col-md-12">
+                    <form class="form-horizontal" role="form">
+                        <div class="form-body">
+                            <h3 class="box-title">Proejct Info</h3>
+                            <hr class="m-t-0 m-b-40">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label col-md-3">Project:</label>
+                                        <div class="col-md-9">
+                                            <p class="form-control-static"> @Model.Project.Name </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--/span-->
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label col-md-3">Unassigned:</label>
+                                        <div class="col-md-9">
+                                            <p class="form-control-static">@Model.UnassignedCount</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--/span-->
+                            </div>
+                            <!--/row-->
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label col-md-3">PMs:</label>
+                                        <div class="col-md-9">
+                                            <p class="form-control-static">
+                                                @for(int i = 0; i < Model.ProjectManagers.ToArray().Length ; i++)
+                                                {
+                                                    @Model.ProjectManagers[i].DisplayName
+                                                    if(i != (Model.ProjectManagers.ToArray().Length - 1))
+                                                    {
+                                                        @:,  
+                                                    }
+                                                }
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--/span-->
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label col-md-3">Ticket Count:</label>
+                                        <div class="col-md-9">
+                                            <p class="form-control-static">@Model.TotalTickets</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--/span-->
+                            </div>
+                            <!--/row-->
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label col-md-3">Developers:</label>
+                                        <div class="col-md-9">
+                                            <p class="form-control-static">@Model.DeveloperCount</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--/span-->
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label col-md-3"></label>
+                                        <div class="col-md-9">
+                                            <p class="form-control-static"></p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--/span-->
+                            </div>
+                            <!--/row-->
+                        </div>
+                    </form>
+                </div>
+                <div class="clearfix"></div>
+            </div>  
+        </div>
     </div>
-    <p>
-        @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-        @Html.ActionLink("Back to List", "Index")
-    </p>
-    <a href="@Url.Action("Create", "Ticket", new { projectId = Model.Id })" class="fcbtn btn btn-info btn-outline btn-1d">Create Ticket</a>
 </div>
-
-@Html.Partial("_DisplayTicketsPartial")
+@if (User.IsInRole("Submitter"))
+{
+    @Html.Partial("_CreateTicketPartial", new TicketPost() { ProjectID = Model.Project.Id })
+}
+else
+{
+    @Html.Partial("_DisplayTicketsPartial")
+}
 
