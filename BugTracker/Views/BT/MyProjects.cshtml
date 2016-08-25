@@ -1,15 +1,19 @@
-﻿@model IEnumerable<BugTracker.Models.Projects>
+﻿@using BugTracker.Models
+@model IEnumerable<Projects>
 
 
 @{
     ViewBag.Title = "MyProjects";
+    var DispTicketsVM1 = (DispTicketsVM)ViewData["MyProjectsTicketsList"];
 }
 <div class="col-md-12">
     <div class="panel panel-info">
         <div class="panel-heading">
-            <strong>@ViewBag.Title</strong><br />
-            All projects that I am a member.
-            <div class="pull-right"><a href="#" data-perform="panel-collapse"><i class="ti-minus"></i></a> </div>
+            <div class="pull-left">
+                <strong>@ViewBag.Title</strong><br />
+                All projects that I am a member.
+            </div>
+            <div class="pull-right ticket-box-header-btns"><a href="#" data-perform="panel-collapse"><i class="ti-minus"></i></a> </div>
             <br />
             <br />
         </div>
@@ -73,6 +77,9 @@
         </div>
     </div>
 </div>
+
+
+@Html.Partial("_DisplayTicketsPartial_VM", DispTicketsVM1)
 
 
 

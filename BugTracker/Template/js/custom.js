@@ -234,7 +234,11 @@ $(document).ready(function() {
         }
         e.preventDefault();
     });
-    
+
+$('#sa-success').click(function(){
+        swal("Good job!", "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed lorem erat eleifend ex semper, lobortis purus sed.", "success")
+    });    
+
     // Login and recover password
     $('#to-recover').click(function() {
         $("#loginform").slideUp();
@@ -289,6 +293,39 @@ $(document).ready(function() {
 
 
         });
+         //MultipleTickets Checkbox Select Tables (PM Dashboard)  
+        var table = $('.myDTcheckbox').DataTable({
+            "order": [],//Disable Initial Sort
+            dom: 'Blfrtip',
+            buttons: [
+          {
+              extend: 'collection',
+              buttons: ['columnsToggle']
+          }],
+            'columnDefs': [
+                {
+                 "targets": [0],
+                 'searchable': true,
+                 'orderable':false,
+            }, {
+                 "targets": [1],
+                 'searchable': true,
+                 'orderable':false,
+            }, {
+                "targets": [3],
+                "visible": false,
+
+            }, {
+                "targets": [9],
+                "visible": false,
+            }, {
+                "targets": ["11"],
+                "visible": false,
+            }],
+            "lengthMenu": [10, 25, 50, 75, 100]
+
+
+        });
         
 
         //$('.tk-status:contains("Open")').addClass('ticket-label ticket-Open'); 
@@ -310,6 +347,18 @@ $(document).ready(function() {
         $('.myTablez').DataTable({
             "order": []//Disable Initial Sort
         });
+
+        //Standard DataTable w/ checkboxes
+        $('.myTablez-chkbx').DataTable({
+            "order": [],//Disable Initial Sort
+            'columnDefs': [
+                {
+                    "targets": [0],
+                    'searchable': true,
+                    'orderable':false,
+                },]
+        });
+
 
     });
 //End JQuery DataTables

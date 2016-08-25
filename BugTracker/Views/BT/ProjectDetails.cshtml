@@ -103,7 +103,7 @@
 {
     @Html.Partial("_CreateTicketPartial", new TicketPost() { ProjectID = Model.Project.Id })
 }
-else
+@if(User.IsInRole("Developer") || User.IsInRole("Project Manager") || User.IsInRole("Admin"))
 {
     @Html.Partial("_DisplayTicketsPartial")
 }

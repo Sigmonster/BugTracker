@@ -1,7 +1,7 @@
 ﻿@using BugTracker.Models
 @model AdminUserData
-@{ 
-    var AllUsers = (List<ApplicationUser>) ViewData["AllUsers"];
+@{
+    var AllUsers = (List<ApplicationUser>)ViewData["AllUsers"];
 
 }
 
@@ -9,39 +9,64 @@
     ViewBag.Title = "AdminUsersIndex";
 }
 
-<h2>UsersIndex</h2>
 
-<table>
-    <thead>
-        <tr>
-          <th>
-              First Name
-        </th>
-    </tr>
-</thead>
-<tbody>
-    @foreach (var user in AllUsers)
-    {
-        <tr>
-            <td>@user.FirstName</td>
-            <td>@user.LastName</td>
-            <td>@user.DisplayName</td>
-            <td>@user.Id.ToString()</td>
-            <td>@user.Email</td>
-            <td>
-                <div class="btn-group m-r-10">
-                    <button aria-expanded="false" data-toggle="dropdown" class="btn btn-default btn-outline dropdown-toggle waves-effect waves-light" type="button"> <i class="fa fa-pencil-square m-r-5"></i> <span class="caret"></span></button>
-                    <ul role="menu" class="dropdown-menu">
-                        <li><a href="@Url.Action("EditUserRoles", "Admin", new { id = @user.Id })">Edit Roles</a></li>
-                        <li><a href="#">Another action</a></li>
-                        <li><a href="#">Something else here</a></li>
-                        <li class="divider"></li>
-                        <li><a href="#">Separated link</a></li>
-                    </ul>
+<div class="col-md-12">
+    <div class="panel panel-danger">
+        <div class="panel-heading">
+            <strong>All Users</strong><br />
+            Select a user to edit.
+            <div class="pull-right"><a href="#" data-perform="panel-collapse"><i class="ti-minus"></i></a> </div>
+            <br />
+            <br />
+        </div>
+        <div class="panel-wrapper collapse in" aria-expanded="true">
+            <div class="panel-body">
+                <div class="col-xs-10 center-block">
+                    <div class="table-responsive">
+                        <table class="table table-striped hover compact myTablez">
+                            <thead class="dt-head-right">
+                                <tr>
+                                    <th>First Name</th>
+                                    <th>Last Name</th>
+                                    <th>Display Name</th>
+                                    <th>Email</th>
+                                    <th>Options</th>
+                                </tr>
+                            </thead>
+                            <tbody id="addProjectUserFormBody">
+                                @foreach (var user in AllUsers)
+                                {
+                                    <tr>
+                                        <td>@user.FirstName</td>
+                                        <td>@user.LastName</td>
+                                        <td>@user.DisplayName</td>
+                                        <td>@user.Email</td>
+                                        <td>
+                                            <div class="btn-group m-r-10" style="width:140px;">
+                                                <button aria-expanded="false" data-toggle="dropdown" class="btn btn-default btn-outline dropdown-toggle waves-effect waves-light" type="button"> <i class="fa fa-pencil-square m-r-5"></i> <span class="caret"></span></button>
+                                                <ul role="menu" class="dropdown-menu">
+                                                    <li><a href="@Url.Action("EditUserRoles", "Admin", new { id = @user.Id })">Edit Roles</a></li>
+                                                    <li><a href="#">Something else here</a></li>
+                                                </ul>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-            </td>
-        </tr>
-    }
-</tbody>
-</table>
+            </div>
+            <div class="panel-footer">
+                <div class="row">
+                    <div class="pull-left">
+                        <a href="@Url.Action("Projects", "Admin")" class="fcbtn btn btn-info btn-outline btn-1d">Go to All Projects</a>
+                    </div>
+                    <div class="pull-right">
 
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

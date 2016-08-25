@@ -4,6 +4,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.Owin.Security;
 using System.Web.Mvc;
 using BugTracker.Models;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace BugTracker.Models
 {
@@ -56,6 +57,41 @@ namespace BugTracker.Models
     //################End Projects################
     //
 
+    //
+    //################ Start Project Manager Views ################
+    //PM/Dashboards
+    public class PMDashboardVM
+    {
+        public List<Projects> MyProjects { get; set; }
+        public List<PMTicketProjectsSelectVM> PMVMListForPartials { get; set; }
+    }
+    
+    public class PMTicketProjectsSelectVM
+    {
+        public string ProjectName { get; set; }
+        public int ProjectId { get; set; }
+        public List<PMUsersInProjectVM> PMUsersInProjectVMList { get; set; }
+        public List<PMAssignUsersTicketVM> PMAssignUsersTicketList { get; set; }
+    }
+    //Users in Project
+    public class PMUsersInProjectVM
+    {
+        public int ProjectId { get; set; }
+        public string UserId { get; set; }
+        public string UserDisplayName { get; set; }
+    }
+    //Tickets In Project
+    public class PMAssignUsersTicketVM
+    {
+        public int ProjectId { get; set; }
+        public int TicketId { get; set; }
+        public TicketPost Ticket { get; set; }
+        public bool IsChecked { get; set; }
+    }
+
+    //
+    //################ End Project Manager Views ################
+    //
 
     //################Begin Tickets###############
     //
@@ -81,4 +117,28 @@ namespace BugTracker.Models
     {
 
     }
+
+    //################End Comments###############
+
+    //################Begin Home###############
+    public class MyHomeVM
+    {
+        public ApplicationUser CurrentUser  { get; set; }
+        public int myOwnedTicketsCount      { get; set; }
+        public int myAssignedTicketsCount   { get; set; }
+        public int myNotificationsCount     { get; set; }
+        public int myNotificationsLast24Hrs { get; set; }
+        public int myNotificationsLast72Hrs { get; set; }
+        public int myNotificationsLast7Days { get; set; }
+        public List<Projects> myProjects    { get; set; }
+        public List<string> myRoles { get; set; }
+        public MyHomeProjects MyHomeProjects { get; set; }
+
+    }
+    public class MyHomeProjects
+    {
+        public List<Projects> Projects { get; set; }
+        public List<string> allProjectManagers { get; set; }
+    }
+    //################End Home###############
 }

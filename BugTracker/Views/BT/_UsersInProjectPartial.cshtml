@@ -4,7 +4,7 @@
     var ProjectName = (string)ViewData["ProjectName"];
 }
 <div class="col-md-6">
-    <div class="panel panel-info">
+    <div class="panel panel-inverse">
         <div class="panel-heading">
             <strong>@ProjectName</strong><br />
             Users Not In Project
@@ -13,14 +13,14 @@
             <br />
         </div>
         <div class="panel-wrapper collapse in" aria-expanded="true">
-            <div class="panel-body">
+            <div class="panel-body addrmusers">
                 @using (Html.BeginForm("EditProjectAddUser", "BT", new { Id = CurrentProject }, FormMethod.Post, new { @class = "form-horizontal", role = "form", id = "addProjectUserForm" }))
                 {
                     @Html.AntiForgeryToken()
                     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                     <div class="table-responsive">
 
-                        <table id="myTableadd" class="table table-striped hover compact myDT">
+                        <table id="myTableadd" class="table table-striped hover compact myTablez-chkbx">
 
                             <thead id="addProjectUserFormHead" class="dt-head-right">
                                 <tr>
@@ -50,7 +50,7 @@
 
                             </tbody>
                         </table>
-                        <input type="submit" form="addProjectUserForm" value="Submit" class="btn btn-default" />
+                        <input type="submit" form="addProjectUserForm" value="Add Users" class="fcbtn btn btn-outline btn-success btn-1d" />
                     </div>
                 }
             </div>

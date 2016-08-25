@@ -1,30 +1,87 @@
 ﻿@model BugTracker.Models.AdminUserViewModel
 @{
-    ViewBag.Title = "EditUser";
+    ViewBag.Title = "Edit User Roles & Account Settings";
+    var titleDesc = Model.User.DisplayName + "'s user settings.";
+    var messageSuccess = (string)ViewData["MessageSuccess"];
+    var messageFail = (string)ViewData["MessageFail"];
 }
 
-<h2>Settings</h2>
-
-@using (Html.BeginForm("EditUserRoles", "Admin", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-{
-    @Html.AntiForgeryToken()
-    <hr />
-        @Html.ValidationSummary("", new { @class = "text-danger" })
-        <div class="form-group">
-            @Html.LabelFor(m => m.Roles, new { @class = "col-md-2 control-label" })
-            <div class="col-md-6">
-                @Html.ListBox("SelectedRoles", Model.Roles)
+<div class="col-md-12">
+    <div class="panel panel-danger">
+        <div class="panel-heading">
+            <div class="pull-left">
+                <strong>Edit User Roles</strong>
+            </div>
+            <div class="pull-right slim-heading-btns"><a href="#" data-perform="panel-collapse"><i class="ti-minus"></i></a> </div>
+            <div class="clearfix"></div>
+        </div>
+        <div class="panel-wrapper collapse in" aria-expanded="true">
+            <div class="panel-body">
+                <div class="row">
+                    <h4> @titleDesc</h4>
+                    <h5 class="text-success">@messageSuccess</h5>
+                    <h5 class="text-danger">@messageFail</h5>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        @using (Html.BeginForm("EditUserRoles", "Admin", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            <hr />
+                            @Html.ValidationSummary("", new { @class = "text-danger" })
+                            <div class="form-group">
+                                @Html.LabelFor(m => m.Roles, new { @class = "col-md-2 control-label" })
+                                <div class="col-md-6">
+                                    @Html.ListBox("SelectedRoles", Model.Roles)
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(m => m.SelectedRoles, new { @class = "col-md-2 control-label" })
+                                <div class="col-md-6">
+                                    @Html.EditorFor(m => m.SelectedRoles, new { @class = "form-control" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-offset-2 col-md-10">
+                                    <input type="submit" value="Save" class="btn btn-default" />
+                                </div>
+                            </div>
+                        }
+                    </div>
+                    <div class="col-md-6">
+                        @using (Html.BeginForm("EditUserAccount", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            <hr />
+                            @Html.HiddenFor(m=>m.User.Id)
+                            @Html.ValidationSummary("", new { @class = "text-danger" })
+                            <div class="form-group">
+                                <label class = "col-md-3 control-label" > First Name</label>
+                                <div class="col-md-6">
+                                    @Html.EditorFor(m => m.User.FirstName, new { @class = "form-control" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label"> Last Name</label>
+                                <div class="col-md-6">
+                                    @Html.EditorFor(m => m.User.LastName, new { @class = "form-control" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label"> Display Name</label>
+                                <div class="col-md-6">
+                                    @Html.EditorFor(m => m.User.DisplayName, new { @class = "form-control" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-offset-2 col-md-10">
+                                    <input type="submit" value="Save" class="btn btn-default" />
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="form-group">
-            @Html.LabelFor(m => m.SelectedRoles, new { @class = "col-md-2 control-label" })
-            <div class="col-md-6">
-                @Html.EditorFor(m => m.SelectedRoles, new { @class = "form-control" })
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
-            </div>
-        </div>
-}
+    </div>
+</div>

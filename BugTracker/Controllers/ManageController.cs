@@ -257,6 +257,39 @@ namespace BugTracker.Controllers
             }
             return RedirectToAction("Index", new { Message = ManageMessageId.EditAccountSuccess });
         }
+
+        //Edit User Account
+        //POST: Admin/EditUserAccount
+        [HttpPost]
+        [Authorize]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
+        public async Task<ActionResult> EditUserAccount(AdminUserViewModel model)
+        {
+            var editedUser = model.User;
+            var user = UserManager.FindById(editedUser.Id);
+
+            if (User.IsInRole("DemoAcc)"))
+            {
+                return RedirectToAction("EditUserRoles", "Admin", new { Id = user.Id });
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return RedirectToAction("EditUserRoles", "Admin", new { Id = user.Id });
+            }
+
+            user.FirstName = editedUser.FirstName;
+            user.LastName = editedUser.LastName;
+            user.DisplayName = editedUser.DisplayName;
+            var result = await UserManager.UpdateAsync(user);
+
+            if (result != null)
+            {
+                
+            }
+            return RedirectToAction("EditUserRoles", "Admin", new { Id = user.Id });
+        }
         //
         // GET: /Manage/ChangePassword
         [ValidateAntiForgeryToken]

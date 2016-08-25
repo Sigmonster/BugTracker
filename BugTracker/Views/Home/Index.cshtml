@@ -1,8 +1,150 @@
 ﻿@using BugTracker.Models
+@model MyHomeVM
 
 @{
     ViewBag.Title = "My Home";
 }
+<div class="row">
+    <div class="col-md-4 col-lg-4 col-xs-12">
+        <div class="col-xs-12">
+            <div class="white-box">
+                <div class="user-bg">
+                    <img src="~/Template/plugins/images/large/img1.jpg" alt="user" style="100%">
+                    <div class="overlay-box">
+                        <div class="user-content">
+                            <a href="javascript:void(0)"><img alt="img" class="thumb-lg img-circle" src="~/Template/img/blank-profile-picture.svg"></a>
+                            <h4 class="text-white">@Model.CurrentUser.DisplayName</h4>
+                            <h5 class="text-white">@Model.CurrentUser.Email</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-<h1>Display User Specific Information Here.</h1>
+        <div class="col-xs-12 p-b-5">
+            <div class="white-box">
+                <h3 class="box-title"><small class="pull-right m-t-10 text-success"><a href="@Url.Action("MyNotifications", "BT")">See all.</a></small> Notifications</h3>
+                <div class="stats-row">
+                    <div class="stat-item">
+                        <h6>< 24hrs</h6>
+                        <b>@Model.myNotificationsLast24Hrs</b>
+                    </div>
+                    <div class="stat-item">
+                        <h6>< 72hrs</h6>
+                        <b>@Model.myNotificationsLast72Hrs</b>
+                    </div>
+                    <div class="stat-item">
+                        <h6>< 7days</h6>
+                        <b>@Model.myNotificationsLast7Days</b>
+                    </div>
+                </div>
+                <h6>All Notifications: @Model.myNotificationsCount</h6>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 col-lg-4 col-xs-12">
+        <div class="white-box white-box-lg">
+            <h3 class="box-title">User Information</h3>
+            <br />
+            <ul class="basic-list user-list-1">
+                <li>Active Owned Tickets<span class="pull-right label-danger label"> @Model.myOwnedTicketsCount </span></li>
+                <li>Active Assigned Tickets <span class="pull-right label-warning label">@Model.myAssignedTicketsCount</span></li>
+                <li>Assigned Projects <span class="pull-right label-success label">@Model.myProjects.Count()</span></li>
+                <li>Assigned Roles <span class="pull-right label-info label">@Model.myRoles.Count()</span></li>
+            </ul>
+            <br />
+            <p class="text-muted"> If you need access to a Project, or Role, pleace work with your Project Manager.</p>
+        </div>
+    </div>
 
+    <div class="col-md-4 col-sm-12 col-xs-12 p-b-5">
+        <div class="white-box white-box-lg">
+            <h3 class="box-title"><small class="pull-right m-t-10 text-success"><a href="@Url.Action("MyProjects", "BT")">See all.</a></small>My Projects</h3>
+            <div class="stats-row">
+                <ul class="basic-list user-list-1">
+                    @for (var i = 0; i < Model.MyHomeProjects.Projects.ToArray().Length; i++)
+                    {
+                        var projarry = Model.MyHomeProjects.Projects.ToArray();
+                        var pmarray = Model.MyHomeProjects.allProjectManagers.ToArray();
+                        <li>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <h4> @projarry[i].Name </h4>
+                                </div>
+                                <div class="col-md-12">
+                                    <b>Project Managers: </b>@pmarray[i].ToString()
+                                </div>
+                            </div>
+                        </li>
+                    }
+                </ul>
+
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-4 col-lg-4 col-xs-12">
+
+        <div class="panel panel-success">
+            <div class="panel-heading">
+                My Roles
+                <div class="pull-right"><a href="#" data-perform="panel-collapse"><i class="ti-minus"></i></a> <a href="#" data-perform="panel-dismiss"><i class="ti-close"></i></a> </div>
+            </div>
+            <div class="panel-wrapper collapse in" aria-expanded="true">
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="">
+                            <h3 class="box-title">Assigned Roles</h3>
+                            <ul class="list-icons">
+                                @{
+                                    foreach (var item in Model.myRoles.OrderBy(a => a))
+                                    {
+                                        <li><i class="fa fa-caret-right text-info"></i>@item</li>
+                                    }
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-8">
+        <div class="panel panel-success">
+            <div class="panel-heading">
+                    User Information
+                @*Short Description*@
+                <div class="pull-right"><a href="#" data-perform="panel-collapse"><i class="ti-minus"></i></a> <a href="#" data-perform="panel-dismiss"><i class="ti-close"></i></a> </div>
+            </div>
+            <div class="panel-wrapper collapse in" aria-expanded="true">
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="row">
+                                <div class="col-xs-12 col-md-12">
+                                    <div class="col-xs-4">
+                                        <h4>First Name:</h4>
+                                        <h4>Last Name:</h4>
+                                        <h4>Display Name:</h4>
+                                        <h4>Email:</h4>
+                                    </div>
+                                    <div class="col-xs-8">
+                                        <h4>@Model.CurrentUser.FirstName</h4>
+                                        <h4>@Model.CurrentUser.LastName</h4>
+                                        <h4>@Model.CurrentUser.DisplayName</h4>
+                                        <h4>@Model.CurrentUser.Email</h4>
+                                    </div>
+                                </div>                           
+                            </div>
+                        </div>
+                        <div class="col-xs-4">
+                            <a href="@Url.Action("Index","Manage")"><i class="ti-settings"></i> Account Settings</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    

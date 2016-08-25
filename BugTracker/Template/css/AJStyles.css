@@ -10,6 +10,11 @@
 .panel-heading strong{
     font-size: 20px;
 }
+.addrmusers{
+    min-height:495px;
+    max-height:800px;
+    overflow-y:auto;
+}
 /*DataTable Project Users*/
 .epu-tbl-row:hover{
     background-color: #a5eeff;
@@ -99,7 +104,7 @@
 .ticket-Task, .type-2{
     background-color:#c8a600;
 }
-.ticket-Feature, .type-3{
+.ticket-Feature, .type-5{
     background-color:#0dff00;
 }
 
@@ -187,3 +192,22 @@
         border-left: 5px solid #03a9f3 !important;
 }
 /*End Create Ticket*/
+/*Start User Landing Page - /Home/Index */
+.user-bg .overlay-box {
+    background:#00c292;
+
+}
+.user-list-1 li:last-child{
+    border-bottom: 1px solid rgba(120, 130, 140, 0.13);
+}
+.white-box-lg {
+    height: 432px;
+    overflow-y:auto;
+}
+/*END User Landing Page - /Home/Index */
+
+/*START PM Dashboard*/
+.pmProjAnchor:hover {
+    color:aqua !important;
+}
+/*END PM Dashboard*/

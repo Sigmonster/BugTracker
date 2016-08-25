@@ -8,7 +8,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <link rel="icon" type="image/png" sizes="16x16" href="~/Template/plugins/images/favicon.png">
-    <title>Elite Admin - is a responsive admin template</title>
+    <title>BugTracker - Visibility is the key.</title>
     <!-- Bootstrap Core CSS -->
     <link href="~/Template/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     @*<link href="~/Template/plugins/bower_components/datatables/jquery.dataTables.min.css" rel="stylesheet" type="text/css" />Orgin*@
@@ -23,6 +23,7 @@
     <link href="~/Template/css/style.css" rel="stylesheet">
     <!-- color CSS you can use different color css from css/colors folder -->
     <link href="~/Template/css/colors/blue.css" id="theme" rel="stylesheet">
+    <link href="~/Template/plugins/bower_components/toast-master/css/jquery.toast.css" rel="stylesheet" />
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <link href="~/Template/css/AJStyles.css" rel="stylesheet" />
@@ -164,7 +165,7 @@
                             <li><a href="javascript:void(0)"><i class="ti-email"></i> Inbox</a></li>
                             <li><a href="javascript:void(0)"><i class="ti-email"></i> Notification Inbox</a></li>
                             <li role="separator" class="divider"></li>
-                            <li><a href="@Url.Action("Index","Manage")"><i class="ti-settings"></i> Account Setting</a></li>
+                            <li><a href="@Url.Action("Index","Manage")"><i class="ti-settings"></i> Account Settings</a></li>
                             @if (User.IsInRole("Admin"))
                             {
                                 <li><a href="@Url.Action("Dashboard", "Admin")"><i class="ti-settings"></i> Admin</a></li>
@@ -248,7 +249,7 @@
                        {
                         <a href="index.html" class="waves-effect"><i class="linea-icon linea-basic fa-fw" data-icon="E"></i> <span class="hide-menu"> Project Manager<span class="fa arrow"></span> <span class="label label-rouded label-custom pull-right">4</span></span></a>
                         <ul class="nav nav-second-level">
-                            <li> <a href="@Url.Action("Index","Home")"><i class="ti-home"></i> Project Manager Home</a> </li>
+                            <li> <a href="/BT/PMDashBoard"><i class="ti-home"></i> PM Dashboard</a> </li>
                             <li> <a href="@Url.Action("-","BT")"> Manage Projects</a> </li>
                             <li> <a href="@Url.Action("-","BT")"> Manage Projects Tickets</a> </li>
                             <li> <a href="@Url.Action("GlobalTickets", "BT")"> Global Tickets</a> </li>
@@ -425,7 +426,6 @@
                                 <li><a href="javascript:void(0)" theme="purple" class="purple-theme">5</a></li>
                                 <li><a href="javascript:void(0)" theme="megna" class="megna-theme">6</a></li>
                                 <li><b>With Dark sidebar</b></li>
-                                <br />
                                 <li><a href="javascript:void(0)" theme="default-dark" class="default-dark-theme">7</a></li>
                                 <li><a href="javascript:void(0)" theme="green-dark" class="green-dark-theme">8</a></li>
                                 <li><a href="javascript:void(0)" theme="gray-dark" class="yellow-dark-theme">9</a></li>
@@ -477,6 +477,8 @@
     <script src="~/TemplateHelper/DataTables-1.10.12/media/js/jquery.dataTables.js"></script>
     <script src="~/TemplateHelper/DataTables-1.10.12/extensions/Buttons/js/dataTables.buttons.js"></script>
     <script src="~/TemplateHelper/DataTables-1.10.12/extensions/Buttons/js/buttons.colVis.min.js"></script>
+    <script src="~/Template/plugins/bower_components/toast-master/js/jquery.toast.js"></script>
+
     @RenderSection("scripts", required: false) 
     @*<script>
     $(document).ready(function(){

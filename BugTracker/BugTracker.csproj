@@ -3511,7 +3511,7 @@
     <Content Include="Views\BT\Err403.cshtml" />
     <Content Include="Views\BT\ProjectDetails.cshtml" />
     <Content Include="Views\Shared\_DisplayTicketsPartial.cshtml" />
-    <Content Include="Views\Shared\_DisplayTicketsPartial_VM.cshtml" />
+    <Content Include="Views\Shared\_DisplayTicketsSelectUsersPartial_VM.cshtml" />
     <Content Include="Views\BT\MyTickets.cshtml" />
     <Content Include="Views\BT\Ticket.cshtml" />
     <Content Include="Views\Error\FP403Error.cshtml" />
@@ -3554,6 +3554,9 @@
     <Content Include="Views\Shared\_CommentAddPartial.cshtml" />
     <Content Include="Views\Shared\_TicketAttachmentPartial.cshtml" />
     <Content Include="Views\BT\_CreateTicketPartial.cshtml" />
+    <Content Include="Views\BT\PMDashboard.cshtml" />
+    <Content Include="Views\Shared\_PMMyProjectTickets.cshtml" />
+    <Content Include="Views\Shared\_DisplayTicketsPartial_VM.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -15,6 +15,7 @@ namespace BugTracker.Models
         }
         public int Id { get; set; }
         public string Name { get; set; }
+        public bool Active { get; set; }
         //Holds Lists of Associated records
         public virtual ICollection<TicketPost> Tickets { get; set; }
         public virtual ICollection<ApplicationUser> Users { get; set; }

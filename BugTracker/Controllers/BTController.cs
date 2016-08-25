@@ -25,6 +25,7 @@ namespace BugTracker.Controllers
         //BT Projects Start Section
         //List the logged in User's Assigned Projects
         // GET: BT/MyProjects
+        [Authorize(Roles = "Developer, Project Manager")]
         public ActionResult MyProjects()
         {
             var user = db.Users.Find(User.Identity.GetUserId());
@@ -34,12 +35,21 @@ namespace BugTracker.Controllers
                 string errcode = "Access Denied, MyProjects, No Projects. User:" + user.UserName.ToString();
                 return RedirectToAction("Err403", "BT", new { errcode = errcode });
             }
-            
+
+            //Passing list of all tickets only for projects that the user is assigned.
+            var AllProjectsTickets = myProjects.SelectMany(p => p.Tickets).ToList();
+            var DispTicketsVM1 = new DispTicketsVM();
+            DispTicketsVM1.TicketList = AllProjectsTickets;
+            DispTicketsVM1.TitleDesc = "All Tickets from your Projects only.";
+            ViewData["MyProjectsTicketsList"] = DispTicketsVM1;
+
+
             return View(myProjects);
         }
         //
         //Includes Projects Info & Tickets
         // GET: BT/ProjectDetails/5
+        [Authorize]
         public async Task<ActionResult> ProjectDetails(int? id)
         {
             if (id == null)
@@ -54,8 +64,8 @@ namespace BugTracker.Controllers
             //UserRoles Helper
             var userRolesHelper = new UserRolesHelper(db);
 
-            var pTickets= new DispTicketsVM();
-            pTickets.TicketList = projects.Tickets.ToList();
+            
+            ViewBag.TicketDisplayDescription = "All Tickets for Project: " + projects.Name;
             ViewData["TicketsCollection"] = projects.Tickets.ToList();
 
             //Get users in roles for project details data
@@ -85,6 +95,7 @@ namespace BugTracker.Controllers
         //##########################################################################
         //BT Tickets Start Section
         //GET: BT/MyTickets
+        [Authorize(Roles = "Developer, Submitter")]
         public ActionResult MyTickets()
         {
             var user = db.Users.Find(User.Identity.GetUserId());//Get User's Identity
@@ -107,12 +118,14 @@ namespace BugTracker.Controllers
         //
         //Ticket Details
         //GET: BT/Ticket
+        [Authorize]
         public ActionResult Ticket(int Id)
         {
             //UserRoles Helper
             var userRolesHelper = new UserRolesHelper(db);
             //Get Ticket & Instantiate Model
             var ticket = db.TicketPosts.Find(Id);
+            var currentUser = db.Users.Find(User.Identity.GetUserId());
             var TicketPost = new TicketPost();
             TicketPost = ticket;
             //Set Dropdowns for edit tab.
@@ -138,8 +151,19 @@ namespace BugTracker.Controllers
 
             //For Attachment Partial - May not need.
             ViewData["currentTicket"] = (TicketPost)ticket;
-
-            return View(TicketPost);
+            if (User.IsInRole("Admin") || User.IsInRole("Project Manager"))
+            {
+                return View(TicketPost);
+            }
+            if (ticket.Project.Users.Contains(currentUser))
+            {
+                return View(TicketPost);
+            }
+            else
+            {
+                ViewData["ErrorCode"] = User.Identity.Name + " Permission not granted, ViewTicket, Ticket:" + ticket.Id;
+                return RedirectToAction("Err403", "BT");
+            }
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -155,14 +179,25 @@ namespace BugTracker.Controllers
 
             //####Start Access Control Section####
             var allowed = false;//Controls Access
-
-            if (User.IsInRole("Submitter") && currentProject.Users.Contains(formSubmitter))
+            if (User.IsInRole("Admin"))
             {
                 allowed = true;
             }
+            else if (User.IsInRole("Project Manager") && currentProject.Users.Contains(formSubmitter))
+            {
+                allowed = true;
+            }
+            else if (User.IsInRole("Submitter") && currentProject.Users.Contains(formSubmitter))
+            {
+                allowed = true;
+            }
+            if (User.IsInRole("DemoAcc"))
+            {
+                allowed = false;
+            }
             //####End Access Control Section####
 
-            if(ModelState.IsValid && allowed == true)
+            if (ModelState.IsValid && allowed == true)
             {
                 newticket.OwnerUserID = formSubmitter.Id;
                 newticket.TicketStatusID = 3;
@@ -226,6 +261,10 @@ namespace BugTracker.Controllers
                 else if (User.IsInRole("Submitter") && currentTicket.OwnerUser == ticketEditor)
                 {
                     allowed = true;
+                }
+                if (User.IsInRole("DemoAcc"))
+                {
+                    allowed = false;
                 }
                 //####End Access Control Section####
 
@@ -353,6 +392,10 @@ namespace BugTracker.Controllers
             {
                 allowed = true;
             }
+            if (User.IsInRole("DemoAcc"))
+            {
+                allowed = false;
+            }
             //####End Access Control Section####
 
             if (file != null && file.ContentLength > 0 && file.ContentLength < 3000)
@@ -416,10 +459,42 @@ namespace BugTracker.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult AddComment(TicketComment comment)
         {
-            if (ModelState.IsValid && comment.CommentBody != null)
+            var commentor = db.Users.Find(User.Identity.GetUserId());
+            var timeStamp = DateTimeOffset.UtcNow;
+            var currentTicket = db.TicketPosts.Find(comment.TicketID);
+            var formSubmitter = db.Users.Find(User.Identity.GetUserId());//User that submitted form
+
+
+            //####Start Access Control Section####
+            var allowed = false;//Controls Access
+            if (User.IsInRole("Admin"))
             {
-                var commentor = db.Users.Find(User.Identity.GetUserId());
-                var timeStamp = DateTimeOffset.UtcNow;
+                allowed = true;
+            }
+            else if (User.IsInRole("Project Manager") && currentTicket.Project.Users.Contains(formSubmitter))
+            {
+                allowed = true;
+            }
+            else if (User.IsInRole("Developer") && currentTicket.AssignedToUser != null)
+            {
+                if (currentTicket.AssignedToUser == formSubmitter)
+                {
+                    allowed = true;
+                }
+
+            }
+            else if (User.IsInRole("Submitter") && currentTicket.OwnerUser == formSubmitter)
+            {
+                allowed = true;
+            }
+            if (User.IsInRole("DemoAcc"))
+            {
+                allowed = false;
+            }
+
+            //####End Access Control Section####
+            if (ModelState.IsValid && comment.CommentBody != null && allowed == true)
+            {              
                 //HelperMethod for Histories/Notifications
                 var ticketCustomHelper = new TicketCustomHelper();
                 
@@ -444,12 +519,9 @@ namespace BugTracker.Controllers
         //#########################################################################
         //START PROJECT MANAGER SECTION
         // GET: BT/GlobalTickets
+        [Authorize(Roles ="Admin, Project Manager")]
         public ActionResult GlobalTickets()
         {
-            if(User.IsInRole("Registered User"))
-            {
-                return RedirectToAction("FP403Error", "Error");
-            }
             //Get All Tickets, Sorted by Created Date
                 var allTicketsList = db.TicketPosts.ToList().OrderByDescending(m => m.Created).ToList();
                 var DispTicketsVM_All = new DispTicketsVM();
@@ -463,6 +535,7 @@ namespace BugTracker.Controllers
         //
         //
         //GET : BT/EditProjects()
+        [Authorize(Roles = "Admin, Project Manager")]
         public ActionResult EditProjectUsers(int id)
         {
             var EPBigVM = new EPBigVM();
@@ -495,12 +568,21 @@ namespace BugTracker.Controllers
             ViewBag.Title = ViewData["ProjectName"] = EPBigVM.Project.Name;
             ViewData["CurrentProject"] = id;
             return View(EPBigVM);
+
         }
+        
+        
         //Add users to project
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin, Project Manager")]
         public ActionResult EditProjectAddUser(EPSelectedListVM model, int Id)
         {
+            if (User.IsInRole("DemoAcc"))
+            {
+                return RedirectToAction("EditProjectUsers", "BT", new { id = Id });
+            }
+
             if (!ModelState.IsValid)
             {
                 return RedirectToAction("EditProjectUsers", "BT", new { id = Id });
@@ -524,8 +606,13 @@ namespace BugTracker.Controllers
         //Remove users from Project
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin, Project Manager")]
         public ActionResult EditProjectRMUser(EPRMSelectedListVM model, int Id)
         {
+            if (User.IsInRole("DemoAcc"))
+            {
+                return RedirectToAction("EditProjectUsers", "BT", new { id = Id });
+            }
             if (!ModelState.IsValid)
             {
                 return RedirectToAction("EditProjectUsers", "BT", new { id = Id });
@@ -543,9 +630,129 @@ namespace BugTracker.Controllers
             db.SaveChanges();
             return RedirectToAction("EditProjectUsers", "BT", new { id = Id });
         }
+
+
+        [Authorize(Roles ="Project Manager")]
+        public ActionResult PMDashboard()
+        {
+            //HelperMethod for Histories/Notifications
+            var ticketCustomHelper = new TicketCustomHelper();
+            //UserRoles Helper
+            var userRolesHelper = new UserRolesHelper(db);
+
+            var currentUser = db.Users.Find(User.Identity.GetUserId());
+            var userProjects = currentUser.Projects.ToList();
+            var AllProjectsTickets = userProjects.SelectMany(p=>p.Tickets).ToList();
+            
+            //Passes All Tickets for all projects to partial view
+            var DispTicketsVM1 = new DispTicketsVM();
+            DispTicketsVM1.TicketList = AllProjectsTickets;
+            DispTicketsVM1.TitleDesc = "All Tickets from your Projects only.";
+            ViewData["MyProjectsTicketsList"] = DispTicketsVM1;
+
+            //List Tickets for Each Project and allow bulk assignment
+            var allDevelopers = userRolesHelper.GetAllUsersInRole("Developer").OrderBy(u => u.DisplayName);
+
+
+            //Instantiate Big View Model (for encapsulating other VMs)
+            var PMDashboardVM = new PMDashboardVM();
+            PMDashboardVM.PMVMListForPartials = new List<PMTicketProjectsSelectVM>();
+            PMDashboardVM.MyProjects = userProjects;
+
+            var projectsArr = userProjects.ToArray();
+            for (var i = 0; i < projectsArr.Length; i++)
+            {
+                //Instantiate New VM for each Project's Developers(select list) & UnAssigned Tickets(table/checkboxes)
+                var PMTicketProjectsSelectVM = new PMTicketProjectsSelectVM();
+                PMTicketProjectsSelectVM.PMUsersInProjectVMList = new List<PMUsersInProjectVM>();
+                PMTicketProjectsSelectVM.PMAssignUsersTicketList = new List<PMAssignUsersTicketVM>();
+                //Get Developers & Unassigned Tickets
+                var developersInProject = allDevelopers.Where(u => u.Projects.Contains(projectsArr[i])).ToArray();
+                var ticketsInProject = projectsArr[i].Tickets.Where(x=>x.AssignedToUser == null).ToArray();
+
+                //Build Developer User List
+                for (var x = 0; x < developersInProject.Length; x++)
+                {   
+                    PMTicketProjectsSelectVM.PMUsersInProjectVMList.Add(new PMUsersInProjectVM() { ProjectId = projectsArr[i].Id,  UserDisplayName = developersInProject[x].DisplayName, UserId = developersInProject[x].Id});
+                }
+                //Build Unassigned Ticket List w/ checkbox values            
+                for (var x = 0; x < ticketsInProject.Length; x++)
+                {
+                    PMTicketProjectsSelectVM.PMAssignUsersTicketList.Add(new PMAssignUsersTicketVM() { ProjectId = projectsArr[i].Id, TicketId = ticketsInProject[x].Id, Ticket = ticketsInProject[x], IsChecked = false });
+                }
+                //Adds Developers & Tickets as one List Item
+                PMTicketProjectsSelectVM.ProjectId = projectsArr[i].Id;
+                PMTicketProjectsSelectVM.ProjectName = projectsArr[i].Name;
+                PMDashboardVM.PMVMListForPartials.Add(PMTicketProjectsSelectVM);
+            }
+            var VMList = PMDashboardVM.PMVMListForPartials;
+            ViewData["ViewModelList"] = (List<PMTicketProjectsSelectVM>)VMList;
+
+            return View(PMDashboardVM);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Project Manager")]
+        public ActionResult BulkAssign(int Id, List<PMAssignUsersTicketVM> model, string selector1)
+        {
+            //HelperMethod for Histories/Notifications
+            var ticketCustomHelper = new TicketCustomHelper();
+
+            var selectedTickets = model.Where(m => m.IsChecked == true);
+            var project = db.Projects.Find(Id);
+            var currentUser = db.Users.Find(User.Identity.GetUserId());
+            var selectedUser = db.Users.Find(selector1);
+            var timeStamp = DateTimeOffset.UtcNow;
+
+            if (User.IsInRole("DemoAcc") || selectedTickets == null || currentUser == null)
+            {
+                return RedirectToAction("PMDashboard", "BT");
+            }
+
+            if (project.Users.Contains(currentUser))
+            {
+                foreach (var item in selectedTickets)
+                {
+                    var currentTicket = db.TicketPosts.FirstOrDefault(t=>t.Id == item.TicketId);
+                    var editedTicket = db.TicketPosts.AsNoTracking().FirstOrDefault(t => t.Id == item.TicketId);
+                    editedTicket.AssignedToUserID = selectedUser.Id;
+
+                    //Create Ticket Assignment History, Create Ticket Assignment Notifications
+                    ticketCustomHelper.AssignmentHistory(currentTicket, editedTicket, timeStamp, currentUser, "Assignment");//History
+                    ticketCustomHelper.AssignmentNotification(currentTicket, editedTicket, timeStamp, currentUser);//Notification
+                    
+                    //Set ticket property changes/updates
+                    db.TicketPosts.Attach(currentTicket);
+                    currentTicket.AssignedToUserID = selectedUser.Id;
+                    currentTicket.UpdatedByUserID = currentUser.Id;
+                    currentTicket.Updated = timeStamp;
+                    db.SaveChanges();
+                }
+            }
+
+            return RedirectToAction("PMDashboard", "BT");
+        }
+
         //
         //
         //END PROJECT MANAGER SECTION
+        //#########################################################################
+
+            //#########################################################################
+            //START NOTIFICATIONS SECTION
+            // GET: BT/MyNotifications
+        public ActionResult MyNotifications()
+        {
+            
+            
+            return View();
+        }
+
+
+
+        //
+        //
+        //END NOTIFICATIONS SECTION
         //#########################################################################
 
         //#########################################################################
