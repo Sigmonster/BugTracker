@@ -43,7 +43,7 @@
                             </div>
                             <div class="form-group">
                                 <div class="col-md-offset-2 col-md-10">
-                                    <input type="submit" value="Save" class="btn btn-default" />
+                                    <input type="submit" value="Save" class="fcbtn btn btn-outline btn-success btn-1d" />
                                 </div>
                             </div>
                         }
@@ -53,29 +53,35 @@
                         {
                             @Html.AntiForgeryToken()
                             <hr />
-                            @Html.HiddenFor(m=>m.User.Id)
+                            <input id="UserId" name="UserId" type="hidden" value="@Model.User.Id">
                             @Html.ValidationSummary("", new { @class = "text-danger" })
                             <div class="form-group">
                                 <label class = "col-md-3 control-label" > First Name</label>
                                 <div class="col-md-6">
-                                    @Html.EditorFor(m => m.User.FirstName, new { @class = "form-control" })
+                                    <input class="text-box single-line" data-val="true" data-val-length="The First Name must be at least 2 characters long." data-val-length-max="20" data-val-length-min="2" data-val-required="The First Name field is required." id="UserFirstName" name="UserFirstName" type="text" value="@Model.User.FirstName">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-md-3 control-label"> Last Name</label>
                                 <div class="col-md-6">
-                                    @Html.EditorFor(m => m.User.LastName, new { @class = "form-control" })
+                                    <input class="text-box single-line" data-val="true" data-val-length="The Last Name must be at least 2 characters long." data-val-length-max="20" data-val-length-min="2" data-val-required="The Last Name field is required." id="UserLastName" name="UserLastName" type="text" value="@Model.User.FirstName">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-md-3 control-label"> Display Name</label>
                                 <div class="col-md-6">
-                                    @Html.EditorFor(m => m.User.DisplayName, new { @class = "form-control" })
+                                    <input class="text-box single-line" data-val="true" data-val-length="The Display Name must be at least 4 characters long." data-val-length-max="40" data-val-length-min="4" data-val-required="The Display Name field is required." id="UserDisplayName" name="UserDisplayName" type="text" value="@Model.User.DisplayName">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label"> Phone Number</label>
+                                <div class="col-md-6">
+                                    <input class="text-box single-line" id="PhoneNumber" name="PhoneNumber" type="text" value="@Model.User.PhoneNumber">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <div class="col-md-offset-2 col-md-10">
-                                    <input type="submit" value="Save" class="btn btn-default" />
+                                    <input type="submit" value="Save" class="fcbtn btn btn-outline btn-success btn-1d" />
                                 </div>
                             </div>
                         }

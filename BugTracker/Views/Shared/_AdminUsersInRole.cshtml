@@ -1,0 +1,42 @@
+﻿@using BugTracker.Models
+@model AdminUsersVM
+
+<div class="col-md-10 center-block">
+    <div class="panel panel-inverse">
+        <div class="panel-heading">
+            <div class="pull-left">
+                <strong>@Model.Title</strong><br />
+            </div>
+            <div class="pull-right ticket-box-header-btns"><a href="#" data-perform="panel-collapse"><i class="ti-plus" style="position: relative; bottom: 8px;"></i></a> </div>
+            <br />
+        </div>
+        <div class="panel-wrapper collapse" aria-expanded="false">
+            <div class="panel-body">
+                <div class="table-responsive">
+                    <table class="table table-striped compact myTablez">
+                        <thead>
+                            <tr class="ticket-tbl-row">
+                                <th>DisplayName</th>
+                                <th>Email</th>
+                                <th>Options</th>
+                            </tr>
+                        </thead>
+                        <tbody class="disp-tick-tbody display" cellspacing="0" width="100%">
+                            @foreach (var item in Model.Users)
+                            {
+                                <tr>
+                                    <td>@item.DisplayName</td>
+                                    <td>@item.Email</td>
+                                    <td> 
+                                        <a href="@Url.Action("EditUserRoles", "Admin", new { id = @item.Id })" class="fcbtn btn btn-info btn-outline btn-1d">Edit</a>
+                                    </td>
+                                </tr>
+
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

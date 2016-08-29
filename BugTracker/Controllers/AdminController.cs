@@ -21,9 +21,89 @@ namespace BugTracker.App_Start
         [Authorize(Roles = "Admin")]
         public ActionResult Dashboard()
         {
-            //var comboAdminModel = new AdminIndexViewModel();
-            //comboAdminModel.AllProjects = db.Project.ToList();
-            //comboAdminModel.AllTickets = db.Post.ToList();
+            //UserRoles Helper
+            var userRolesHelper = new UserRolesHelper(db);
+
+            //Get Users
+            var allSubmitters = userRolesHelper.GetAllUsersInRole("Submitter").OrderBy(u => u.DisplayName).ToList();
+            var allDevelopers = userRolesHelper.GetAllUsersInRole("Developer").OrderBy(u => u.DisplayName).ToList();
+            var allAdmins = userRolesHelper.GetAllUsersInRole("Admin").OrderBy(u => u.DisplayName).ToList();
+            var allProjectManagers = userRolesHelper.GetAllUsersInRole("Project Manager").OrderBy(u => u.DisplayName).ToList();
+            var allUsers = db.Users.OrderBy(u => u.DisplayName).ToList();
+
+            //Get Tickets
+            var allTickets = db.TicketPosts.OrderByDescending(t => t.Created).ToList();
+            var criticalTickets = allTickets.Where(t => t.TicketPriority.Name == "Critical");
+            var majorTickets = allTickets.Where(t => t.TicketPriority.Name == "Major");
+            var minorTickets = allTickets.Where(t => t.TicketPriority.Name == "Minor");
+            var trivialTickets = allTickets.Where(t => t.TicketPriority.Name == "Trivial");
+            var blockerTickets = allTickets.Where(t => t.TicketPriority.Name == "Blocker");
+
+            //### Home Tab Start ###
+            ViewBag.TotalTickets = allTickets.Count();
+            ViewBag.TotalProjects = db.Projects.Count();
+            ViewBag.TotalUsers = allUsers.Count();
+            ViewBag.TotalRoles = db.Roles.Count();
+            ViewData["allProjectManagers"] = allProjectManagers;
+            ViewData["allAdmins"] = allAdmins;
+            //### Home Tab End ###
+
+            //### User Tab Start ###
+            //Instantiate View Models
+            var AdminUsersVMList = new List<AdminUsersVM>();
+            var AllUsersVM = new AdminUsersVM();
+            var AllAdminsVM = new AdminUsersVM();
+            var AllPMsVM = new AdminUsersVM();
+            var AllDevsVM = new AdminUsersVM();
+            var AllSubsVM = new AdminUsersVM();
+
+            //Build View Model for All users, Admins, PMs, Developers, Submitters.
+            AllUsersVM.Title = "All Users";
+            AllUsersVM.Users = allUsers;
+            AdminUsersVMList.Add(AllUsersVM);
+            AllAdminsVM.Title = "All Admins";
+            AllAdminsVM.Users = allAdmins;
+            AdminUsersVMList.Add(AllAdminsVM);
+            AllPMsVM.Title = "All Project Managers";
+            AllPMsVM.Users = allProjectManagers;
+            AdminUsersVMList.Add(AllPMsVM);
+            AllDevsVM.Title = "All Developers";
+            AllDevsVM.Users = allDevelopers;
+            AdminUsersVMList.Add(AllDevsVM);
+            AllSubsVM.Title = "All Submitters";
+            AllSubsVM.Users = allSubmitters;
+            AdminUsersVMList.Add(AllSubsVM);
+            //Admin Users Tab Data
+            ViewBag.Admins = allAdmins.Count();
+            ViewBag.ProjectManagers = allProjectManagers.Count();
+            ViewBag.Developers = allDevelopers.Count();
+            ViewBag.Submitters = allSubmitters.Count();
+            ViewData["AdminUsersVMList"] = (List<AdminUsersVM>)AdminUsersVMList;
+            //### User Tab End ###
+
+            //### Tickets Tab Start ###
+            var AdminTicketsVMList = new List<AdminTicketsVM>();
+            AdminTicketsVMList.Add(new AdminTicketsVM { Title = "All Tickets: " + allTickets.Count(), Tickets = allTickets });
+            AdminTicketsVMList.Add(new AdminTicketsVM { Title = "Critial Tickets: " + criticalTickets.Count(), Tickets = criticalTickets.ToList() });
+            AdminTicketsVMList.Add(new AdminTicketsVM { Title = "Major Tickets: " + majorTickets.Count(), Tickets = majorTickets.ToList() });
+            AdminTicketsVMList.Add(new AdminTicketsVM { Title = "Minor Tickets: " + minorTickets.Count(), Tickets = minorTickets.ToList() });
+            AdminTicketsVMList.Add(new AdminTicketsVM { Title = "Trivial Tickets: " + trivialTickets.Count(), Tickets = trivialTickets.ToList() });
+            AdminTicketsVMList.Add(new AdminTicketsVM { Title = "Blocker Tickets: " + blockerTickets.Count(), Tickets = blockerTickets.ToList() });
+
+            ViewData["AdminTicketsVMList"] = (List<AdminTicketsVM>)AdminTicketsVMList;
+            ViewBag.AllTickets = allTickets.Count();
+            ViewBag.OpenTickets = allTickets.Where(t => t.TicketStatus.Name == "Open").Count();
+            ViewBag.InProgress = allTickets.Where(t => t.TicketStatus.Name == "InProgress").Count();
+            ViewBag.Pending = allTickets.Where(t => t.TicketStatus.Name == "Pending").Count();
+            ViewBag.Resolved = allTickets.Where(t => t.TicketStatus.Name == "Resolved").Count();
+            //### Tickets Tab Start ###
+
+            //### Admin Settings Start ###
+            ViewData["Roles"] = (List<IdentityRole>)db.Roles.ToList();
+            ViewData["Statuses"] = db.TicketStatuses.ToList();
+            ViewData["Types"] = db.TicketTypes.ToList();
+            ViewData["Priorities"] = db.TicketPriorities.ToList();
+            //### Admin Settings End ###
 
             return View();
         }

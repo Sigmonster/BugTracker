@@ -25,7 +25,7 @@ namespace BugTracker.Controllers
         //BT Projects Start Section
         //List the logged in User's Assigned Projects
         // GET: BT/MyProjects
-        [Authorize(Roles = "Developer, Project Manager")]
+        [Authorize(Roles = "Developer, Project Manager, Submitter, Admin")]
         public ActionResult MyProjects()
         {
             var user = db.Users.Find(User.Identity.GetUserId());
@@ -86,6 +86,8 @@ namespace BugTracker.Controllers
             ViewBag.TicketPriorityID = new SelectList(db.TicketPriorities, "Id", "Name");
             ViewBag.TicketTypeID = new SelectList(db.TicketTypes, "Id", "Name");
 
+
+
             return View(ProjectDetailsVM);
         }
         //
@@ -144,6 +146,28 @@ namespace BugTracker.Controllers
                 assignedUser = ticket.AssignedToUserID;
             }
             ViewBag.AssignedToUserID = new SelectList(developersInProject, "Id", "DisplayName", assignedUser);
+
+            //Data for TicketHistories
+            var ticketHistory = TicketPost.TicketHistories.OrderByDescending(x => x.UpdatedTime).ToList();
+            var historyTimesList = ticketHistory.Select(x=>x.UpdatedTime).Distinct().ToList();
+            var ticketHistoryList = new List<TicketHistory>().ToArray();
+
+            
+            var TopList = new List<TopDispHist>();
+
+            foreach (var item in historyTimesList)
+            {
+                var TopDispHist = new TopDispHist();
+                TopDispHist.HistEntriesList = new List<TicketHistory>();
+
+                var ticketEntry = ticketHistory.Where(t => t.UpdatedTime == item);
+                TopDispHist.HistEntriesList.AddRange(ticketEntry.ToList());
+                TopDispHist.Created = item;
+                TopDispHist.DisplayName = TopDispHist.HistEntriesList.First().UpdatedByUser.DisplayName;
+                TopList.Add(TopDispHist);
+            }
+
+            ViewData["ticketHistoryList"] = (List<TopDispHist>)TopList;
 
             //Get Comments for ticket
             var commentList = ticket.TicketComments.OrderByDescending(c => c.Created).ToList();
@@ -207,6 +231,10 @@ namespace BugTracker.Controllers
 
 
                 ticketCustomHelper.NewTicketNotification(currentProject, formSubmitter, timeStamp, newticket);
+                if(User.IsInRole("Project Manager"))
+                {
+                    return RedirectToAction("ManageProject", "BT", new { Id = currentProject.Id });
+                }
             }
 
 
@@ -426,6 +454,7 @@ namespace BugTracker.Controllers
                 ticketAttachment.UserID = formSubmitter.Id;
                 ticketAttachment.Created = timeStamp;
                 db.SaveChanges();
+                ticketCustomHelper.TicketAttachmentNotification(formSubmitter, ticketAttachment, timeStamp);
                 return RedirectToAction("Ticket", "BT", new { Id = ticketAttachment.TicketID });
 
             }
@@ -512,13 +541,41 @@ namespace BugTracker.Controllers
             return RedirectToAction("Ticket", "BT", new { id = comment.TicketID });
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin, Project Manager, Developer, Submitter")]
+        public ActionResult EditComment([Bind(Include = "Id,CommentBody")] TicketComment comment)
+        {
+            var currentComment = db.TicketComments.FirstOrDefault(c => c.Id == comment.Id);
+            var timeStamp = DateTimeOffset.UtcNow;
+
+            if (ModelState.IsValid)
+            {
+                var userId = User.Identity.GetUserId();
+                var currentUser = db.Users.FirstOrDefault(u => u.Id == userId);
+
+                if (currentUser == currentComment.User || User.IsInRole("Project Manager") && currentComment.Ticket.Project.Users.Contains(currentUser) || User.IsInRole("Admin"))
+                {
+                    db.TicketComments.Attach(currentComment);
+                    currentComment.CommentBody = comment.CommentBody;
+                    db.SaveChanges();
+
+                    //HelperMethod for Histories/Notifications
+                    var ticketCustomHelper = new TicketCustomHelper();
+                    //Create Notification
+                    ticketCustomHelper.CommentEditNotification(currentUser, currentComment, timeStamp);
+                }
+            }
+
+            return RedirectToAction("Ticket", "BT", new { Id = currentComment.TicketID });
+        }
         //
         //END COMMENT SECTION
         //#########################################################################
 
-        //#########################################################################
-        //START PROJECT MANAGER SECTION
-        // GET: BT/GlobalTickets
+            //#########################################################################
+            //START PROJECT MANAGER SECTION
+            // GET: BT/GlobalTickets
         [Authorize(Roles ="Admin, Project Manager")]
         public ActionResult GlobalTickets()
         {
@@ -690,6 +747,57 @@ namespace BugTracker.Controllers
 
             return View(PMDashboardVM);
         }
+        public ActionResult ManageProject(int? Id)
+        {
+           
+            var currentUser = db.Users.Find(User.Identity.GetUserId());
+
+            ViewBag.Projects = new SelectList(currentUser.Projects, "Id", "Name");
+
+            //Data for create ticket partial
+            ViewBag.TicketPriorityID = new SelectList(db.TicketPriorities, "Id", "Name");
+            ViewBag.TicketTypeID = new SelectList(db.TicketTypes, "Id", "Name");
+            
+            if (Id != null)
+            {
+                var project = db.Projects.Find(Id);
+                ViewBag.TicketDisplayDescription = "All Tickets for Project: " + project.Name;
+                return View(project);
+            }
+
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Project Manager")]
+        public ActionResult ManageProject(int Projects)
+        {
+            var currentUser = db.Users.Find(User.Identity.GetUserId());
+            var project = db.Projects.Find(Projects);
+
+            //Data for Project Selection
+            ViewBag.Projects = new SelectList(currentUser.Projects, "Id", "Name");
+
+            //Data for create ticket partial
+            ViewBag.TicketPriorityID = new SelectList(db.TicketPriorities, "Id", "Name");
+            ViewBag.TicketTypeID = new SelectList(db.TicketTypes, "Id", "Name");
+            ViewBag.TicketDisplayDescription = "All Tickets for Project: " + project.Name;
+
+            return View(project);
+        }
+
+        //[Authorize(Roles = "Project Manager")]
+        //public ActionResult ProjectManager(Projects project)
+        //{
+        //    var currentUser = db.Users.Find(User.Identity.GetUserId());
+        //    var projectSelected = db.Projects.Find(project.Id);
+        //    ViewBag.Projects = new SelectList(currentUser.Projects, "Id", "Name");
+
+        //    return View(project);
+
+        //}
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Project Manager")]
@@ -743,11 +851,110 @@ namespace BugTracker.Controllers
             // GET: BT/MyNotifications
         public ActionResult MyNotifications()
         {
+            var currentUser = db.Users.Find(User.Identity.GetUserId());
+            var notifications = db.TicketNotifications.Where(n => n.UserID == currentUser.Id).OrderByDescending(n=>n.Created).ToList();
+
+            var unreadNotifications = notifications.Where(n => n.Read == false).ToList();
+            var readNotifications = notifications.Where(n => n.Read == true).ToList();
+
+            var MyNotificationsList = new List<MyNotifications>();
+            foreach (var item in notifications)
+            {
+                var MyNotifications = new MyNotifications();
+                MyNotifications.Notification = item;
+                MyNotifications.NotificationId = item.Id;
+                MyNotifications.MarkAsRead = false;
+
+                MyNotificationsList.Add(MyNotifications);
+            }
+            ViewData["MyNotifications"] = MyNotificationsList;
+            ViewData["Read"] = notifications;
+            ViewData["currentUser"] = currentUser; 
+
+
             
             
-            return View();
+            return View(MyNotificationsList);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize]
+        public ActionResult MyNotificationForm(List<MyNotifications> MarkAsRead)
+        {
+            var currentUserId = User.Identity.GetUserId();
+
+            if (ModelState.IsValid)
+            {
+                var selected = MarkAsRead.Where(x => x.MarkAsRead == true);
+                foreach(var item in selected)
+                {
+                    var currentNotification = db.TicketNotifications.FirstOrDefault(x => x.Id == item.NotificationId);
+                    if(currentNotification.UserID == currentNotification.UserID)
+                    {
+                        db.TicketNotifications.Attach(currentNotification);
+                        currentNotification.Read = true;
+                        db.SaveChanges();
+                    }
+                }
+            }
+
+            return RedirectToAction("MyNotifications","BT");
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize]
+        public ActionResult MyNotificationFormMarkAsUnread(List<MyNotifications> MarkAsRead)
+        {
+            var currentUserId = User.Identity.GetUserId();
+
+            if (ModelState.IsValid)
+            {
+                var selected = MarkAsRead.Where(x => x.MarkAsRead == true);
+                foreach (var item in selected)
+                {
+                    var currentNotification = db.TicketNotifications.FirstOrDefault(x => x.Id == item.NotificationId);
+                    if (currentNotification.UserID == currentNotification.UserID)
+                    {
+                        db.TicketNotifications.Attach(currentNotification);
+                        currentNotification.Read = false;
+                        db.SaveChanges();
+                    }
+                }
+            }
+
+            return RedirectToAction("MyNotifications", "BT");
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize]
+        public ActionResult MyNotificationDelete(List<MyNotifications> MarkAsRead)
+        {
+            var currentUserId = User.Identity.GetUserId();
+
+            if (ModelState.IsValid)
+            {
+                var selected = MarkAsRead.Where(x => x.MarkAsRead == true);
+                foreach (var item in selected)
+                {
+                    var currentNotification = db.TicketNotifications.FirstOrDefault(x => x.Id == item.NotificationId);
+                    if (currentNotification.UserID == currentNotification.UserID)
+                    {
+                        db.TicketNotifications.Remove(currentNotification);
+                        currentNotification.Read = false;
+                        db.SaveChanges();
+                    }
+                }
+            }
+            return RedirectToAction("MyNotifications", "BT");
+        }
+
+        public ActionResult TopNotification()
+        {
+            var uId = User.Identity.GetUserId();
+            var nlist = db.TicketNotifications.Where(u => u.UserID == uId).Where(n=>n.Read == false).OrderByDescending(n=>n.Created).Take(10).ToList();
+            return PartialView("~/Views/Shared/_TopNotifications.cshtml", nlist);
+        }
 
 
         //

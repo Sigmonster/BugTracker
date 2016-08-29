@@ -33,6 +33,9 @@ namespace BugTracker.Models
         [StringLength(20, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 2)]
         [Display(Name = "Last Name")]
         public string UserLastName { get; set; }
+        public string PhoneNumber { get; set; }
+        public bool ConfirmPhoneNumber { get; set; }
+        public string UserId { get; set; }
     }
 
     public class ManageLoginsViewModel

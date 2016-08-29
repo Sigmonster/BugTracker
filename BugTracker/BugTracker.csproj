@@ -869,6 +869,7 @@
     <Content Include="TemplateHelper\DataTables-1.10.12\media\js\jquery.dataTables.min.js" />
     <Content Include="TemplateHelper\DataTables-1.10.12\media\js\jquery.js" />
     <Content Include="Template\css\AJStyles.css" />
+    <Content Include="Template\plugins\images\login-register.jpg" />
     <Content Include="zTest\blank - DTableForm.html" />
     <Content Include="zTest\blank - Copy %283%29.html" />
     <Content Include="zTest\blank - Copy.html" />
@@ -2604,7 +2605,7 @@
     <Content Include="Template\plugins\images\large\img4.jpg" />
     <Content Include="Template\plugins\images\large\img5.jpg" />
     <Content Include="Template\plugins\images\large\img6.jpg" />
-    <Content Include="Template\plugins\images\login-register.jpg" />
+    <Content Include="Template\plugins\images\login-register1.jpg" />
     <Content Include="Template\plugins\images\logo.png" />
     <Content Include="Template\plugins\images\model.png" />
     <Content Include="Template\plugins\images\model2.png" />
@@ -3557,6 +3558,11 @@
     <Content Include="Views\BT\PMDashboard.cshtml" />
     <Content Include="Views\Shared\_PMMyProjectTickets.cshtml" />
     <Content Include="Views\Shared\_DisplayTicketsPartial_VM.cshtml" />
+    <Content Include="Views\BT\MyNotifications.cshtml" />
+    <Content Include="Views\BT\ManageProject.cshtml" />
+    <Content Include="Views\Shared\_TopNotifications.cshtml" />
+    <Content Include="Views\Shared\_AdminUsersInRole.cshtml" />
+    <Content Include="Views\Shared\_AdminTickets.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

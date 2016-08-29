@@ -32,6 +32,7 @@
     <section id="wrapper" class="login-register">
         <div class="login-box">
             <div class="white-box">
+                <p class="text-danger">@ViewBag.ErrorMsg</p>
                 <!-- Start Login Section -->
                 @Html.Partial("_LoginFormPartial", Model.LoginViewModel)
                 <!-- End Login Section -->

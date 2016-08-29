@@ -1,0 +1,193 @@
+﻿@using BugTracker.Models
+@model List<MyNotifications>
+@{
+        ViewBag.Title = "My Notifications";
+        var myNotificationsList = (List<MyNotifications>)ViewData["MyNotifications"];
+        var read = (List<TicketNotification>)ViewData["Read"];
+        var cUser = (ApplicationUser)ViewData["currentUser"];
+        var timeMinus24hrs = DateTimeOffset.UtcNow.Subtract(new TimeSpan(18, 0, 0));
+    }
+
+<div class="white-box">
+    <!-- row -->
+    <div class="row">
+        <div class="col-lg-2 col-md-3 col-sm-12 col-xs-12 inbox-panel">
+            <div>
+                <div class="list-group mail-list m-t-20">
+                    <a href="#" class="list-group-item">Total <span class="label label-rouded label-success pull-right">@Model.Count()</span></a>
+                    <a href="#" class="list-group-item">New <span class="label label-rouded label-success pull-right">@Model.Where(u=>u.Notification.Read == false).Count()</span></a>
+                </div>
+                <h3 class="panel-title m-t-40 m-b-0">Projects</h3>
+                <hr class="m-t-5">
+                <div class="list-group b-0 mail-list">
+                    @foreach (var item in @cUser.Projects)
+                    {
+                        <a href="#" class="list-group-item notification-proj-btn" id="project-trigger-@item.Id"><span class="fa fa-circle text-info m-r-10"></span>@item.Name </a>
+
+                    }
+                    
+                    @*<a href="#" class="list-group-item"><span class="fa fa-circle text-warning m-r-10"></span>Family</a>
+                    <a href="#" class="list-group-item"><span class="fa fa-circle text-purple m-r-10"></span>Private</a>
+                    <a href="#" class="list-group-item"><span class="fa fa-circle text-danger m-r-10"></span>Friends</a>
+                    <a href="#" class="list-group-item"><span class="fa fa-circle text-success m-r-10"></span>Corporate</a>*@
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-10 col-md-9 col-sm-12 col-xs-12 mail_listing">
+            <div class="notification-center">
+                <div class="table-responsive">
+@using (Html.BeginForm("MyNotificationForm", "BT", FormMethod.Post, new { @class = "form-horizontal", role = "form", id = "MyNotifications", @style= "min-height: 200px;" }))
+{
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th width="30">
+                                    @*<div class="checkbox m-t-0 m-b-0 ">
+                                            <input id="checkbox0" type="checkbox" class="checkbox-toggle" value="check all">
+                                            <label for="checkbox0"></label>
+                                        </div>*@
+                                </th>
+                                <th>
+                                    <div class="btn-group">
+                                        <button type="button" class="btn btn-info dropdown-toggle waves-effect waves-light m-r-5" data-toggle="dropdown" aria-expanded="false"> Select Options <b class="caret"></b> </button>
+                                        <ul class="dropdown-menu" role="menu">
+                                            <li class="m-t-10" style="text-align: center;"><input type="submit" value="Mark As Read" style="background-color: white; border: 0;" /></li>
+                                            <li class="m-t-10" style="text-align: center;"><input type="submit" value="Mark As Unread" style="background-color: white; border: 0;" name="MyNotificationFormMarkAsUnread" formaction="MyNotificationFormMarkAsUnread"/></li>
+                                            <li class="m-t-10" style="text-align: center;"><input type="submit" value="Delete" style="background-color: white; border: 0;" name="MyNotificationDelete" formaction="MyNotificationDelete" /></li>
+
+                                        </ul>
+                                    </div>
+                                </th>
+                                <th>
+                                    <div class="btn-group">
+                                            <a href="javascript:history.go(0)" class="btn btn-default waves-effect waves-light" style="padding: 6px 10px 6px 10px;"><i class="fa fa-refresh"></i></a>
+                                    </div>
+                                </th>
+                                <th></th>
+                                <th>Ticket#</th>
+                                <th>
+                                    @*<div class="btn-group pull-right">
+                                            <button type="button" class="btn btn-default waves-effect"><i class="fa fa-chevron-left"></i></button>
+                                            <button type="button" class="btn btn-default waves-effect"><i class="fa fa-chevron-right"></i></button>
+                                        </div>*@
+                                </th>
+                            </tr>
+                        </thead>
+                        @*<td>
+                            <input data-val="true" data-val-required="The IsChecked field is required." name="[0].IsChecked" type="checkbox" value="true">
+                            <input name="[0].IsChecked" type="hidden" value="false">
+                            <input data-val="true" data-val-number="The field TicketId must be a number." data-val-required="The TicketId field is required." name="[0].TicketId" type="hidden" value="9">
+                            <input data-val="true" data-val-number="The field ProjectId must be a number." data-val-required="The ProjectId field is required." name="[0].ProjectId" type="hidden" value="7">
+                        </td>
+                        <td>
+                            <input data-val="true" data-val-required="The IsChecked field is required." name="[1].IsChecked" type="checkbox" value="true">
+                            <input name="[1].IsChecked" type="hidden" value="false">
+                            <input data-val="true" data-val-number="The field TicketId must be a number." data-val-required="The TicketId field is required." name="[1].TicketId" type="hidden" value="21">
+                            <input data-val="true" data-val-number="The field ProjectId must be a number." data-val-required="The ProjectId field is required." name="[1].ProjectId" type="hidden" value="7">
+                        </td>*@
+                        <tbody class="notification-tbody">
+
+                            @for (var i = 0; i < Model.Count; i++)
+                            {
+                                if (Model[i].Notification.Read == false)
+                                {
+                                    <tr class="unread project-@Model[i].Notification.Ticket.ProjectID">
+                                        <td>
+                                            @*<div class="checkbox m-t-0 m-b-0">*@
+                                                @Html.CheckBoxFor(model => model[i].MarkAsRead)
+                                                @Html.HiddenFor(model => model[i].NotificationId)
+                                                @*<label for="@item.Notification.Id"></label>
+                                            </div>*@
+                                        </td>
+                                        <td><span class="label label-warning m-r-10">New</span></td>
+                                        <td >@Model[i].Notification.TriggeredByUser.DisplayName</td>
+                                        <td class="max-texts">@Model[i].Notification.Notification</td>
+                                        <td style="text-align: center;"><a href="@Url.Action("Ticket", "BT", new { Id = Model[i].Notification.TicketID })">@Model[i].Notification.TicketID</a></td>
+                                        @if (Model[i].Notification.Created > timeMinus24hrs)
+                                        {
+                                            <td class="text-right" style="min-width:85px;">@Model[i].Notification.Created.Value.ToString("h:mm tt")</td>
+                                        }
+                                        else
+                                        {
+                                            <td class="text-right" style="min-width:85px;">@Model[i].Notification.Created.Value.ToString("MMM dd")</td>
+                                        }
+                                    </tr>
+                                }
+                                else
+                                {
+                                    <tr class="project-@Model[i].Notification.Ticket.ProjectID">
+                                        <td>
+                                            @*<div class="checkbox m-t-0 m-b-0">*@
+                                                @Html.CheckBoxFor(model => Model[i].MarkAsRead)
+                                                @Html.HiddenFor(model => Model[i].NotificationId)
+                                                @*<label for="@item.Notification.Id"></label>
+                                            </div>*@
+                                        </td>
+                                        <td><span class="label label-info m-r-10"></span></td>
+                                        <td>@Model[i].Notification.TriggeredByUser.DisplayName</td>
+                                        <td class="max-texts">@Model[i].Notification.Notification</td>
+                                        <td style="text-align: center;"><a href="@Url.Action("Ticket", "BT", new { Id = Model[i].Notification.TicketID })">@Model[i].Notification.TicketID</a></td>
+                                        @if (Model[i].Notification.Created > timeMinus24hrs)
+                                        {
+                                            <td class="text-right" style="min-width:85px;">@Model[i].Notification.Created.Value.ToString("h:mm tt")</td>
+                                        }
+                                        else
+                                        {
+                                            <td class="text-right" style="min-width:85px;">@Model[i].Notification.Created.Value.ToString("MMM dd")</td>
+                                        }
+                                    </tr>
+                                }
+
+                            }
+
+                            @*@foreach (var item in read)
+                                {
+                                    <tr class="">
+                                        <td>
+                                            <div class="checkbox m-t-0 m-b-0">
+                                                <input type="checkbox">
+                                                <label for="checkbox0"></label>
+                                            </div>
+                                        </td>
+                                        <td class="hidden-xs"><i class="fa fa-star-o"></i></td>
+                                        <td class="hidden-xs">@item.TriggeredByUser.DisplayName</td>
+                                        <td class="max-texts"> <a href="@Url.Action("Ticket","BT", new {Id =  item.TicketID })"><span class="label label-info m-r-10">New</span> @item.Notification</a></td>
+
+                                        <td class="hidden-xs">@item.TicketID</td>
+                                        @if (item.Created > timeMinus24hrs)
+                                        {
+                                            <td class="text-right">@item.Created.Value.ToString("h:mm tt")</td>
+                                        }
+                                        else
+                                        {
+                                            <td class="text-right">@item.Created.Value.ToString("MMM dd")</td>
+                                        }
+                                    </tr>
+                                }*@
+
+
+                        </tbody>
+                    </table>
+}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-7 m-t-20"> @*Showing 1 - 15 of 200*@ 
+                @if(Model.Count() < 1)
+                {
+                    @:You do not have any ticket notifications at this time...
+                }
+                </div>
+                <div class="col-xs-5 m-t-20">
+                    @*<div class="btn-group pull-right">
+                            <button type="button" class="btn btn-default waves-effect"><i class="fa fa-chevron-left"></i></button>
+                            <button type="button" class="btn btn-default waves-effect"><i class="fa fa-chevron-right"></i></button>
+                        </div>*@
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /.row -->
+</div>

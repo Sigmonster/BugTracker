@@ -1,18 +1,21 @@
 ﻿@using BugTracker.Models
-@model List<PMAssignUsersTicketVM>
+@model AdminTicketsVM
 
-@{ 
-//var DispTicketsVM = (DispTicketsVM)ViewData["TicketsCollection"];
-
-}
-
-
-            
+<div class="col-md-11 center-block">
+    <div class="panel panel-inverse">
+        <div class="panel-heading">
+            <div class="pull-left">
+                <strong>@Model.Title</strong><br />
+            </div>
+            <div class="pull-right ticket-box-header-btns"><a href="#" data-perform="panel-collapse"><i class="ti-plus" style="position: relative; bottom: 8px;"></i></a> </div>
+            <br />
+        </div>
+        <div class="panel-wrapper collapse" aria-expanded="false">
+            <div class="panel-body">
                 <div class="table-responsive">
-                    <table class="table table-striped compact myDTcheckbox">
+                    <table class="table table-striped compact myDT">
                         <thead>
                             <tr class="ticket-tbl-row">
-                                <th></th>
                                 <th>#</th>
                                 <th>Created</th>
                                 <th>Updated</th>
@@ -26,61 +29,55 @@
                                 <th>Description</th>
                             </tr>
                         </thead>
-                        <tbody class="disp-tick-tbody display tbody-chk" cellspacing="0" width="100%">
-                            @for (var i = 0; i < Model.ToArray().Length; i++)
+                        <tbody class="disp-tick-tbody display" cellspacing="0" width="100%">
+                            @foreach (var item in Model.Tickets)
                             {
-                                <tr class="ticket-tbl-row rw-chk">
-                                    <td>                                        
-                                            @Html.CheckBoxFor(m => Model[i].IsChecked)
-                                            @Html.HiddenFor(m => Model[i].TicketId)
-                                            @Html.HiddenFor(m => Model[i].ProjectId)
-                                            @Html.HiddenFor(m => Model[i].Ticket)
-                                     </td>
+                                <tr class="ticket-tbl-row">
                                     <td>
-                                        <a href="@Url.Action("Ticket","BT", new { Id = Model[i].Ticket.Id })">@Model[i].Ticket.Id</a>
+                                        <a href="@Url.Action("Ticket","BT", new { Id = item.Id })">@item.Id</a>
                                     </td>
                                     <td>
                                         <div class="ticket-tbl-time">
-                                            @Html.DisplayFor(m => Model[i].Ticket.Created)
+                                            @Html.DisplayFor(modelItem => item.Created)
                                         </div>
                                     </td>
                                     <td>
                                         <div class="ticket-tbl-time">
-                                            @Model[i].Ticket.Updated
+                                            @item.Updated
                                         </div>
                                     </td>
                                     <td>
-                                        <span class="tk-status ticket-label status-@Model[i].Ticket.TicketStatusID">
-                                            @Model[i].Ticket.TicketStatus.Name
+                                        <span class="tk-status ticket-label status-@item.TicketStatusID">
+                                            @item.TicketStatus.Name
                                         </span>
                                     </td>
                                     <td>
-                                        <span class="tk-priority ticket-label priority-@Model[i].Ticket.TicketPriorityID">
-                                            @Model[i].Ticket.TicketPriority.Name
+                                        <span class="tk-priority ticket-label priority-@item.TicketPriorityID">
+                                            @item.TicketPriority.Name
                                         </span>
                                     </td>
                                     <td>
-                                        <span class="tk-type ticket-label type-@Model[i].Ticket.TicketTypeID">
-                                            @Model[i].Ticket.TicketType.Name
+                                        <span class="tk-type ticket-label type-@item.TicketTypeID">
+                                            @item.TicketType.Name
                                         </span>
                                     </td>
                                     <td>
-                                        @Model[i].Ticket.Project.Name
+                                        @item.Project.Name
                                     </td>
 
 
                                     <td>
-                                        <div class="ticket-tbl-title">
-                                            <a href="@Url.Action("Ticket","BT", new { Id = Model[i].Ticket.Id })">@Model[i].Ticket.Title</a>
+                                        <div class="ticket-tbl-title admin-tbl-title">
+                                            @item.Title
                                         </div>
                                     </td>
                                     <td>
-                                        @Model[i].Ticket.OwnerUser.DisplayName
+                                        @item.OwnerUser.DisplayName
                                     </td>
                                     <td>
-                                        @if (Model[i].Ticket.AssignedToUser != null)
+                                        @if (item.AssignedToUser != null)
                                         {
-                                            @Model[i].Ticket.AssignedToUser.DisplayName
+                                            @item.AssignedToUser.DisplayName
                                         }
                                         else
                                         {
@@ -88,8 +85,8 @@
                                         }
                                     </td>
                                     <td>
-                                        <div class="ticket-tbl-body">
-                                            @Model[i].Ticket.Description
+                                        <div class="ticket-tbl-body admin-tbl-body">
+                                            @item.Description
                                         </div>
                                     </td>
 
@@ -97,6 +94,9 @@
                             }
                         </tbody>
                     </table>
-                    <br />
                 </div>
-            
+            </div>
+        </div>
+    </div>
+</div>
+

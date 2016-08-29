@@ -5,6 +5,7 @@ using Microsoft.Owin.Security;
 using System.Web.Mvc;
 using BugTracker.Models;
 using Microsoft.AspNet.Identity.EntityFramework;
+using System;
 
 namespace BugTracker.Models
 {
@@ -41,7 +42,7 @@ namespace BugTracker.Models
         public string UserId { get; set; }
         public bool IsChecked { get; set; }
     }
-    public class EPRMSelectedListVM{
+    public class EPRMSelectedListVM {
         public List<EPRMSelectedVM> Users { get; set; }
     }
 
@@ -65,7 +66,7 @@ namespace BugTracker.Models
         public List<Projects> MyProjects { get; set; }
         public List<PMTicketProjectsSelectVM> PMVMListForPartials { get; set; }
     }
-    
+
     public class PMTicketProjectsSelectVM
     {
         public string ProjectName { get; set; }
@@ -108,7 +109,31 @@ namespace BugTracker.Models
         public string TitleDesc { get; set; }
     }
 
+    public class TopDispHist
+    {
+        public DateTimeOffset? Created { get; set; }
+        public string DisplayName { get; set; }
+        public List<TicketHistory> HistEntriesList {get;set;}
+    }
+
+
+
     //################End Tickets###############
+    //
+
+    //
+    //################ Begin Notifications ###############
+    //
+    public class MyNotifications
+    {
+        public bool MarkAsRead { get; set; }
+        public int  NotificationId { get; set; }
+        public TicketNotification Notification { get; set; }
+    }
+
+    //
+    //################ End Notifications ###############
+    //
 
     //################Begin Comments###############
     //
@@ -141,4 +166,19 @@ namespace BugTracker.Models
         public List<string> allProjectManagers { get; set; }
     }
     //################End Home###############
+
+    //################ Begin Admin ###############
+    public class AdminUsersVM
+    {
+        public string Title { get; set; }
+        public List<ApplicationUser> Users { get; set; }
+    }
+    public class AdminTicketsVM
+    {
+        public string Title { get; set; }
+        public List<TicketPost> Tickets { get; set; }
+    }
+
+
+    //################ End Admin ###############
 }

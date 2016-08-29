@@ -24,7 +24,7 @@
                 </div>
                 <div class="col-md-4 col-lg-4 col-xs-12">
                     <div class="white-box white-box-lg">
-                        <h3 class="box-title">Activity Stats - All Projects</h3>
+                        <h3 class="box-title">Activity Stats - My Projects</h3>
                         <ul class="basic-list user-list-1">
                             <li>Tickets Created < 24hrs <span class="pull-right label-danger label" style="margin-top: 7px;"> @DispTicketsVM1.TicketList.Where(t => t.Created > DateTimeOffset.UtcNow.Subtract(new TimeSpan(24, 0, 0))).Count() </span></li>
                             <li>Tickets Created < 72hrs <span class="pull-right label-warning label" style="margin-top: 7px;">@DispTicketsVM1.TicketList.Where(t => t.Created > DateTimeOffset.UtcNow.Subtract(new TimeSpan(72, 0, 0))).Count()</span></li>
@@ -35,38 +35,40 @@
                         <p class="text-muted"> If you want to go to a project directly click on the project names.</p>
                     </div>
                 </div>
-                <div class="col-md-4 pull-right" style="overflow-y: auto; max-height: 420px;">
-                    <div class="stats-row">
+                <div class="col-md-4 pull-right" >
+                    <h3 class="box-title">Ticket Stats - All Projects</h3>
+                    <div class="stats-row" style="overflow-y: auto; max-height: 420px;">
                         <ul class="basic-list user-list-1">
+                            
                             @foreach (var item in Model.MyProjects)
                             {
-                            <li>
+                            <li class="col-md-11 center-block" style="padding:5px">
                                 <div class="row">
-                                    <div class="col-md-12">
-                                        <a class="pmProjAnchor" href="@Url.Action("ProjectDetails", "BT",new { id = item.Id })"><h4 style="margin-left:7px;"><u><b>@item.Name</b></u></h4></a>
+                                    <div class="row">
+                                        <h4><u><b><a class="pmProjAnchor" href="@Url.Action("ProjectDetails", "BT",new { id = item.Id })">@item.Name</a></b></u></h4>
                                     </div>
-                                    <br />
-                                    <div class="row col-xs-11 center-block">
+                                    <div class="row m-t-5">
                                         <div class="col-md-6">
-                                            <div class="col-xs-8"><b><label class="tk-status ticket-label status-3">Open</label></b></div><div class="col-xs-4"> @item.Tickets.Where(t => t.TicketStatus.Name == "Open").Count()</div>
+                                            <div class="col-xs-8"><b><label class="label-megna label">Open</label></b></div><div class="col-xs-4"> @item.Tickets.Where(t => t.TicketStatus.Name == "Open").Count()</div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="col-xs-8">
-                                                <b><label class="tk-status ticket-label status-4">Pending</label></b></div> <div class="col-xs-4">@item.Tickets.Where(t => t.TicketStatus.Name == "Pending").Count()</div>
+                                                <b><label class="label-megna label">Pending</label></b></div> <div class="col-xs-4">@item.Tickets.Where(t => t.TicketStatus.Name == "Pending").Count()</div>
                                             </div>
                                     </div>
                                     <br />
-                                    <div class="row m-t-5 col-xs-11 center-block">
+                                    <div class="row m-t-5">
                                         <div class="col-md-6">
-                                            <div class="col-xs-8"><b><label class="tk-status ticket-label status-2">InProgress</label></b></div><div class="col-xs-4"> @item.Tickets.Where(t => t.TicketStatus.Name == "InProgress").Count()</div>
+                                            <div class="col-xs-8"><b><label class="label-megna label">InProgress</label></b></div><div class="col-xs-4"> @item.Tickets.Where(t => t.TicketStatus.Name == "InProgress").Count()</div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="col-xs-8">
-                                                <b><label class="tk-status ticket-label status-1">Resolved</label></b></div> <div class="col-xs-4"> @item.Tickets.Where(t => t.TicketStatus.Name == "Resolved").Count()</div>
+                                                <b><label class="label-megna label">Resolved</label></b></div> <div class="col-xs-4"> @item.Tickets.Where(t => t.TicketStatus.Name == "Resolved").Count()</div>
                                             </div>
                                     </div>
                                 </div>
                             </li>
+                            <br />
                             }
                         </ul>
                     </div>
@@ -89,7 +91,7 @@
             <div class="panel panel-inverse">
                 <div class="panel-heading">
                     <div class="pull-left">
-                        <strong>Unassigned Tickets - Project: <u> @VMList[i].ProjectName</u></strong><br />
+                        <strong>Unassigned Tickets - Project: <a href="@Url.Action("ManageProject", "BT", new { Id = @VMList[i].ProjectId } )"<u> @VMList[i].ProjectName</u></strong><br />
                         Bulk Assign Developers
                     </div>
                     <div class="pull-right ticket-box-header-btns"><a href="#" data-perform="panel-collapse"><i class="ti-minus"></i></a> </div>

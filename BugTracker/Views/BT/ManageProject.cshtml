@@ -1,0 +1,146 @@
+﻿@using BugTracker.Models
+@model Projects
+@{
+    ViewBag.Title = "Manage Project";
+    //var project = (Projects)ViewData["Project"]
+}
+
+<div class="col-md-6">
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            <div class="pull-left">
+                <strong>Select Project</strong><br />
+                Select A Project to view the Manager Options.
+            </div>
+            <div class="pull-right ticket-box-header-btns"><a href="#" data-perform="panel-collapse"><i class="ti-minus"></i></a> </div>
+            <br />
+            <br />
+        </div>
+        <div class="panel-wrapper collapse in" aria-expanded="true">
+            <div class="panel-body">
+                <div class="col-md-11 center-block">
+                    <br />
+                    <div class="row">
+                        <div class="row col-md-6">
+
+
+                            @using (Html.BeginForm("ManageProject", "BT", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                            {
+                                @Html.AntiForgeryToken()
+                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        @Html.DropDownList("Projects", null, "Select A Project", htmlAttributes: new { @class = "form-control" })
+                                    </div>
+                                </div>
+                                <br />
+                                <br />
+                                <div class="row">
+                                    <input type="submit" value="Submit" class="fcbtn btn btn-outline btn-success btn-1d" />
+                                </div>
+
+
+                            }
+                        </div>
+                        <div class="col-md-6">
+                            <div class="pull-right">
+                                <a href="@Url.Action("ProjectCreate", "Admin")" class="fcbtn btn btn-outline btn-info btn-1d">Create New Project</a>
+                            </div>
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="row m-t-15">
+                        @if (Model != null)
+                        {
+                            <div class="row">
+                                <div class="col-md-12 text-center">
+                                    <h2><u>@Model.Name</u></h2>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="row pull-right">
+                                    <div class="btn-group m-r-10">
+                                        <button aria-expanded="false" data-toggle="dropdown" class="fcbtn btn btn-outline btn-info btn-1d dropdown-toggle" type="button">Project Options <span class="caret"></span></button>
+                                        <ul role="menu" class="dropdown-menu animated flipInX">
+                                            <li class="m-t-5">
+                                                <a href="@Url.Action("EditProjectUsers", "BT", new {Id = Model.Id })" class="fcbtn btn btn-outline btn-info btn-1d">Add or Remove Users</a>
+                                            </li>
+                                            <li class="m-t-5">
+                                                <a href="@Url.Action("ProjectEdit", "Admin", new {id = Model.Id })" class="fcbtn btn btn-outline btn-info btn-1d">Edit Project</a>
+                                            </li>
+                                            <li class="m-t-5">
+                                                <a href="@Url.Action("ProjectDetails", "BT", new {id = Model.Id })" class="fcbtn btn btn-outline btn-info btn-1d">Developer Project View</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        }
+                    </div>
+                </div>
+            </div>
+            <br />
+            <br />
+
+        </div>
+    </div>
+</div>
+@if (Model != null)
+{
+    <div class="col-md-6">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <div class="pull-left">
+                    <strong>Project Manager</strong><br />
+                </div>
+                <div class="pull-right ticket-box-header-btns"><a href="#" data-perform="panel-collapse"><i class="ti-minus"></i></a> </div>
+                <br />
+                <br />
+            </div>
+            <div class="panel-wrapper collapse in" aria-expanded="true">
+                <div class="panel-body">
+                    <div class="col-md-6">
+                        <div class="white-box">
+                            <h3 class="box-title">Project Users</h3>
+                            <div class="table-responsive" style="max-height: 300px; overflow: hidden; overflow-y: auto;">
+                                <table class="table table-striped hover compact">
+                                    <thead class="dt-head-right">
+                                        <tr>
+                                            @*<th>Display Name</th>*@
+                                        </tr>
+                                    </thead>
+                                    <tbody id="">
+                                        @foreach (var item in Model.Users)
+                                        {
+                                            <tr>
+                                                <td>@item.DisplayName</td>
+                                         </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        </div>
+                    <div class="col-md-6">
+                        <div class="white-box white-box-lg" style="height:100%;">
+                            <h3 class="box-title">Project Stats</h3>
+                            <ul class="basic-list user-list-1">
+                                <li>Users : <span class="pull-right label-danger label" style="margin-top: 7px;"> @Model.Users.Count() </span></li>
+                                <li>Tickets: <span class="pull-right label-warning label" style="margin-top: 7px;">@Model.Tickets.Count()</span></li>
+                                <li>Active Tickets: <span class="pull-right label-success label" style="margin-top: 7px;">@Model.Tickets.Where(t => t.TicketStatus.Name != "Resolved").Count()</span></li>
+                                <li>Critical Tickets:<span class="pull-right label-info label" style="margin-top: 7px;">@Model.Tickets.Where(t => t.TicketPriority.Name == "Critical").Count()</span></li>
+                                <li>Resolved Tickets: <span class="pull-right label-success label" style="margin-top: 7px;">@Model.Tickets.Where(t => t.TicketStatus.Name == "Resolved").Count()</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+if (User.IsInRole("Submitter"))
+{
+    @Html.Partial("_CreateTicketPartial", new TicketPost() { ProjectID = Model.Id })
+}
+@Html.Partial("_DisplayTicketsPartial_VM", new DispTicketsVM() { TicketList = Model.Tickets.ToList(), TitleDesc = "Showing Tickets for Project: " + Model.Name })
+}

@@ -29,9 +29,9 @@ namespace BugTracker.Controllers
                 var myOwnedTicketsCount = db.TicketPosts.Where(x => x.OwnerUserID == currentUser.Id).Where(t=>t.TicketStatusID != 1).Count();
                 var myAssignedTicketsCount = db.TicketPosts.Where(x => x.AssignedToUserID == currentUser.Id).Count();
                 var myNotificationsCount = myNotifications.Count();
-                var myNotificationsLast24Hrs = myNotifications.Where(x => x.Created < (currentTime.Subtract(new TimeSpan(24, 0, 0)))).Count();
-                var myNotificationsLast72Hrs = myNotifications.Where(x => x.Created < (currentTime.Subtract(new TimeSpan(72, 0, 0)))).Count();
-                var myNotificationsLast7Days = myNotifications.Where(x => x.Created < (currentTime.Subtract(new TimeSpan(168, 0, 0)))).Count();
+                var myNotificationsLast24Hrs = myNotifications.Where(x => x.Created > (currentTime.Subtract(new TimeSpan(24, 0, 0)))).Count();
+                var myNotificationsLast72Hrs = myNotifications.Where(x => x.Created > (currentTime.Subtract(new TimeSpan(72, 0, 0)))).Count();
+                var myNotificationsLast7Days = myNotifications.Where(x => x.Created > (currentTime.Subtract(new TimeSpan(168, 0, 0)))).Count();
 
                 var myProjects = currentUser.Projects.OrderBy(m => m.Name).ToList();
                 

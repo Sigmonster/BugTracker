@@ -13,6 +13,7 @@ namespace BugTracker.Models
         [DisplayFormat(DataFormatString = "{0:g}", ApplyFormatInEditMode = true)]
         public DateTimeOffset? UpdatedTime { get; set; }
         //Previous Data & New Data
+        [AllowHtml]
         public string OldAndNewValues { get; set; }
         public string PropertyChanged { get; set; }
         //Foreign Keys(Un-Changeable)

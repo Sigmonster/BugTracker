@@ -36,6 +36,7 @@
     resize: both;
     overflow: hidden;
     border:1px solid #dcd6d6;
+    min-height: 44px;
 }
 .ticket-tbl-title{
     width:100px;
@@ -44,6 +45,8 @@
     resize: both;
     overflow: hidden;
     border:1px solid #dcd6d6;
+    min-height: 44px;
+    min-width: 200px;
 }
 .ticket-tbl-time{
     max-width:60px;
@@ -143,6 +146,18 @@
     padding: 5px;
     margin-bottom:2em;
 }
+.comment-wrapper p{
+    display:none;
+}
+
+.comment-wrapper textarea{
+
+    width:100%;
+    height:150px;
+    border:none;
+   
+}
+
 /*Comment Add Partial*/
 .comment-add-textarea textarea{
     width:100%;
@@ -161,7 +176,7 @@
 /*Slim Partial Dropdown*/
 .slim-btn-dropdown{
     padding:2px 5px 2px 5px;
-    border:1px white;
+    border:1px solid white;
     margin-left:5px;
 
 }
@@ -207,7 +222,68 @@
 /*END User Landing Page - /Home/Index */
 
 /*START PM Dashboard*/
+.pmProjAnchor{
+
+    margin-left:15px !important;
+}
 .pmProjAnchor:hover {
-    color:aqua !important;
+    color:#01c0c8 !important;
 }
 /*END PM Dashboard*/
+
+/*History*/
+.hist-list-property > div:nth-child(even) {background: #CCC}
+.hist-list-property > div:nth-child(odd) {background: #efefef}
+
+.hist-list-container > .hist-header:nth-child(4n+1) {background: aliceblue;}
+.hist-list-container  .hist-header:nth-child(4n+1):hover {background: cyan;}
+.hist-header:hover {
+   background-color:cyan;
+}
+.hist-list-container{
+    max-height:600px;
+    overflow-y:auto;
+    padding-top:5px;
+    padding-bottom:5px;
+}
+
+/*Notifications*/
+.notification-tbody a{
+        color: blue;
+    font-size: large;
+}
+.notification-center .unread td {
+  font-weight: 600;
+}
+.notification-center a {
+  color: #686868;
+  padding: 2px 0 3px 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: inline-block;
+}
+.notification-proj-btn{
+    padding-left: 5px !important;
+    overflow: hidden !important;
+    white-space: nowrap !important;
+    text-overflow: ellipsis !important;
+}
+
+/*Admin Section*/
+
+.sttabs nav li.tab-current a{
+    color: deepskyblue;
+}
+
+.tabs-style-underline nav li a::after{
+    background: deepskyblue;
+}
+/*Admin Ticket Tables*/
+.admin-tbl-title{
+    min-height: 45px;
+    min-width: 150px;
+}
+.admin-tbl-body{
+    width:165px;
+    min-height: 45px;
+}

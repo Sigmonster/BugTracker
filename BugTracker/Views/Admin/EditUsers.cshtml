@@ -42,13 +42,7 @@
                                         <td>@user.DisplayName</td>
                                         <td>@user.Email</td>
                                         <td>
-                                            <div class="btn-group m-r-10" style="width:140px;">
-                                                <button aria-expanded="false" data-toggle="dropdown" class="btn btn-default btn-outline dropdown-toggle waves-effect waves-light" type="button"> <i class="fa fa-pencil-square m-r-5"></i> <span class="caret"></span></button>
-                                                <ul role="menu" class="dropdown-menu">
-                                                    <li><a href="@Url.Action("EditUserRoles", "Admin", new { id = @user.Id })">Edit Roles</a></li>
-                                                    <li><a href="#">Something else here</a></li>
-                                                </ul>
-                                            </div>
+                                            <a href="@Url.Action("EditUserRoles", "Admin", new { id = @user.Id })" class="fcbtn btn btn-info btn-outline btn-1d">Edit</a>
                                         </td>
                                     </tr>
                                 }

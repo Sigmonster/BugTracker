@@ -231,7 +231,8 @@ namespace BugTracker.Controllers
             {
                 UserDisplayName = user.DisplayName,
                 UserFirstName = user.FirstName,
-                UserLastName = user.LastName
+                UserLastName = user.LastName,
+                PhoneNumber = user.PhoneNumber
            };
             return View(model);
         }
@@ -242,6 +243,10 @@ namespace BugTracker.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> EditAccount(EditAccountViewModel model)
         {
+            if (User.IsInRole("DemoAcc)"))
+            {
+                return View(model);
+            }
             if (!ModelState.IsValid)
             {
                 return View(model);
@@ -250,6 +255,7 @@ namespace BugTracker.Controllers
             user.FirstName = model.UserFirstName;
             user.LastName = model.UserLastName;
             user.DisplayName = model.UserDisplayName;
+            user.PhoneNumber = model.PhoneNumber;
             var result = await UserManager.UpdateAsync(user);
             if (result != null)
             {
@@ -264,10 +270,9 @@ namespace BugTracker.Controllers
         [Authorize]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin")]
-        public async Task<ActionResult> EditUserAccount(AdminUserViewModel model)
+        public async Task<ActionResult> EditUserAccount([Bind(Include = "UserDisplayName,UserFirstName,UserLastName,PhoneNumber,UserId")]EditAccountViewModel model)
         {
-            var editedUser = model.User;
-            var user = UserManager.FindById(editedUser.Id);
+            var user = UserManager.FindById(model.UserId);
 
             if (User.IsInRole("DemoAcc)"))
             {
@@ -279,9 +284,10 @@ namespace BugTracker.Controllers
                 return RedirectToAction("EditUserRoles", "Admin", new { Id = user.Id });
             }
 
-            user.FirstName = editedUser.FirstName;
-            user.LastName = editedUser.LastName;
-            user.DisplayName = editedUser.DisplayName;
+            user.FirstName = model.UserFirstName;
+            user.LastName = model.UserLastName;
+            user.DisplayName = model.UserDisplayName;
+            user.PhoneNumber = model.PhoneNumber;
             var result = await UserManager.UpdateAsync(user);
 
             if (result != null)
@@ -292,7 +298,6 @@ namespace BugTracker.Controllers
         }
         //
         // GET: /Manage/ChangePassword
-        [ValidateAntiForgeryToken]
         public ActionResult ChangePassword()
         {
             return View();
@@ -304,6 +309,11 @@ namespace BugTracker.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> ChangePassword(ChangePasswordViewModel model)
         {
+            if (User.IsInRole("DemoAcc)"))
+            {
+                return View(model);
+            }
+
             if (!ModelState.IsValid)
             {
                 return View(model);
@@ -336,6 +346,11 @@ namespace BugTracker.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> SetPassword(SetPasswordViewModel model)
         {
+            if (User.IsInRole("DemoAcc)"))
+            {
+                return View(model);
+            }
+
             if (ModelState.IsValid)
             {
                 var result = await UserManager.AddPasswordAsync(User.Identity.GetUserId(), model.NewPassword);

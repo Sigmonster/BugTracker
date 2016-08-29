@@ -259,6 +259,13 @@ $('#sa-success').click(function(){
         $("#registerform").fadeOut();
         $("#loginform").slideDown();
     });
+
+    $("#notificationTopButton").click(function () {
+        console.log("start");
+        $("#notificationDispDiv").load('/BT/TopNotification');
+        console.log("End");
+    });
+
     
 //JQuery DataTables
     $(document).ready(function () {
@@ -326,7 +333,9 @@ $('#sa-success').click(function(){
 
 
         });
-        
+        $("#DemoHelp").click(function () {
+            $(".modal-content").modal("show");
+        })
 
         //$('.tk-status:contains("Open")').addClass('ticket-label ticket-Open'); 
         //$('.tk-status:contains("InProgress")').addClass('ticket-label ticket-InProgress');
@@ -369,5 +378,7 @@ $('#sa-success').click(function(){
          orgText = $(this).html();
          newText = orgText.replace('/Uploads/', '');
          $(this).html(newText);
+
+        
      })
      });

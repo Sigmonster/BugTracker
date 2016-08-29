@@ -4,9 +4,12 @@
 
 @{ 
     ViewBag.Title = "Ticket Details Page";
+    var histories = (List<TopDispHist>)ViewData["ticketHistoryList"];
+
+}
+@{
     var ticketCommentsList = (List<TicketComment>)ViewData["CommentList"];
 }
-
 
 <div class="col-md-12">
     <div class="panel panel-info">
@@ -177,17 +180,49 @@
                             </div>
                         </div>
                         <div class="col-md-5 pull-right">
-                            <p>Ticket Attachement List Here...</p>
+                            
                         </div>
                         <div class="clearfix"></div>
                     </div>
                     <div role="tabpanel" class="tab-pane fade" id="history8">
-                        <div class="col-md-6">
-                            <h3>Ticket History Here....</h3>
-                            <h4>Ticket History Here....</h4>
-                        </div>
-                        <div class="col-md-5 pull-right">
-                            <p>Ticket History Here....</p>
+                        <div class="col-md-8 center-block hist-list-container">
+                            <div class="row">
+                                <div class="col-xs-4">
+                                    <h4>Date</h4>
+                                </div>
+                                <div class="col-xs-4">
+                                    <h4> Editor</h4>
+                                </div>
+                                <div class="col-xs-4">
+                                </div>
+                            </div>
+                            @{ foreach (var item in histories)
+                                {<div class="hist-header">
+                                <a class="collapsed" data-toggle="collapse" href="#history-@item.HistEntriesList.First().Id" aria-expanded="false">
+                                    <div class="row">
+                                        <div class="col-xs-4">
+                                            @item.Created.Value.ToString("MM-dd-yyyy, h:mm tt")
+                                        </div>
+                                        <div class="col-xs-4">
+                                            @item.DisplayName
+                                        </div>
+                                        <div class="col-xs-4">
+                                            Click Row to Expand History.
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                                    <div class="collapse hist-list-property hist-header" id="history-@item.HistEntriesList.First().Id">
+                                        @foreach (var x in item.HistEntriesList)
+                                        {
+                                        <div class="row p-l-20 p-r-20">
+                                            <h4><b>@x.PropertyChanged</b></h4>
+                                            @x.OldAndNewValues
+                                        </div>
+                                        }
+                                    </div>
+
+                                } }
                         </div>
                         <div class="clearfix"></div>
                     </div>
@@ -220,7 +255,7 @@
                             <div class="form-group">
                                 <label class="col-sm-3 control-label" for="example-input-small">Title</label>
                                 <div class="col-sm-6">
-                                    @Html.EditorFor(m=>m.Title)
+                                    @Html.EditorFor(m=>m.Title, new { htmlAttributes = new { @class = "form-control" } })
                                 </div>
                             </div>
                             <div class="form-group">

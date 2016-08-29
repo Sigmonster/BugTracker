@@ -57,51 +57,26 @@
                 <ul class="nav navbar-top-links navbar-right pull-right">
                     <!-- Start Top Right Notification Button-->
                     <li class="dropdown">
-                        <a class="dropdown-toggle waves-effect waves-light" data-toggle="dropdown" href="javascript:void(0)">
+                        <a class="dropdown-toggle waves-effect waves-light" id="notificationTopButton" data-toggle="dropdown" href="">
                             <i class="icon-envelope"></i>
                             <div class="notify"><span class="heartbit"></span><span class="point"></span></div>
                         </a>
                         <ul class="dropdown-menu mailbox animated bounceInDown">
                             <li>
-                                <div class="drop-title">You have 4 new messages</div>
+                                <div class="drop-title" style="font-size:13px;">Most recent Notificaitons(10 max)!</div>
                             </li>
-                            <li>
-                                <div class="message-center">
-                                    <a href="javascript:void(0)">
-                                        <div class="user-img"> <img src="~/Template/img/blank-profile-picture.svg" alt="user" class="img-circle"> <span class="profile-status online pull-right"></span> </div>
-                                        <div class="mail-contnet">
-                                            <h5>Pavan kumar</h5>
-                                            <span class="mail-desc">Just see the my admin!</span> <span class="time">9:30 AM</span>
-                                        </div>
-                                    </a> <a href="javascript:void(0)">
-                                        <div class="user-img"> <img src="~/Template/img/blank-profile-picture.svg" alt="user" class="img-circle"> <span class="profile-status busy pull-right"></span> </div>
-                                        <div class="mail-contnet">
-                                            <h5>Sonu Nigam</h5>
-                                            <span class="mail-desc">I've sung a song! See you at</span> <span class="time">9:10 AM</span>
-                                        </div>
-                                    </a> <a href="javascript:void(0)">
-                                        <div class="user-img"> <img src="~/Template/img/blank-profile-picture.svg" alt="user" class="img-circle"> <span class="profile-status away pull-right"></span> </div>
-                                        <div class="mail-contnet">
-                                            <h5>Arijit Sinh</h5>
-                                            <span class="mail-desc">I am a singer!</span> <span class="time">9:08 AM</span>
-                                        </div>
-                                    </a> <a href="javascript:void(0)">
-                                        <div class="user-img"> <img src="~/Template/img/blank-profile-picture.svg" alt="user" class="img-circle"> <span class="profile-status offline pull-right"></span> </div>
-                                        <div class="mail-contnet">
-                                            <h5>Pavan kumar</h5>
-                                            <span class="mail-desc">Just see the my admin!</span> <span class="time">9:02 AM</span>
-                                        </div>
-                                    </a>
-                                </div>
+                            <li><div id="notificationDispDiv"></div>
+                               @*@Html.Partial("_TopNotifications")*@
                             </li>
-                            <li> <a class="text-center" href="javascript:void(0);"> <strong>See all notifications</strong> <i class="fa fa-angle-right"></i> </a></li>
+                            <li> <a class="text-center" href="/BT/MyNotifications"> <strong>See all notifications</strong> <i class="fa fa-angle-right"></i> </a></li>
                         </ul>
                         <!-- /.dropdown-messages -->
+                
                     </li>
                     <!-- /.dropdown -->
                     <!-- End Top Right Notification Button-->
                     <!-- Start Top Right Pencil Button-->
-                    <li class="dropdown">
+                    @*<li class="dropdown">
                         <a class="dropdown-toggle waves-effect waves-light" data-toggle="dropdown" href="javascript:void(0)">
                             <i class="icon-note"></i>
                             <div class="notify"><span class="heartbit"></span><span class="point"></span></div>
@@ -155,17 +130,17 @@
                         </ul>
                         <!-- /.dropdown-tasks -->
                     </li>
-                    <!-- /.dropdown -->
+                    <!-- /.dropdown -->*@
                     <!-- End Top Right Pencil Button-->
                     <!-- Start Top Right User Drop-Down Button-->
                     <li class="dropdown">
                         <a class="dropdown-toggle profile-pic" data-toggle="dropdown" href="javascript:void(0)"> <img src="~/Template/img/blank-profile-picture.svg" alt="user-img" width="36" class="img-circle"><b class="hidden-xs">@Html.Partial("_LoginPartial")</b></a>
                         <ul class="dropdown-menu dropdown-user animated flipInY">
                             <li><a href="@Url.Action("Index","Home")"><i class="ti-home"></i> My Home</a></li>
-                            <li><a href="javascript:void(0)"><i class="ti-email"></i> Inbox</a></li>
-                            <li><a href="javascript:void(0)"><i class="ti-email"></i> Notification Inbox</a></li>
+                            <li><a href="/BT/MyNotifications"><i class="ti-email"></i> Notification Inbox</a></li>
                             <li role="separator" class="divider"></li>
                             <li><a href="@Url.Action("Index","Manage")"><i class="ti-settings"></i> Account Settings</a></li>
+                            <li><a href="#" title="Navigational Links, Account Settings, & Admin Link(Admin Only)" data-toggle="popover" data-placement="left" data-content="Here you will find many Navigational Links for all Users. <b>**Most Importantly**</b> - this is the only spot where you can access the Admin Dashboard.">Click</a></li>
                             @if (User.IsInRole("Admin"))
                             {
                                 <li><a href="@Url.Action("Dashboard", "Admin")"><i class="ti-settings"></i> Admin</a></li>
@@ -215,7 +190,7 @@
                     <li class="user-pro">
                         <a href="javascript:void(0)" class="waves-effect"><img src="~/Template/img/blank-profile-picture.svg" alt="user-img" class="img-circle"> <span class="hide-menu"> @Html.Partial("_LoginPartial")@*<span class="fa arrow"></span>*@</span></a>
                         <ul class="nav nav-second-level collapse">
-                            <li><a href="javascript:void(0)"><i class="ti-email"></i> Notification Inbox</a></li>
+                            <li><a href="/BT/MyNotifications"><i class="ti-email"></i> Notification Inbox</a></li>
                             <li><a href="@Url.Action("Index","Manage")"><i class="ti-settings"></i> Account Setting</a></li>
                             @if (User.IsInRole("Admin"))
                             {
@@ -250,8 +225,7 @@
                         <a href="index.html" class="waves-effect"><i class="linea-icon linea-basic fa-fw" data-icon="E"></i> <span class="hide-menu"> Project Manager<span class="fa arrow"></span> <span class="label label-rouded label-custom pull-right">4</span></span></a>
                         <ul class="nav nav-second-level">
                             <li> <a href="/BT/PMDashBoard"><i class="ti-home"></i> PM Dashboard</a> </li>
-                            <li> <a href="@Url.Action("-","BT")"> Manage Projects</a> </li>
-                            <li> <a href="@Url.Action("-","BT")"> Manage Projects Tickets</a> </li>
+                            <li> <a href="@Url.Action("ManageProject","BT")"> Manage Projects</a> </li>
                             <li> <a href="@Url.Action("GlobalTickets", "BT")"> Global Tickets</a> </li>
                             <li> <a href="@Url.Action("ProjectManager", "BT")"> Global Projects</a> </li>
                         </ul>
@@ -261,12 +235,7 @@
                     <!--Start Project Manager Views-->
                     <!-- Start Notification Section-->
                     <li>
-                        <a href="javascript:void(0)" class="waves-effect"><i class="ti-email"></i> <span class="hide-menu">Notification Inbox <span class="fa arrow"></span></span></a>
-                        <ul class="nav nav-second-level">
-                            <li> <a href="javascript:void(0)">Link1.1</a></li>
-                            <li> <a href="javascript:void(0)">Link1.2</a></li>
-                            <li> <a href="javascript:void(0)">Link1.3</a></li>
-                        </ul>
+                        <a href="/BT/MyNotifications" class="waves-effect"><i class="ti-email"></i> <span class="hide-menu">Notification Inbox <span class="fa arrow"></span></span></a>
                     </li>
                     <!-- End Notification Section-->
                     <!-- Start Analytics Section-->
@@ -355,100 +324,157 @@
                         <h4 class="page-title">@ViewBag.Title</h4>
                     </div>
                     <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
-                        <ol class="breadcrumb">
+                        @*<ol class="breadcrumb">
                             <li><a href="javascript:void(0)">Dashboard</a></li>
                             <li class="active">Starter Page</li>
-                        </ol>
+                        </ol>*@
+                        @if (User.IsInRole("Developer"))
+                        {
+                            <button id="DemoHelp" data-toggle="modal" data-target="#DemoModalMain" class="fcbtn btn btn-danger btn-outline btn-1d">Demo Account Help!</button>
+                        }
                     </div>
                     <!-- /.col-lg-12 -->
                 </div>
                 <!--End Title Row-->
+                
+                <div class="modal fade" id="DemoModalMain" role="dialog">
 
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                <h4 class="modal-title" id="myLargeModalLabel">Welcome to my Bug Tracker Web Application!</h4>
+                            </div>
+                            <div class="modal-body">
+                                <h4>I'm pleased that you stopped by!</h4>
+                                <p>First, a quick introduction and short description. Then a quick walkthru that shows how the application's user interface is layed out. If you want to skip the introdruction click on the "Show me around!" button below.</p>
+                                <p>This Web App was built by Alexander(AJ) Sigmon. The app was built using Visual Studio, ASP.NET, C#, HTML5, CSS, and Javascript. Additionally, the frameworks Entity, Bootstrap, JQuery, and multiple other JQuery/CSS Plugins/Frameworks.</p>
+                                <hr />
+                                <p>Without further ado, let's start by learning how the roles are configured.</p>
+                                <p>The User Roles are hierarchical in nature, just like you would expect. The “Admin Role” is at the top of the food chain and has the most insight into the application alternatively the “Registered User” Role is at the bottom and has no access. It is added to a User Account upon Registration and must be removed before the user can start using the application.</p>
+                                <p>However, not all permissions are inherited from “lower” Roles. Some features are exclusive to a particular Role, in which case, the specific Role is the only Role has access to the feature. For instance, the Project Manager Role can add users to projects but the Admin Role cannot. Therefore, should a user who is an Admin need access to add users to projects, the user will need to have both the Project Manger and Admin Role(s) added to the user's account. Since the Admin Role is the only Roles that can Add/Remove User Roles the user in the example could technically add the Project Manager Role to their own User Account and freely add users to projects that they're a member of.</p>
+                                <p>Here are the User Roles along with the most notable permissions listed.</p>
+                                <br />
+                                <div class="pull-right">
+                                    <button class="fcbtn btn btn-outline btn-success btn-1d" id="show-Me-Start">Show me around!</button>
+                                </div>
+                                <b>Registered User</b>
+                                <ul>
+                                    <li>Anyone can Register an Account.</li>
+                                    <li>When Account is Registered it is added to the “Registered User” Role.</li>
+                                    <li>The Registered User Role cannot use any part of the application.</li>
+                                </ul>
+                                <b>Submitter</b>
+                                <ul>
+                                    <li>Create Tickets</li>
+                                    <li>View Tickets in which they're the Creator(Owner)</li>
+                                    <li>Edit/Comment/Upload files to tickets they are assigned.</li>
+                                </ul>
+                                <b>Developer</b>
+                                <ul>
+                                    <li>Tickets can only be Assigned to Developers.</li>
+                                    <li>Edit/Comment/Upload files to tickets they are assigned.</li>
+                                    <li>View any Tickets that are in their Projects.</li>
+                                </ul>
+                                <b>Project Manager</b>
+                                <ul>
+                                    <li>Create/Edit Projects.</li>
+                                    <li>Add Users to Projects.</li>
+                                    <li>Edit/Comment/Upload files to only Tickets in their Projects.</li>
+                                    <li>View all Tickets/Projects.</li>
+                                </ul>
+                                <b>Admins</b>
+                                <ul>
+                                    <li>Create/Edit Projects.</li>
+                                    <li>Add/Remove User Roles.</li>
+                                    <li>Edit User Account Information.</li>
+                                    <li>View All Tickets/Projects.</li>
+                                </ul>
 
-
-
-
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger waves-effect text-left" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                        <!-- /.modal-content -->
+                    </div>
+                </div>
                 <!-- Start Main Body Content-->
                 <div class="row">
                     <div class="col-md-12">
                         @*<div class="white-box">*@
-                            @*<h3 class="box-title">Blank Starter page</h3>*@
-                            @*@if (Request.IsAuthenticated) {*@ 
-                            @RenderBody()
-                            @*}
-                            else{
-                                    Url.Action("Login", "Account");
-                                    @RenderPage("~/Views/Account/Login.cshtml");
-                                }*@
-                                    
+                        @*<h3 class="box-title">Blank Starter page</h3>*@
+                        @*@if (Request.IsAuthenticated) {*@
+                        @RenderBody()
+                        @*}
+                    else{
+                            Url.Action("Login", "Account");
+                            @RenderPage("~/Views/Account/Login.cshtml");
+                        }*@
+
                         @*</div>*@
                     </div>
                 </div>
                 <!-- End Main Body Content-->
-
-
-
-
-
                 <!-- Start .right-sidebar Options-->
                 <!-- Content Section for Top Right Settings(Gear). Button Toggler is in Nav-Bar-->
                 <div class="right-sidebar">
                     <div class="slimscrollright">
-                        <div class="rpanel-title"> Service Panel <span><i class="ti-close right-side-toggle"></i></span> </div>
+                        <div class="rpanel-title"> Account Options <span><i class="ti-close right-side-toggle"></i></span> </div>
                         <div class="r-panel-body">
-                            <ul>
-                                <li><b>Layout Options</b></li>
-                                <li>
-                                    <div class="checkbox checkbox-info">
-                                        <input id="checkbox1" type="checkbox" class="fxhdr">
-                                        <label for="checkbox1"> Fix Header </label>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="checkbox checkbox-warning">
-                                        <input id="checkbox2" type="checkbox" checked="" class="fxsdr">
-                                        <label for="checkbox2"> Fix Sidebar </label>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="checkbox checkbox-success">
-                                        <input id="checkbox4" type="checkbox" class="open-close">
-                                        <label for="checkbox4"> Toggle Sidebar </label>
-                                    </div>
-                                </li>
-                            </ul>
-                            <ul id="themecolors" class="m-t-20">
-                                <li><b>With Light sidebar</b></li>
-                                <li><a href="javascript:void(0)" theme="default" class="default-theme">1</a></li>
-                                <li><a href="javascript:void(0)" theme="green" class="green-theme">2</a></li>
-                                <li><a href="javascript:void(0)" theme="gray" class="yellow-theme">3</a></li>
-                                <li><a href="javascript:void(0)" theme="blue" class="blue-theme working">4</a></li>
-                                <li><a href="javascript:void(0)" theme="purple" class="purple-theme">5</a></li>
-                                <li><a href="javascript:void(0)" theme="megna" class="megna-theme">6</a></li>
-                                <li><b>With Dark sidebar</b></li>
-                                <li><a href="javascript:void(0)" theme="default-dark" class="default-dark-theme">7</a></li>
-                                <li><a href="javascript:void(0)" theme="green-dark" class="green-dark-theme">8</a></li>
-                                <li><a href="javascript:void(0)" theme="gray-dark" class="yellow-dark-theme">9</a></li>
+                            @*<ul>
+                                    <li><b>Layout Options</b></li>
+                                    <li>
+                                        <div class="checkbox checkbox-info">
+                                            <input id="checkbox1" type="checkbox" class="fxhdr">
+                                            <label for="checkbox1"> Fix Header </label>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="checkbox checkbox-warning">
+                                            <input id="checkbox2" type="checkbox" checked="" class="fxsdr">
+                                            <label for="checkbox2"> Fix Sidebar </label>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="checkbox checkbox-success">
+                                            <input id="checkbox4" type="checkbox" class="open-close">
+                                            <label for="checkbox4"> Toggle Sidebar </label>
+                                        </div>
+                                    </li>
+                                </ul>
+                                <ul id="themecolors" class="m-t-20">
+                                    <li><b>With Light sidebar</b></li>
+                                    <li><a href="javascript:void(0)" theme="default" class="default-theme">1</a></li>
+                                    <li><a href="javascript:void(0)" theme="green" class="green-theme">2</a></li>
+                                    <li><a href="javascript:void(0)" theme="gray" class="yellow-theme">3</a></li>
+                                    <li><a href="javascript:void(0)" theme="blue" class="blue-theme working">4</a></li>
+                                    <li><a href="javascript:void(0)" theme="purple" class="purple-theme">5</a></li>
+                                    <li><a href="javascript:void(0)" theme="megna" class="megna-theme">6</a></li>
+                                    <li><b>With Dark sidebar</b></li>
+                                    <li><a href="javascript:void(0)" theme="default-dark" class="default-dark-theme">7</a></li>
+                                    <li><a href="javascript:void(0)" theme="green-dark" class="green-dark-theme">8</a></li>
+                                    <li><a href="javascript:void(0)" theme="gray-dark" class="yellow-dark-theme">9</a></li>
 
-                                <li><a href="javascript:void(0)" theme="blue-dark" class="blue-dark-theme">10</a></li>
-                                <li><a href="javascript:void(0)" theme="purple-dark" class="purple-dark-theme">11</a></li>
-                                <li><a href="javascript:void(0)" theme="megna-dark" class="megna-dark-theme">12</a></li>
-                            </ul>
+                                    <li><a href="javascript:void(0)" theme="blue-dark" class="blue-dark-theme">10</a></li>
+                                    <li><a href="javascript:void(0)" theme="purple-dark" class="purple-dark-theme">11</a></li>
+                                    <li><a href="javascript:void(0)" theme="megna-dark" class="megna-dark-theme">12</a></li>
+                                </ul>
+                            </div>
+                        </div>*@
                         </div>
+                        <!-- End .right-sidebar Options-->
+
+
                     </div>
+                    <!-- /.container-fluid -->
+                    <footer class="footer text-center"> 2016 &copy; BugTracker brought to you by Sigmonster Enterprises </footer>
                 </div>
-                <!-- End .right-sidebar Options-->
+                <!-- /#page-wrapper -->
+                <!-- End Page Main Body Content Wrapper, Including Right-SideBar, & Footer -->
 
 
             </div>
-            <!-- /.container-fluid -->
-            <footer class="footer text-center"> 2016 &copy; BugTracker brought to you by Sigmonster Enterprises </footer>
-        </div>
-        <!-- /#page-wrapper -->
-        <!-- End Page Main Body Content Wrapper, Including Right-SideBar, & Footer -->
-
-
-    </div>
     <!--End Body Wrapper-->
     <!-- jQuery -->
     @*<script src="~/TemplateHelper/DataTables-1.10.12/media/js/jquery.js"></script>*@
@@ -464,6 +490,16 @@
     <script src="~/Template/js/waves.js"></script>
     <!-- Custom Theme JavaScript -->
     <script src="~/Template/js/custom.js"></script>
+    <script src="~/Template/js/cbpFWTabs.js"></script>
+    <script type="text/javascript">
+      (function() {
+
+                [].slice.call( document.querySelectorAll( '.sttabs' ) ).forEach( function( el ) {
+                    new CBPFWTabs( el );
+                });
+
+            })();
+    </script>
     <!--Style Switcher -->
     <script src="~/Template/plugins/bower_components/styleswitcher/jQuery.style.switcher.js"></script>
     

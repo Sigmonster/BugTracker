@@ -55,12 +55,7 @@ namespace BugTracker.Controllers
                 _userManager = value;
             }
         }
-        //public class LoginGroupModel
-        //{
-        //    public LoginViewModel LoginViewModel { get; set; }
-        //    public ForgotPasswordViewModel ForgotPasswordViewModel { get; set; }
-        //    public RegisterViewModel RegisterViewModel { get; set; }
-        //}
+
 
 
         //
@@ -101,6 +96,52 @@ namespace BugTracker.Controllers
                ModelState.AddModelError("", "Invalid login attempt.");
                return View(LoginGroupModel);
             }
+
+            // This doesn't count login failures towards account lockout
+            // To enable password failures to trigger account lockout, change to shouldLockout: true
+            var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
+            switch (result)
+            {
+                case SignInStatus.Success:
+                    //return RedirectToLocal(returnUrl);
+                    return RedirectToAction("Index", "Home");
+                case SignInStatus.LockedOut:
+                    return View("Lockout");
+                //case SignInStatus.RequiresVerification:
+                //    return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
+                case SignInStatus.Failure:
+                default:
+                    ModelState.AddModelError("", "Invalid login attempt.");
+                    //return RedirectToLocal(returnUrl);
+                    return View(LoginGroupModel);
+            }
+        }
+
+        // POST: /Account/Login
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> DemoLogin(LoginViewModel model)
+        {
+            LoginGroupModel LoginGroupModel = new LoginGroupModel();
+            LoginGroupModel.LoginViewModel = model;
+            ForgotPasswordViewModel ForgotPasswordViewModel = new ForgotPasswordViewModel();
+            RegisterViewModel RegisterViewModel = new RegisterViewModel();
+            LoginGroupModel.ForgotPasswordViewModel = ForgotPasswordViewModel;
+            LoginGroupModel.RegisterViewModel = RegisterViewModel;
+
+            if (!ModelState.IsValid)
+            {
+                ModelState.AddModelError("", "Invalid login attempt.");
+                return RedirectToAction("Login", "Account");
+            }
+            if(model.Email == "Developer@gmail.com" || model.Email == "Submitter@gmail.com" || model.Email == "ProjectManager@gmail.com" || model.Email == "Admin@gmail.com")
+            {
+                model.Password = "Welcome123!";
+            }
+
+
+
 
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
@@ -205,9 +246,17 @@ namespace BugTracker.Controllers
                 }
                 AddErrors(result);
             }
+            LoginViewModel LoginViewModel = new LoginViewModel();
+            ForgotPasswordViewModel ForgotPasswordViewModel = new ForgotPasswordViewModel();
+            RegisterViewModel RegisterViewModel = new RegisterViewModel();
+            LoginGroupModel LoginGroupModel = new LoginGroupModel();
 
+            LoginGroupModel.LoginViewModel = LoginViewModel;
+            LoginGroupModel.ForgotPasswordViewModel = ForgotPasswordViewModel;
+            LoginGroupModel.RegisterViewModel = model;
+            ViewBag.ErrorMsg = "Invalid Register Attempt, Please try again.";
             // If we got this far, something failed, redisplay form
-            return View(model);
+            return RedirectToAction("Login", "Account", LoginGroupModel);
         }
         public ActionResult RegisterSucess()
         {

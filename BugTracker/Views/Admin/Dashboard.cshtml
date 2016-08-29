@@ -1,11 +1,300 @@
-﻿@model IEnumerable<BugTracker.Models.Projects>
+﻿@using BugTracker.Models
+@using Microsoft.AspNet.Identity.EntityFramework
 @{
-    ViewBag.Title = "Account Settings";
+    ViewBag.Title = "Admin Dashboard";
+    var allProjectManagers = (List<ApplicationUser>)ViewData["allProjectManagers"];
+    var allAdmins = (List<ApplicationUser>)ViewData["allAdmins"];
+    var AdminUsersVMList = (List<AdminUsersVM>)ViewData["AdminUsersVMList"];
+    var AdminTicketsVMList = (List<AdminTicketsVM>)ViewData["AdminTicketsVMList"];
+
+    var statuses = (List<TicketStatuses>)ViewData["Statuses"];
+    var types = (List<TicketTypes>)ViewData["Types"];
+    var priorities = (List<TicketPriorities>)ViewData["Priorities"];
+    var roles = (List<IdentityRole>)ViewData["Roles"];
+
 }
 
-<div class="white-box">
-    @*@Model.Comments.ToList().OrderByDescending(p => p.Created)*@
-    @*@Html.Partial("_BTListProjects")*@
-    Manage: @Html.ActionLink("Projects","Projects", "Admin").
-    Manage: @Html.ActionLink("Users", "EditUsers", "Admin").
+<div class="col-md-12">
+<div class="panel panel-inverse">
+    <div class="panel-heading">
+        <div class="pull-left">
+            <strong>Admin Dashboard View</strong><br />
+        </div>
+        <div class="pull-right ticket-box-header-btns"><a href="#" data-perform="panel-collapse"><i class="ti-minus" style="position: relative; bottom: 8px;"></i></a> </div>
+        <br />
+    </div>
+    <div class="panel-wrapper collapse in" aria-expanded="true">
+        <div class="panel-body">
+            <section class="m-t-0">
+                <div class="sttabs tabs-style-underline admin-tabs">
+                    <nav>
+                        <ul>
+                            <li class="tab-current"><a href="#section-underline-1" class="sticon ti-home"><span>Home</span></a></li>
+                            <li class=""><a href="#section-underline-2" class="sticon ti-user"><span>Users</span></a></li>
+                            <li><a href="#section-underline-4" class="sticon ti-world"><span>Tickets</span></a></li>
+                            <li><a href="#section-underline-5" class="sticon ti-settings"><span>Settings</span></a></li>
+                        </ul>
+                    </nav>
+                    <div class="content-wrap">
+                        <section id="section-underline-1" class="content-current" style="margin-bottom:30px;">
+                            <div class="col-md-4 col-lg-4 col-xs-12">
+                                <div class="white-box white-box-lg">
+                                    <h3 class="box-title">Admin Stats</h3>
+                                    <ul class="basic-list user-list-1">
+                                        <li>Total Tickets <span class="pull-right label-danger label" style="margin-top: 7px;">@ViewBag.TotalTickets</span></li>
+                                        <li>Total Projects <span class="pull-right label-warning label" style="margin-top: 7px;">@ViewBag.TotalProjects</span></li>
+                                        <li>Total Users <span class="pull-right label-success label" style="margin-top: 7px;">@ViewBag.TotalUsers</span></li>
+                                        <li>Total Roles <span class="pull-right label-info label" style="margin-top: 7px;">@ViewBag.TotalRoles</span></li>
+                                    </ul>
+                                    <br />
+                                    <p class="text-muted"> For more details, click on the tabs above.</p>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-lg-4 col-xs-12">
+                                <div class="white-box white-box-lg" style="overflow:hidden;">
+                                    <h3 class="box-title">Project Manager's Contact Info</h3>
+                                    <div class="col-xs-12" style="height: 95%; overflow: auto;">
+                                        @foreach (var item in allProjectManagers)
+                                        {
+
+                                            <div class="row">
+                                                <div class="col-xs-3"><h4>Name: </h4></div><div class="col-xs-9"><h4>@item.DisplayName</h4></div>
+                                                <div class="col-xs-3"><h4>Email: </h4></div><div class="col-xs-9"><h4>@item.Email</h4></div>
+                                                <div class="col-xs-3"><h4>Phone: </h4></div><div class="col-xs-9"><h4>@item.PhoneNumber</h4></div>
+                                            </div>
+                                            <hr />
+
+
+                                        }
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-lg-4 col-xs-12">
+                                <div class="white-box white-box-lg" style="overflow:hidden;">
+                                    <h3 class="box-title">Admin's Contact Info</h3>
+                                    <div class="col-xs-12" style="height: 95%; overflow: auto;">
+                                        @foreach (var item in allAdmins)
+                                        {
+
+                                            <div class="row">
+                                                <div class="col-xs-3"><h4>Name: </h4></div><div class="col-xs-9"><h4>@item.DisplayName</h4></div>
+                                                <div class="col-xs-3"><h4>Email: </h4></div><div class="col-xs-9"><h4>@item.Email</h4></div>
+                                                <div class="col-xs-3"><h4>Phone: </h4></div><div class="col-xs-9"><h4>@item.PhoneNumber</h4></div>
+                                            </div>
+                                            <hr />
+
+
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                        <section id="section-underline-2" class="" style="margin-bottom:30px;">
+                            <div class="col-md-4 col-lg-4 col-xs-12">
+                                <div class="white-box white-box-lg">
+                                    <h3 class="box-title">User Role Stats</h3>
+                                    <ul class="basic-list user-list-1">
+                                        <li>Admin <span class="pull-right label-danger label" style="margin-top: 7px;">@ViewBag.Admins</span></li>
+                                        <li>Project Manager <span class="pull-right label-warning label" style="margin-top: 7px;">@ViewBag.ProjectManagers</span></li>
+                                        <li>Developer <span class="pull-right label-success label" style="margin-top: 7px;">@ViewBag.Developers</span></li>
+                                        <li>Submitter <span class="pull-right label-info label" style="margin-top: 7px;">@ViewBag.Submitters</span></li>
+                                    </ul>
+                                    <br />
+                                    <p class="text-muted"></p>
+                                </div>
+                            </div>
+                            <div class="col-md-8">
+                                <div class="row">
+                                    @foreach (var item in AdminUsersVMList)
+                                    {
+                                        @Html.Partial("_AdminUsersInRole", item)
+                                    }
+                                    
+                                </div>
+                            </div>
+                        </section>
+                        <section id="section-underline-4" style="margin-bottom:30px;">
+                            <div class="col-md-4 col-lg-4 col-xs-12">
+                                <div class="white-box white-box-lg" style="overflow:hidden;">
+                                    <h3 class="box-title">Ticket Statuses Stats</h3>
+                                    <ul class="basic-list user-list-1">
+                                        <li>Total <span class="pull-right label-danger label" style="margin-top: 7px;">@ViewBag.AllTickets</span></li>
+                                        <li>Open <span class="pull-right label-warning label" style="margin-top: 7px;">@ViewBag.OpenTickets</span></li>
+                                        <li>In Progress <span class="pull-right label-success label" style="margin-top: 7px;">@ViewBag.InProgress</span></li>
+                                        <li>Pending <span class="pull-right label-info label" style="margin-top: 7px;">@ViewBag.Pending</span></li>
+                                        <li>Resolved <span class="pull-right label-primary label" style="margin-top: 7px;">@ViewBag.Resolved</span></li>
+                                    </ul>
+                                    <br />
+                                    <p class="text-muted"></p>
+                                </div>
+                            </div>
+                            <div class="col-md-8">
+                                <div class="row">
+                                    @foreach (var item in AdminTicketsVMList)
+                                    {
+                                        @Html.Partial("_AdminTickets", item)
+                                    }
+
+                                </div>
+                            </div>
+                        </section>
+                        <section id="section-underline-5" style="margin-bottom:30px;">
+                            <div class="row" style="border-bottom: solid 1px lightgray;">
+                            <div class="col-md-4 col-lg-4 col-xs-12">
+                                <div class="white-box white-box-lg" style="overflow:hidden; height:100%;">
+                                    <h3 class="box-title">Ticket Statuses</h3>
+                                    <div class="panel-body">
+                                        <div class="row m-b-10">
+                                            <div class="pull-right">
+                                                <button class="btn btn-xs btn-success m-r-5"><i class="ti-plus"></i> Add Status</button>
+                                            </div>
+                                        </div>
+                                        <div class="table-responsive">
+                                            <table class="table table-striped compact table-bordered table-hover">
+                                                <thead>
+                                                    <tr class="">
+                                                        <th>Status Name</th>
+                                                        <th>Options</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody class="disp-tick-tbody display">
+                                                    @foreach (var item in statuses)
+                                                    {
+                                                        <tr>
+                                                            <td>
+                                                                @item.Name
+                                                            </td>
+                                                            <td>
+                                                                <button class="btn btn-info"><i class="ti-pencil-alt"></i></button>
+                                                                <button class="btn btn-danger"><i class="ti-trash"></i></button>
+                                                            </td>
+                                                        </tr>
+                                                    }
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-lg-4 col-xs-12">
+                                <div class="white-box white-box-lg" style="overflow:hidden; height:100%;">
+                                    <h3 class="box-title">Ticket Type</h3>
+                                    <div class="panel-body">
+                                        <div class="row m-b-10">
+                                            <div class="pull-right">
+                                                <button class="btn btn-xs btn-success m-r-5"><i class="ti-plus"></i> Add Type</button>
+                                            </div>
+                                        </div>
+                                        <div class="table-responsive">
+                                            <table class="table table-striped compact table-bordered table-hover">
+                                                <thead>
+                                                    <tr class="">
+                                                        <th>Type Name</th>
+                                                        <th>Options</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody class="disp-tick-tbody display">
+                                                    @foreach (var item in types)
+                                                    {
+                                                        <tr>
+                                                            <td>
+                                                                @item.Name
+                                                            </td>
+                                                            <td>
+                                                                <button class="btn btn-info"><i class="ti-pencil-alt"></i></button>
+                                                                <button class="btn btn-danger"><i class="ti-trash"></i></button>
+                                                            </td>
+                                                        </tr>
+                                                    }
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    </div>
+                                </div>
+                                    <div class="col-md-4 col-lg-4 col-xs-12">
+                                        <div class="white-box white-box-lg" style="overflow:hidden; height:100%;">
+                                            <h3 class="box-title">Ticket Priority</h3>
+                                            <div class="panel-body">
+                                                <div class="row m-b-10">
+                                                    <div class="pull-right">
+                                                        <button class="btn btn-xs btn-success m-r-5"><i class="ti-plus"></i> Add Priority</button>
+                                                    </div>
+                                                </div>
+                                                <div class="table-responsive">
+                                                    <table class="table table-striped compact table-bordered table-hover">
+                                                        <thead>
+                                                            <tr class="">
+                                                                <th>Type Name</th>
+                                                                <th>Options</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody class="disp-tick-tbody display">
+                                                            @foreach (var item in priorities)
+                                                            {
+                                                                <tr>
+                                                                    <td>
+                                                                        @item.Name
+                                                                    </td>
+                                                                    <td>
+                                                                        <button class="btn btn-info"><i class="ti-pencil-alt"></i></button>
+                                                                        <button class="btn btn-danger"><i class="ti-trash"></i></button>
+                                                                    </td>
+                                                                </tr>
+                                                            }
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <hr />
+                            </div>
+                                    <div class="col-md-4 col-lg-4 col-xs-12">
+                                        <div class="white-box white-box-lg" style="overflow:hidden; height:100%;">
+
+                                            <h3 class="box-title">User Roles</h3>
+                                            <div class="panel-body">
+                                                <div class="row m-b-10">
+                                                    <div class="pull-right">
+                                                        <button class="btn btn-xs btn-success m-r-5"><i class="ti-plus"></i> Add Role</button>
+                                                    </div>
+                                                </div>
+                                                <div class="table-responsive">
+                                                    <table class="table table-striped compact table-bordered table-hover">
+                                                        <thead>
+                                                            <tr class="">
+                                                                <th>Type Name</th>
+                                                                <th>Options</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody class="disp-tick-tbody display">
+                                                            @foreach (var item in roles)
+                                                            {
+                                                                <tr>
+                                                                    <td>
+                                                                        @item.Name
+                                                                    </td>
+                                                                    <td>
+                                                                        <button class="btn btn-info"><i class="ti-pencil-alt"></i></button>
+                                                                        <button class="btn btn-danger"><i class="ti-trash"></i></button>
+                                                                    </td>
+                                                                </tr>
+                                                            }
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+</section>
+                    </div><!-- /content -->
+                </div><!-- /tabs -->
+            </section>
+            @*Manage: @Html.ActionLink("Projects", "Projects", "Admin").
+            Manage: @Html.ActionLink("Users", "EditUsers", "Admin").*@
+        </div>
+        </div>
+    </div>
     </div>
