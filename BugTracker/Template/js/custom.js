@@ -333,9 +333,8 @@ $('#sa-success').click(function(){
 
 
         });
-        $("#DemoHelp").click(function () {
-            $(".modal-content").modal("show");
-        })
+
+
 
         //$('.tk-status:contains("Open")').addClass('ticket-label ticket-Open'); 
         //$('.tk-status:contains("InProgress")').addClass('ticket-label ticket-InProgress');
@@ -381,4 +380,35 @@ $('#sa-success').click(function(){
 
         
      })
-     });
+     //Hide Register, show login
+     //$('#to-login-from-register').click(function () {
+     //    $("#registerform").fadeOut();
+     //    $("#loginform").slideDown();
+     //});
+
+     //$("#notificationTopButton").click(function () {
+     //    console.log("start");
+     //    $("#notificationDispDiv").load('/BT/TopNotification');
+     //    console.log("End");
+     //});
+
+ });
+//Demo Walk-Thru Code.
+ $(document).ready(function () {
+     //$("#DemoHelp").click(function () {
+     //    $(".modal-content").modal("show");
+     //})
+     $("#show-Me-Start").click(function () {
+         $("#popover333448aj").fadeIn();
+         $("#top-Right-Dropdown").fadeIn();
+     })
+     $("#show-Me-next1").click(function () {
+         $("#popover333448aj").fadeOut();
+         $("#top-Right-Dropdown").fadeOut();
+         $("#popover603212aj").show();
+     })
+     $("#show-Me-next2").click(function () {
+         $("#popover603212aj").fadeOut();
+     })
+
+ });

@@ -245,7 +245,7 @@ namespace BugTracker.App_Start
             {
                 allowed = true;
             }
-            else if (User.IsInRole("Project Manager") && currentProject.Users.Contains(currentUser))
+            else if (User.IsInRole("Project Manager"))
             {
                 allowed = true;
             }
@@ -265,7 +265,7 @@ namespace BugTracker.App_Start
                     var usersArr = currentProject.Users.ToArray();
                     for (var i=0; i < usersArr.Length; i++)
                     {
-                        projects.Users.Remove(usersArr[i]);
+                       currentProject.Users.Remove(usersArr[i]);
                     }
                 }
 

@@ -135,12 +135,17 @@
                     <!-- Start Top Right User Drop-Down Button-->
                     <li class="dropdown">
                         <a class="dropdown-toggle profile-pic" data-toggle="dropdown" href="javascript:void(0)"> <img src="~/Template/img/blank-profile-picture.svg" alt="user-img" width="36" class="img-circle"><b class="hidden-xs">@Html.Partial("_LoginPartial")</b></a>
-                        <ul class="dropdown-menu dropdown-user animated flipInY">
+                        <ul class="dropdown-menu dropdown-user animated flipInY" id="top-Right-Dropdown">
                             <li><a href="@Url.Action("Index","Home")"><i class="ti-home"></i> My Home</a></li>
                             <li><a href="/BT/MyNotifications"><i class="ti-email"></i> Notification Inbox</a></li>
                             <li role="separator" class="divider"></li>
                             <li><a href="@Url.Action("Index","Manage")"><i class="ti-settings"></i> Account Settings</a></li>
-                            <li><a href="#" title="Navigational Links, Account Settings, & Admin Link(Admin Only)" data-toggle="popover" data-placement="left" data-content="Here you will find many Navigational Links for all Users. <b>**Most Importantly**</b> - this is the only spot where you can access the Admin Dashboard.">Click</a></li>
+                            <li><div class="popover fade left in demo-rightNavPopover" role="tooltip" id="popover333448aj" style="top: 10.5px; display: block; display:none;"><div class="arrow" style="top: 44%;"></div><h3 class="popover-title">Navigational Links</h3>
+                                <div class="popover-content">Here you will find many Navigational Links for all Users.<br /><br /> <b>**Most Importantly**</b> - This is the <b>only</b> spot where you can access the <u>Admin Dashboard.</u> You will need to be logged in as an Admin to see this option.<br />
+                                <br />
+                                <button class="fcbtn btn btn-outline btn-success btn-1d" id="show-Me-next1" data-dismiss="modal">Next! <i class="fa fa-arrow-right"></i></button>
+                                <br />
+                                </div></div></li>
                             @if (User.IsInRole("Admin"))
                             {
                                 <li><a href="@Url.Action("Dashboard", "Admin")"><i class="ti-settings"></i> Admin</a></li>
@@ -215,19 +220,20 @@
                             <li> <a href="/Home/Index"><i class="ti-home"></i> My Home</a> </li>
                             <li> <a href="@Url.Action("MyTickets","BT")"> My Tickets</a> </li>
                             <li> <a href="@Url.Action("MyProjects","BT")"> My Projects</a> </li>
+                            <li></li>
                         </ul>
                     </li>
                     <!-- End Views -->
                     <!--Start Project Manager Views-->
                     <li>
-                       @if(User.IsInRole("Project Manager"))
+                       @if(User.IsInRole("Project Manager") || User.IsInRole("Admin"))
                        {
                         <a href="index.html" class="waves-effect"><i class="linea-icon linea-basic fa-fw" data-icon="E"></i> <span class="hide-menu"> Project Manager<span class="fa arrow"></span> <span class="label label-rouded label-custom pull-right">4</span></span></a>
                         <ul class="nav nav-second-level">
                             <li> <a href="/BT/PMDashBoard"><i class="ti-home"></i> PM Dashboard</a> </li>
                             <li> <a href="@Url.Action("ManageProject","BT")"> Manage Projects</a> </li>
                             <li> <a href="@Url.Action("GlobalTickets", "BT")"> Global Tickets</a> </li>
-                            <li> <a href="@Url.Action("ProjectManager", "BT")"> Global Projects</a> </li>
+                            <li> <a href="@Url.Action("Projects", "Admin")"> Global Projects</a> </li>
                         </ul>
 
                        }
@@ -237,76 +243,6 @@
                     <li>
                         <a href="/BT/MyNotifications" class="waves-effect"><i class="ti-email"></i> <span class="hide-menu">Notification Inbox <span class="fa arrow"></span></span></a>
                     </li>
-                    <!-- End Notification Section-->
-                    <!-- Start Analytics Section-->
-                    @*<li>
-                        <a href="javascript:void(0)" class="waves-effect"><i class="ti-bar-chart"></i> <span class="hide-menu">Analytics<span class="fa arrow"></span> <span class="label label-rouded label-info pull-right">13</span> </span></a>
-                        <ul class="nav nav-second-level">
-                            <li><a href="javascript:void(0)">Link2.1</a></li>
-                            <li><a href="javascript:void(0)">Link2.2</a></li>
-                            <li><a href="javascript:void(0)">Link2.3</a></li>
-                        </ul>
-                    </li>*@
-                    <!-- End Analytics Section-->
-                    <!-- Start Drop-Down 1.1 -->
-                    @*<li>
-                        <a href="javascript:void(0)" class="waves-effect"><i data-icon="&#xe00b;" class="linea-icon linea-basic fa-fw"></i> <span class="hide-menu">Drop-Down 1.1<span class="fa arrow"></span></span></a>
-                        <ul class="nav nav-second-level">
-                            <li><a href="javascript:void(0)">Link3.1</a></li>
-                            <li><a href="javascript:void(0)">Link3.2</a></li>
-                            <li><a href="javascript:void(0)">Link3.3</a></li>
-                        </ul>
-                    </li>*@
-                    <!-- Start Drop-Down 1.1 -->
-                    <!-- End Main Menu Section -->
-                    <!-- Start Drop-Down 2.1 -->
-                    <!-- Start Next Menu Section -->
-
-                    @*<li class="nav-small-cap">--- Next Menu Section</li>
-                    <li>
-                        <a href="javascript:void(0)" class="waves-effect active"><i data-icon="&#xe008;" class="linea-icon linea-basic fa-fw"></i> <span class="hide-menu">Drop-Down 2.1<span class="fa arrow"></span><span class="label label-rouded label-purple pull-right">15</span></span></a>
-                        <ul class="nav nav-second-level">
-                            <li><a href="javascript:void(0)">Link4.1</a></li>
-                            <li><a href="javascript:void(0)">Link4.2</a></li>
-                            <li><a href="javascript:void(0)">Link4.3</a></li>
-                        </ul>
-                    </li>
-                    <!-- End Drop-Down 2.1 -->
-                    <!-- Start Drop-Down 3.1 -->
-                    <li>
-                        <a href="javascript:void(0)" class="waves-effect"><i data-icon="&#xe006;" class="linea-icon linea-basic fa-fw"></i> <span class="hide-menu">Drop-Down 3.1<span class="fa arrow"></span></span></a>
-                        <ul class="nav nav-second-level">
-                            <li> <a href="javascript:void(0)">Link5.1</a> </li>
-                            <li><a href="javascript:void(0)">Link5.2</a></li>
-                            <li><a href="javascript:void(0)">Link5.3</a></li>
-                        </ul>
-                    </li>
-                    <!-- End Drop-Down 3.1 -->
-                    <!-- Start Drop-Down 4.1 -->
-                    <li>
-                        <a href="javascript:void(0)" class="waves-effect"><i data-icon="O" class="linea-icon linea-software fa-fw"></i> <span class="hide-menu">Drop-Down 4.1<span class="fa arrow"></span><span class="label label-rouded label-danger pull-right">7</span></span></a>
-                        <ul class="nav nav-second-level">
-                            <li><a href="javascript:void(0)">Link6.1</a></li>
-                            <li><a href="javascript:void(0)">Link6.2</a></li>
-                            <li><a href="javascript:void(0)">Link6.3</a></li>
-                        </ul>
-                    </li>
-                    <!-- End Drop-Down 4.1 -->
-
-                    <li> <a href="widgets.html" class="waves-effect"><i data-icon="P" class="linea-icon linea-basic fa-fw"></i> <span class="hide-menu">Widgets</span></a> </li>
-                    <li> <a href="map-google.html" class="waves-effect"><i data-icon="Q" class="linea-icon linea-basic fa-fw"></i><span class="hide-menu">Google Map</span></a> </li>
-                    <li> <a href="map-vector.html" class="waves-effect"><i data-icon="S" class="linea-icon linea-basic fa-fw"></i><span class="hide-menu">Vector Map</span></a> </li>
-                    <li> <a href="calendar.html" class="waves-effect"><i data-icon="A" class="linea-icon linea-elaborate fa-fw"></i> <span class="hide-menu">Calendar</span></a></li>
-                    <li><a href="login.html" class="waves-effect"><i class="icon-logout fa-fw"></i> <span class="hide-menu">Log out</span></a></li>
-
-                    <!-- End Next Menu Section -->
-                    <!-- Start Support Menu Section -->
-                    <li class="nav-small-cap">--- Support</li>
-                    <li><a href="documentation.html" class="waves-effect"><i class="fa fa-circle-o text-danger"></i> <span class="hide-menu">Documentation</span></a></li>
-                    <li><a href="gallery.html" class="waves-effect"><i class="fa fa-circle-o text-info"></i> <span class="hide-menu">Gallery</span></a></li>
-                    <li><a href="faq.html" class="waves-effect"><i class="fa fa-circle-o text-success"></i> <span class="hide-menu">Faqs</span></a></li>
-                    <!-- End Support Menu Section -->*@
-                </ul>
             </div> 
             <!-- End Left navbar-header Collapse -->
         </div>
@@ -328,10 +264,11 @@
                             <li><a href="javascript:void(0)">Dashboard</a></li>
                             <li class="active">Starter Page</li>
                         </ol>*@
-                        @if (User.IsInRole("Developer"))
+                        @if (User.IsInRole("DemoAcc") || User.IsInRole("Admin"))
                         {
                             <button id="DemoHelp" data-toggle="modal" data-target="#DemoModalMain" class="fcbtn btn btn-danger btn-outline btn-1d">Demo Account Help!</button>
                         }
+
                     </div>
                     <!-- /.col-lg-12 -->
                 </div>
@@ -340,14 +277,14 @@
                 <div class="modal fade" id="DemoModalMain" role="dialog">
 
                     <div class="modal-dialog modal-lg">
-                        <div class="modal-content">
+                        <div class="modal-content" id="demoHelpModal">
                             <div class="modal-header">
                                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                                 <h4 class="modal-title" id="myLargeModalLabel">Welcome to my Bug Tracker Web Application!</h4>
                             </div>
                             <div class="modal-body">
                                 <h4>I'm pleased that you stopped by!</h4>
-                                <p>First, a quick introduction and short description. Then a quick walkthru that shows how the application's user interface is layed out. If you want to skip the introdruction click on the "Show me around!" button below.</p>
+                                <p>First, a quick introduction and short description. Then a quick walk-thru that shows how the user interface works. If you want to skip the introduction and go right to the UI click on the "Show me around!" button below.</p>
                                 <p>This Web App was built by Alexander(AJ) Sigmon. The app was built using Visual Studio, ASP.NET, C#, HTML5, CSS, and Javascript. Additionally, the frameworks Entity, Bootstrap, JQuery, and multiple other JQuery/CSS Plugins/Frameworks.</p>
                                 <hr />
                                 <p>Without further ado, let's start by learning how the roles are configured.</p>
@@ -356,7 +293,7 @@
                                 <p>Here are the User Roles along with the most notable permissions listed.</p>
                                 <br />
                                 <div class="pull-right">
-                                    <button class="fcbtn btn btn-outline btn-success btn-1d" id="show-Me-Start">Show me around!</button>
+                                    <button class="fcbtn btn btn-outline btn-success btn-1d" id="show-Me-Start" data-dismiss="modal">Show me around! <i class="fa fa-arrow-right"></i></button>
                                 </div>
                                 <b>Registered User</b>
                                 <ul>
@@ -402,6 +339,22 @@
                 <!-- Start Main Body Content-->
                 <div class="row">
                     <div class="col-md-12">
+                        <div class="popover fade right in demo-left-nav1" role="tooltip" id="popover603212aj" style="display: block; display:none;">
+                            <div class="arrow" style="top: 20%;"></div><h3 class="popover-title">Main Menu Views</h3>
+                            <div class="popover-content">
+                                <p>Here you will find the majority of views for the application. Some of these views are specific to user roles.</p>
+                                <p><b>Most Importantly,</b> The <u>"Project Manager"</u> navigational section is here. You must be logged in as a Project Manager to see this section.</p>
+                                <p>The "Views" Section is the main navigational bar for Developers/Submitters, but is also available to Project Managers and Admin as well.</p>
+                                <p>Lastly, the Notification Inbox is available to all users. Notifications are sent to users when tickets they're associated are interacted with.</p>
+                                <br />
+                                <div class="pull-right">
+                                    <button class="fcbtn btn btn-outline btn-success btn-1d" id="show-Me-next2" data-dismiss="modal">Get to Tracking! <i class="fa fa-close"></i></button>
+                                </div>
+                                <br />
+                               <div class="clearfix"></div>
+                            </div>
+                        </div>
+
                         @*<div class="white-box">*@
                         @*<h3 class="box-title">Blank Starter page</h3>*@
                         @*@if (Request.IsAuthenticated) {*@

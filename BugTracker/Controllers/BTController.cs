@@ -49,7 +49,7 @@ namespace BugTracker.Controllers
         //
         //Includes Projects Info & Tickets
         // GET: BT/ProjectDetails/5
-        [Authorize]
+        [Authorize(Roles = "Developer, Project Manager, Submitter, Admin")]
         public async Task<ActionResult> ProjectDetails(int? id)
         {
             if (id == null)
@@ -97,7 +97,7 @@ namespace BugTracker.Controllers
         //##########################################################################
         //BT Tickets Start Section
         //GET: BT/MyTickets
-        [Authorize(Roles = "Developer, Submitter")]
+        [Authorize(Roles = "Developer, Project Manager, Submitter, Admin")]
         public ActionResult MyTickets()
         {
             var user = db.Users.Find(User.Identity.GetUserId());//Get User's Identity
@@ -113,7 +113,14 @@ namespace BugTracker.Controllers
             var ticketsAssigned = db.TicketPosts.Where(x => x.AssignedToUserID == user.Id).ToList();
             ViewBag.TicketDisplayDescription = "Tickets Assigned to " + user.DisplayName;
             ViewData["TicketsCollection"] = ticketsAssigned;
-
+            if (User.IsInRole("Developer") || User.IsInRole("Submitter"))//Checks if user is a Developer or Submitter
+            {
+            }
+            else
+            {
+                string errcode = "Access Denied, MyTickets, You are not in the Developer or Submitter Role(s). User:" + user.UserName.ToString();
+                return RedirectToAction("Err403", "BT", new { errcode = errcode });
+            }
             return View();
         }
 
@@ -123,6 +130,7 @@ namespace BugTracker.Controllers
         [Authorize]
         public ActionResult Ticket(int Id)
         {
+           
             //UserRoles Helper
             var userRolesHelper = new UserRolesHelper(db);
             //Get Ticket & Instantiate Model
@@ -130,6 +138,17 @@ namespace BugTracker.Controllers
             var currentUser = db.Users.Find(User.Identity.GetUserId());
             var TicketPost = new TicketPost();
             TicketPost = ticket;
+
+            if (currentUser == ticket.AssignedToUser || currentUser == ticket.OwnerUser || User.IsInRole("Project Manager") || User.IsInRole("Admin") || ticket.Project.Users.Contains(currentUser))
+            {
+
+            }
+            else
+            {
+                string errcode = "Access Denied, Ticket ( #"+ticket.Id.ToString() +" ) User:" + currentUser.UserName.ToString();
+                return RedirectToAction("Err403", "BT", new { errcode = errcode });
+            }
+
             //Set Dropdowns for edit tab.
             ViewBag.TicketPriorityID = new SelectList(db.TicketPriorities, "Id", "Name", ticket.TicketPriorityID);
             ViewBag.TicketStatusID = new SelectList(db.TicketStatuses, "Id", "Name", ticket.TicketStatusID);
@@ -185,8 +204,8 @@ namespace BugTracker.Controllers
             }
             else
             {
-                ViewData["ErrorCode"] = User.Identity.Name + " Permission not granted, ViewTicket, Ticket:" + ticket.Id;
-                return RedirectToAction("Err403", "BT");
+                string errcode = User.Identity.Name + " Permission not granted, ViewTicket, Ticket:" + ticket.Id;
+                return RedirectToAction("Err403", "BT", new { errcode = errcode });
             }
         }
         [HttpPost]
@@ -242,8 +261,8 @@ namespace BugTracker.Controllers
 
             if (allowed == false)
             {
-                ViewData["ErrorCode"] = User.Identity.Name + " Permission not granted, CreateTicket, Project:" + currentProject.Id;
-                return RedirectToAction("Err403", "BT");
+                string errcode = User.Identity.Name + " Permission not granted, CreateTicket, Project:" + currentProject.Id;
+                return RedirectToAction("Err403", "BT", new { errcode = errcode });
             }
 
             return RedirectToAction("ProjectDetails", "BT", new { id = currentProject.Id });
@@ -377,8 +396,8 @@ namespace BugTracker.Controllers
                 }
                 if (allowed == false)
                 {
-                    ViewData["ErrorCode"] = User.Identity.Name + " Permission not granted, TicketEditForm, Ticket: " + currentTicket.Id;
-                    return RedirectToAction("Err403", "BT");
+                    string errcode = User.Identity.Name + " Permission not granted, TicketEditForm, Ticket: " + currentTicket.Id;
+                    return RedirectToAction("Err403", "BT", new { errcode = errcode });
                 }
             }
 
@@ -460,12 +479,11 @@ namespace BugTracker.Controllers
             }
             if(allowed == false)
             {
-                ViewData["ErrorCode"] = User.Identity.Name + " Permission not granted, Attachment, Ticket: " + currentTicket.Id;
-                return RedirectToAction("Err403", "BT");
+                string errcode = User.Identity.Name + " Permission not granted, Attachment, Ticket: " + currentTicket.Id;
+                return RedirectToAction("Err403", "BT", new { errcode = errcode });
             }
 
             return RedirectToAction("Ticket", "BT", new { Id = ticketAttachment.TicketID });
-
         }
            
 
@@ -538,7 +556,8 @@ namespace BugTracker.Controllers
 
                 return RedirectToAction("Ticket", "BT", new { id = comment.TicketID });
             }
-            return RedirectToAction("Ticket", "BT", new { id = comment.TicketID });
+            string errcode = User.Identity.Name + " Permission not granted, AddComment, Ticket: " + currentTicket.Id;
+            return RedirectToAction("Err403", "BT", new { errcode = errcode });
         }
 
         [HttpPost]
@@ -548,6 +567,10 @@ namespace BugTracker.Controllers
         {
             var currentComment = db.TicketComments.FirstOrDefault(c => c.Id == comment.Id);
             var timeStamp = DateTimeOffset.UtcNow;
+            if (User.IsInRole("DemoAcc"))
+            {
+                return RedirectToAction("Ticket", "BT", new { Id = currentComment.TicketID });
+            }
 
             if (ModelState.IsValid)
             {
@@ -565,6 +588,8 @@ namespace BugTracker.Controllers
                     //Create Notification
                     ticketCustomHelper.CommentEditNotification(currentUser, currentComment, timeStamp);
                 }
+                string errcode = User.Identity.Name + " Permission not granted, EditComment, Comment: " + currentComment.Id;
+                return RedirectToAction("Err403", "BT", new { errcode = errcode });
             }
 
             return RedirectToAction("Ticket", "BT", new { Id = currentComment.TicketID });
@@ -632,7 +657,7 @@ namespace BugTracker.Controllers
         //Add users to project
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Admin, Project Manager")]
+        [Authorize(Roles = "Project Manager")]
         public ActionResult EditProjectAddUser(EPSelectedListVM model, int Id)
         {
             if (User.IsInRole("DemoAcc"))
@@ -647,7 +672,10 @@ namespace BugTracker.Controllers
 
             var currentProject = db.Projects.Find(Id);
             var selectedUsers = model.Users.Where(u => u.IsChecked.Equals(true)).ToList();//get's only users that were checked.
+            var currentUser = db.Users.Find(User.Identity.GetUserId());
             var allUsers = db.Users;
+            if (currentProject.Users.Count() < 1 || currentProject.Users.Contains(currentUser))
+            {
             for (var i = 0; i < selectedUsers.Count(); i++)
             {
                 var user = allUsers.Find(selectedUsers[i].UserId);//get current user.
@@ -655,6 +683,8 @@ namespace BugTracker.Controllers
             }
             db.Entry(currentProject).State = EntityState.Modified;
             db.SaveChanges();
+
+            }
             return RedirectToAction("EditProjectUsers", "BT", new { id = Id });
         }
 
@@ -663,7 +693,7 @@ namespace BugTracker.Controllers
         //Remove users from Project
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Admin, Project Manager")]
+        [Authorize(Roles = "Project Manager")]
         public ActionResult EditProjectRMUser(EPRMSelectedListVM model, int Id)
         {
             if (User.IsInRole("DemoAcc"))
@@ -677,14 +707,18 @@ namespace BugTracker.Controllers
 
             var currentProject = db.Projects.Find(Id);
             var selectedUsers = model.Users.Where(u => u.IsChecked.Equals(true)).ToList();//get's only users that were checked.
+            var currentUser = db.Users.Find(User.Identity.GetUserId());
             var allUsers = db.Users;
-            for (var i = 0; i < selectedUsers.Count(); i++)
+            if (currentProject.Users.Contains(currentUser))
             {
-                var user = allUsers.Find(selectedUsers[i].UserId);//get current user model.
-                currentProject.Users.Remove(user);
+                for (var i = 0; i < selectedUsers.Count(); i++)
+                {
+                    var user = allUsers.Find(selectedUsers[i].UserId);//get current user model.
+                    currentProject.Users.Remove(user);
+                }
+                db.Entry(currentProject).State = EntityState.Modified;
+                db.SaveChanges();
             }
-            db.Entry(currentProject).State = EntityState.Modified;
-            db.SaveChanges();
             return RedirectToAction("EditProjectUsers", "BT", new { id = Id });
         }
 
@@ -770,7 +804,7 @@ namespace BugTracker.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Project Manager")]
+        [Authorize(Roles = "Project Manager, Admin")]
         public ActionResult ManageProject(int Projects)
         {
             var currentUser = db.Users.Find(User.Identity.GetUserId());

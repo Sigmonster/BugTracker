@@ -287,3 +287,22 @@
     width:165px;
     min-height: 45px;
 }
+/*Demo Help Section*/
+.demo-rightNavPopover{
+    left: -281px;
+}
+.demo-rightNavPopover > .popover-title,
+.demo-left-nav1 > .popover-title {
+background-color: #fb9678;
+color:white;
+font-weight:bold;
+font-size: 21px;
+
+}
+.demo-left-nav1{
+    top: 73.5px;
+    left: 218.047px;
+    display: block;
+    position: fixed;
+
+}
