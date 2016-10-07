@@ -7,7 +7,7 @@
     <div class="panel panel-info">
         <div class="panel-heading">
             <div class="pull-left">
-                <strong>Ticket Attachements</strong>
+                <strong>Ticket Attachments</strong>
             </div>
             @*Short Description*@
             <div class="pull-right slim-heading-btns"><a href="#" data-perform="panel-collapse"><i class="ti-minus"></i></a> </div>
@@ -22,10 +22,16 @@
                 {
                     @Html.AntiForgeryToken()
                     @Html.HiddenFor(model => model.TicketID)
-                    <input name="file" type="file" class="" id="fileUpload" style="width:100%;" />
-                    @Html.TextAreaFor(model => model.Description)
-                    <div class="row">
-                        <input type="submit" value="Save" class="fcbtn btn btn-info btn-outline btn-1d" />
+                    <div class="col-md-11 comment-add-textarea center-block">
+                        <div class="row">
+                            <input name="file" type="file" class="upload" id="fileUpload" style="width:100%;" required="required" />
+                        </div>
+                        <div class="row m-t-10">
+                            @Html.TextAreaFor(model => model.Description, new { @class = "form-control", required = "required", style = "max-width:465px" })
+                        </div>
+                        <div class="row m-t-10">
+                            <input type="submit" value="Save" class="fcbtn btn btn-info btn-outline btn-1d" />
+                        </div>
                     </div>
                     <br />
 
@@ -42,38 +48,38 @@
                         </blockquote>
 
                         @*<div class="attachments-wrapper col-xs-12">
-                            <div class="row">
-                                <div class="col-xs-11 center-block">
-                                    <div class="row">
-                                        <div class="col-xs-6">
-                                            <div class="pull-left">
-                                                By: <b>@item.User.DisplayName</b>
-                                            </div>
-                                        </div>
-                                        <div class="col-xs-6">
-                                            <div class="pull-right">
-                                                @item.Created
-                                            </div>
+                        <div class="row">
+                            <div class="col-xs-11 center-block">
+                                <div class="row">
+                                    <div class="col-xs-6">
+                                        <div class="pull-left">
+                                            By: <b>@item.User.DisplayName</b>
                                         </div>
                                     </div>
-                                    <div class="row">
-                                        <div class="col-xs-12">
-
+                                    <div class="col-xs-6">
+                                        <div class="pull-right">
+                                            @item.Created
                                         </div>
                                     </div>
-                                    <div class="row">
-                                        <div class="col-xs-12">
-                                            <b>Description: </b><p>@item.Description</p>
-                                        </div>
-                                    </div>
-                                    @*<div class="row col-xs-10 center-block">
-                                        <img class="img-responsive attachment" src="@Url.Content(item.FileURL)" alt="attachment" style="width:100%; margin-bottom:-10px;" />
-                                        <div class="clearfix"></div>
-                                    </div>
-
                                 </div>
+                                <div class="row">
+                                    <div class="col-xs-12">
+
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <b>Description: </b><p>@item.Description</p>
+                                    </div>
+                                </div>
+                                @*<div class="row col-xs-10 center-block">
+                                    <img class="img-responsive attachment" src="@Url.Content(item.FileURL)" alt="attachment" style="width:100%; margin-bottom:-10px;" />
+                                    <div class="clearfix"></div>
+                                </div>
+
                             </div>
-                        </div>*@
+                        </div>
+                    </div>*@
                     }
                 }
                 else
@@ -82,7 +88,7 @@
                 }
             </div>
         </div>
-    </div>
+        </div>
 </div>
 @*<table class="table">
         <tr>

@@ -128,6 +128,7 @@ namespace BugTracker.Controllers
         //Ticket Details
         //GET: BT/Ticket
         [Authorize]
+        [Authorize(Roles = "Developer, Project Manager, Submitter, Admin")]
         public ActionResult Ticket(int Id)
         {
            
@@ -187,6 +188,7 @@ namespace BugTracker.Controllers
             }
 
             ViewData["ticketHistoryList"] = (List<TopDispHist>)TopList;
+            ViewBag.TopDisp = (List<TopDispHist>)TopList;
 
             //Get Comments for ticket
             var commentList = ticket.TicketComments.OrderByDescending(c => c.Created).ToList();
@@ -194,6 +196,7 @@ namespace BugTracker.Controllers
 
             //For Attachment Partial - May not need.
             ViewData["currentTicket"] = (TicketPost)ticket;
+
             if (User.IsInRole("Admin") || User.IsInRole("Project Manager"))
             {
                 return View(TicketPost);
@@ -210,6 +213,7 @@ namespace BugTracker.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Developer, Project Manager, Submitter, Admin")]
         public ActionResult CreateTicket(TicketPost ticket)
         {
             //HelperMethod for Histories/Notifications
@@ -257,8 +261,6 @@ namespace BugTracker.Controllers
             }
 
 
-
-
             if (allowed == false)
             {
                 string errcode = User.Identity.Name + " Permission not granted, CreateTicket, Project:" + currentProject.Id;
@@ -271,6 +273,7 @@ namespace BugTracker.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Developer, Project Manager, Submitter, Admin")]
         public ActionResult EditTicketForm([Bind(Include = "Id,Created,Updated,Title,Description,ProjectID,TicketStatusID,TicketTypeID,TicketPriorityID,OwnerUserID,AssignedToUserID")] TicketPost ticketPost)
         {
             if (ModelState.IsValid)
@@ -282,7 +285,7 @@ namespace BugTracker.Controllers
                 var editedTicket    = ticketPost;//Changes that were submitted through Form Post
                 var allUsers        = db.Users;
                 var ticketEditor    = db.Users.Find(User.Identity.GetUserId());//User that edited the ticket
-                var ticketUpdatedTimeStamp = DateTimeOffset.UtcNow;
+                var ticketUpdatedTimeStamp = DateTimeOffset.UtcNow;//Used so ticket updated-date/history-time/notificaiton-time
                 var changesMade = false;//is used to control one final saved of all ticket edits
                 var updateNoftication = false;//is used to control & send one generic edit message
                 db.TicketPosts.Attach(currentTicket);//Sets currentTicket ready for changes.
@@ -408,6 +411,7 @@ namespace BugTracker.Controllers
         // POST: BT/AddTicketAttachment
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Developer, Project Manager, Submitter, Admin")]
         public ActionResult AddTicketAttachment([Bind(Include = "TicketId,Description")] TicketAttachment ticketAttachment, HttpPostedFileBase file)
         {
             //HelperMethod for Histories/Notifications
@@ -445,11 +449,11 @@ namespace BugTracker.Controllers
             }
             //####End Access Control Section####
 
-            if (file != null && file.ContentLength > 0 && file.ContentLength < 3000)
+            if (file == null || file.ContentLength > 3999999)//Doesn't work need to add script to check filesize on frontend
             {
                 //check the file name to make sure its an image
-                var ext = Path.GetExtension(file.FileName).ToLower();
-
+                //var ext = Path.GetExtension(file.FileName).ToLower();
+                return RedirectToAction("Ticket", "BT", new { Id = ticketAttachment.TicketID });
                 //if (ext != ".png" && ext != ".jpg" && ext != ".jpeg" && ext != ".gif" && ext != ".bmp")
                 //    ModelState.AddModelError("image", "Invalid Format.");
             }
@@ -504,6 +508,7 @@ namespace BugTracker.Controllers
         // POST: BT/AddComment
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Developer, Project Manager, Submitter, Admin")]
         public ActionResult AddComment(TicketComment comment)
         {
             var commentor = db.Users.Find(User.Identity.GetUserId());
@@ -536,7 +541,8 @@ namespace BugTracker.Controllers
             }
             if (User.IsInRole("DemoAcc"))
             {
-                allowed = false;
+                string errcode = User.Identity.Name + " Permission not granted, AddComment, Ticket: " + currentTicket.Id;
+                return RedirectToAction("Err403", "BT", new { errcode = errcode });
             }
 
             //####End Access Control Section####
@@ -556,8 +562,8 @@ namespace BugTracker.Controllers
 
                 return RedirectToAction("Ticket", "BT", new { id = comment.TicketID });
             }
-            string errcode = User.Identity.Name + " Permission not granted, AddComment, Ticket: " + currentTicket.Id;
-            return RedirectToAction("Err403", "BT", new { errcode = errcode });
+
+            return RedirectToAction("Ticket", "BT", new { id = comment.TicketID });
         }
 
         [HttpPost]
@@ -588,8 +594,11 @@ namespace BugTracker.Controllers
                     //Create Notification
                     ticketCustomHelper.CommentEditNotification(currentUser, currentComment, timeStamp);
                 }
-                string errcode = User.Identity.Name + " Permission not granted, EditComment, Comment: " + currentComment.Id;
-                return RedirectToAction("Err403", "BT", new { errcode = errcode });
+                else
+                {
+                    string errcode = User.Identity.Name + " Permission not granted, EditComment, Comment: " + currentComment.Id;
+                    return RedirectToAction("Err403", "BT", new { errcode = errcode });
+                }
             }
 
             return RedirectToAction("Ticket", "BT", new { Id = currentComment.TicketID });
@@ -598,9 +607,9 @@ namespace BugTracker.Controllers
         //END COMMENT SECTION
         //#########################################################################
 
-            //#########################################################################
-            //START PROJECT MANAGER SECTION
-            // GET: BT/GlobalTickets
+        //#########################################################################
+        //START PROJECT MANAGER SECTION
+        // GET: BT/GlobalTickets
         [Authorize(Roles ="Admin, Project Manager")]
         public ActionResult GlobalTickets()
         {
@@ -657,7 +666,7 @@ namespace BugTracker.Controllers
         //Add users to project
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Project Manager")]
+        [Authorize(Roles = "Project Manager, Admin")]
         public ActionResult EditProjectAddUser(EPSelectedListVM model, int Id)
         {
             if (User.IsInRole("DemoAcc"))
@@ -674,7 +683,7 @@ namespace BugTracker.Controllers
             var selectedUsers = model.Users.Where(u => u.IsChecked.Equals(true)).ToList();//get's only users that were checked.
             var currentUser = db.Users.Find(User.Identity.GetUserId());
             var allUsers = db.Users;
-            if (currentProject.Users.Count() < 1 || currentProject.Users.Contains(currentUser))
+            if (currentProject.Users.Count() < 1 || currentProject.Users.Contains(currentUser) || User.IsInRole("Admin"))
             {
             for (var i = 0; i < selectedUsers.Count(); i++)
             {
@@ -693,7 +702,7 @@ namespace BugTracker.Controllers
         //Remove users from Project
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Project Manager")]
+        [Authorize(Roles = "Project Manager, Admin")]
         public ActionResult EditProjectRMUser(EPRMSelectedListVM model, int Id)
         {
             if (User.IsInRole("DemoAcc"))
@@ -709,7 +718,7 @@ namespace BugTracker.Controllers
             var selectedUsers = model.Users.Where(u => u.IsChecked.Equals(true)).ToList();//get's only users that were checked.
             var currentUser = db.Users.Find(User.Identity.GetUserId());
             var allUsers = db.Users;
-            if (currentProject.Users.Contains(currentUser))
+            if (currentProject.Users.Contains(currentUser) || User.IsInRole("Admin"))
             {
                 for (var i = 0; i < selectedUsers.Count(); i++)
                 {
@@ -723,7 +732,7 @@ namespace BugTracker.Controllers
         }
 
 
-        [Authorize(Roles ="Project Manager")]
+        [Authorize(Roles ="Project Manager, Admin")]
         public ActionResult PMDashboard()
         {
             //HelperMethod for Histories/Notifications
@@ -776,11 +785,43 @@ namespace BugTracker.Controllers
                 PMTicketProjectsSelectVM.ProjectName = projectsArr[i].Name;
                 PMDashboardVM.PMVMListForPartials.Add(PMTicketProjectsSelectVM);
             }
+            var ticketHistoriesList = new List<TicketHistory>();
+                foreach (var item in userProjects)
+                {
+                var newList = db.TicketHistories.OrderByDescending(h => h.UpdatedTime).Where(h => h.Ticket.ProjectID == item.Id).ToList();
+                ticketHistoriesList.AddRange(newList);
+                }
+            var projectHistoriesList = ticketHistoriesList.OrderByDescending(h => h.UpdatedTime).ToList();
+
+            //Data for TicketHistories
+            var historyTimesList = projectHistoriesList.Select(x => x.UpdatedTime).Distinct().ToList();
+            var ticketHistoryList = new List<TicketHistory>().ToArray();
+
+
+            var TopList = new List<TopDispHist>();
+
+            foreach (var item in historyTimesList)
+            {
+                var TopDispHist = new TopDispHist();
+                TopDispHist.HistEntriesList = new List<TicketHistory>();
+
+                var ticketEntry = projectHistoriesList.Where(t => t.UpdatedTime == item);
+                TopDispHist.HistEntriesList.AddRange(ticketEntry.ToList());
+                TopDispHist.Created = item;
+                TopDispHist.DisplayName = TopDispHist.HistEntriesList.First().UpdatedByUser.DisplayName;
+                TopList.Add(TopDispHist);
+            }
+
+            ViewData["ticketHistoryList"] = (List<TopDispHist>)TopList.Take(15).ToList();
+
             var VMList = PMDashboardVM.PMVMListForPartials;
             ViewData["ViewModelList"] = (List<PMTicketProjectsSelectVM>)VMList;
 
+               
+
             return View(PMDashboardVM);
         }
+        [Authorize(Roles = "Project Manager, Admin")]
         public ActionResult ManageProject(int? Id)
         {
            
@@ -972,7 +1013,7 @@ namespace BugTracker.Controllers
                 foreach (var item in selected)
                 {
                     var currentNotification = db.TicketNotifications.FirstOrDefault(x => x.Id == item.NotificationId);
-                    if (currentNotification.UserID == currentNotification.UserID)
+                    if (currentNotification.UserID == currentUserId)
                     {
                         db.TicketNotifications.Remove(currentNotification);
                         currentNotification.Read = false;
@@ -982,7 +1023,7 @@ namespace BugTracker.Controllers
             }
             return RedirectToAction("MyNotifications", "BT");
         }
-
+        //Loads the most recent notifications for the user on click(10 max)
         public ActionResult TopNotification()
         {
             var uId = User.Identity.GetUserId();

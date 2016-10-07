@@ -14,11 +14,6 @@ namespace BugTracker.Models
         public List<ApplicationUser> AllUsers { get; set; }
     }
 
-    public class AdminUserData
-    {
-
-    }
-
     public class AdminIndexViewModel
     {
         public List<ApplicationUser> AllUsers { get; set; }
@@ -30,27 +25,6 @@ namespace BugTracker.Models
         public string[] SelectedRoles { get; set; }
         public string Id { get; set; }
         public string Name { get; set; }
-    }
-    public class AdminEditUser
-    {
-        //[Required]
-        //[StringLength(40, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 4)]
-        //[Display(Name = "Display Name")]
-        //public string UserDisplayName { get; set; }
-        //[Required]
-        //[StringLength(20, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 2)]
-        //[Display(Name = "First Name")]
-        //public string UserFirstName { get; set; }
-        //[Required]
-        //[StringLength(20, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 2)]
-        //[Display(Name = "Last Name")]
-        //public string UserLastName { get; set; }
-        
-    }
-        public class ProjectEditUsersViewModel
-    {
-        public Projects CurrentProject { get; set; }
-        public List<ApplicationUser> ApplicationUsersList { get; set; }
     }
 
 }

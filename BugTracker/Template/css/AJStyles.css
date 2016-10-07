@@ -278,6 +278,15 @@
 .tabs-style-underline nav li a::after{
     background: deepskyblue;
 }
+.dashboard-box{
+    margin-top:40px;
+    padding:2px;
+    max-height:600px;
+    overflow:auto;
+}
+.admin-dash-panel-body section{
+    padding:0;
+}
 /*Admin Ticket Tables*/
 .admin-tbl-title{
     min-height: 45px;
@@ -306,3 +315,29 @@ font-size: 21px;
     position: fixed;
 
 }
+@media screen and (max-width: 767.5px){
+    .demo-rightNavPopover{
+            top: 252.5px !important;
+            left:0;
+    }
+
+}
+@media screen and (max-width: 767.5px){
+    .demo-rightNavPopover .arrow{
+            display:none;
+    }
+
+}
+@media screen and (max-width:767.5px){
+    .demo-left-nav1 {
+        left:0;
+        position: absolute;
+        top: -110px;
+    }
+}
+@media screen and (max-width:767.5px){
+    .demo-left-nav1 .arrow{
+        display:none;
+    }
+}
+

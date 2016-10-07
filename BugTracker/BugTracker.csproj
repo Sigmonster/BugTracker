@@ -214,13 +214,10 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\AuthActivityAttribute.cs" />
     <Compile Include="Controllers\BTController.cs" />
-    <Compile Include="Controllers\CommentsController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
-    <Compile Include="Controllers\TicketController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -875,7 +872,9 @@
     <Content Include="zTest\blank - Copy.html" />
     <Content Include="zTest\blank.html" />
     <Content Include="zTest\blank - Copy %284%29 LayoutTest.html" />
-    <None Include="Properties\PublishProfiles\ajsigmonbt.pubxml" />
+    <None Include="Properties\PublishProfiles\ajsigmonbt.pubxml">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -2681,7 +2680,9 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="private.config" />
+    <Content Include="private.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Views\Account\ResendEmailConfirmation.cshtml" />
     <Content Include="Views\Account\ConfirmationSent.cshtml" />
     <Content Include="Template\bootstrap\dist\css\bootstrap-theme.css.map" />
@@ -3491,20 +3492,12 @@
     <Content Include="Views\Manage\EditAccount.cshtml" />
     <Content Include="Views\Admin\Dashboard.cshtml" />
     <Content Include="Views\Admin\ProjectCreate.cshtml" />
-    <Content Include="Views\Admin\ProjectDelete.cshtml" />
     <Content Include="Views\Admin\ProjectEdit.cshtml" />
     <Content Include="Views\Admin\Projects.cshtml" />
     <Content Include="Views\Shared\_ForgotPasswordPartial.cshtml" />
     <Content Include="Views\Shared\_BTListProjects.cshtml" />
-    <Content Include="Views\Ticket\Create.cshtml" />
-    <Content Include="Views\Ticket\Delete.cshtml" />
-    <Content Include="Views\Ticket\Details.cshtml" />
-    <Content Include="Views\Ticket\Edit.cshtml" />
-    <Content Include="Views\Ticket\Index.cshtml" />
-    <Content Include="Views\Admin\EditUsers.cshtml" />
     <Content Include="Views\Admin\EditUserRoles.cshtml" />
     <Content Include="Views\Shared\_LoginFormPartial.cshtml" />
-    <Content Include="Views\Admin\ProjectEditUsers.cshtml" />
     <Content Include="Views\BT\MyProjects.cshtml" />
     <Content Include="Views\BT\EditProjectUsers.cshtml" />
     <Content Include="Views\BT\_UsersInProjectPartial.cshtml" />
@@ -3545,11 +3538,6 @@
     <Content Include="TemplateHelper\DataTables-1.10.12\ISSUE_TEMPLATE.md" />
     <Content Include="TemplateHelper\DataTables-1.10.12\media\images\Sorting icons.psd" />
     <Content Include="TemplateHelper\DataTables-1.10.12\Readme.md" />
-    <Content Include="Views\Comments\Create.cshtml" />
-    <Content Include="Views\Comments\Delete.cshtml" />
-    <Content Include="Views\Comments\Details.cshtml" />
-    <Content Include="Views\Comments\Edit.cshtml" />
-    <Content Include="Views\Comments\Index.cshtml" />
     <Content Include="Views\Shared\_CommentsPartial.cshtml" />
     <Content Include="Views\Shared\_TicketAttachment.cshtml" />
     <Content Include="Views\Shared\_CommentAddPartial.cshtml" />

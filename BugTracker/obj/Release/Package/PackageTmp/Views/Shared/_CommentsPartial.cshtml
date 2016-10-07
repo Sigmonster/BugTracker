@@ -1,4 +1,5 @@
-﻿@model IEnumerable<BugTracker.Models.TicketComment>
+﻿@using BugTracker.Models
+@model List<TicketComment>
 
 <div class="col-md-6">
     <div class="panel panel-info">
@@ -29,8 +30,7 @@
                                         <div class="pull-right">
                                             <button aria-expanded="false" data-toggle="dropdown" class="btn btn-default btn-outline dropdown-toggle waves-effect waves-light slim-btn-dropdown" type="button"> <span class="caret"></span></button>
                                             <ul role="menu" class="dropdown-menu slim-dropdown-ul">
-                                                <li><a href="#">Edit</a></li>
-                                                <li><a href="#">Delete</a></li>
+                                                <li><a href="#" data-toggle="modal" data-target="#myModal_@item.Id">Edit</a></li>
                                             </ul>
                                         </div>
                                     </div>
@@ -39,9 +39,35 @@
                                 <div class="row">
                                     <div class="col-xs-12">
                                         @Html.DisplayFor(modelItem => item.CommentBody)
+
+                                        <div id="myModal_@item.Id" class="modal fade" role="dialog">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                        <h4 class="modal-title">Edit Comment</h4>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        @using (Html.BeginForm("EditComment", "BT", FormMethod.Post))
+                                                                {
+                                                                @Html.AntiForgeryToken()
+                                                                @Html.ValidationSummary("", new { @class = "text-danger" })
+                                                                <input type="text" name="Id" value="@item.Id" hidden="hidden" />
+                                                                <textarea type="text" name="CommentBody" >@item.CommentBody</textarea>
+                                                                <input type="submit"  value="Save" class="fcbtn btn btn-outline btn-success btn-1d" />
+                                                                }
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="fcbtn btn btn-outline btn-info btn-1d" data-dismiss="modal">Close</button>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        
+
                                     </div>
                                 </div>
-                                <br />
                             </div>
                         </div>
                     </div>

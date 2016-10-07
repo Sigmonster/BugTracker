@@ -5,7 +5,7 @@
 
     
 }
-
+@* This Partial is used for My Tickets and other areas where Ticket Description is needed. *@
 <div class="col-md-12">
     <div class="panel panel-info">
         <div class="panel-heading">
@@ -14,7 +14,7 @@
                 @ViewBag.TicketDisplayDescription
             </div>
                 <div class="pull-right ticket-box-header-btns"><a href="#" data-perform="panel-collapse"><i class="ti-minus"></i></a> </div>
-                <br />
+            <br />
             <br />
             </div>
         <div class="panel-wrapper collapse in" aria-expanded="true">
@@ -22,33 +22,61 @@
                 <div class="table-responsive">
                     <table class="table table-striped compact myDT">
                         <thead>
-                            <tr>
+                            <tr class="ticket-tbl-row">
+                                <th>#</th>
                                 <th>Created</th>
                                 <th>Updated</th>
-                                <th>Ticket #</th>
-                                <th>Title</th>
-                                <th>Owner/Submitter</th>
-                                <th>Assigned to</th>
-                                <th>Description</th>
-                                <th>Priority</th>
                                 <th>Status</th>
+                                <th>Priority</th>
+                                <th>Type</th>
+                                <th>Project</th>
+                                <th>Title</th>
+                                <th>Owner</th>
+                                <th>Assigned</th>
+                                <th>Description</th>
                             </tr>
                         </thead>
                         <tbody class="disp-tick-tbody">
-                            @foreach (var item in DispTickets.OrderBy(t=>t.Created))
+                            @foreach (var item in DispTickets.OrderBy(t => t.Created))
                             {
-                                <tr class="epu-tbl-row">
-                                    <td>
-                                        @item.Created
-                                    </td>
-                                    <td>
-                                        @item.Updated
-                                    </td>
+                                <tr class="ticket-tbl-row">
                                     <td>
                                         <a href="@Url.Action("Ticket","BT", new { Id = item.Id })">@item.Id</a>
                                     </td>
                                     <td>
-                                        @item.Title
+                                        <div class="ticket-tbl-time">
+                                            @Html.DisplayFor(modelItem => item.Created)
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="ticket-tbl-time">
+                                            @item.Updated
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <span class="tk-status ticket-label status-@item.TicketStatusID">
+                                            @item.TicketStatus.Name
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span class="tk-priority ticket-label priority-@item.TicketPriorityID">
+                                            @item.TicketPriority.Name
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span class="tk-type ticket-label type-@item.TicketTypeID">
+                                            @item.TicketType.Name
+                                        </span>
+                                    </td>
+                                    <td>
+                                        @item.Project.Name
+                                    </td>
+
+
+                                    <td>
+                                        <div class="ticket-tbl-title">
+                                            <a href="@Url.Action("Ticket","BT", new { Id = item.Id })">@item.Title</a>
+                                        </div>
                                     </td>
                                     <td>
                                         @item.OwnerUser.DisplayName
@@ -64,14 +92,11 @@
                                         }
                                     </td>
                                     <td>
-                                        @item.Description
+                                        <div class="ticket-tbl-body">
+                                            @item.Description
+                                        </div>
                                     </td>
-                                    <td>
-                                        @item.TicketPriority.Name
-                                    </td>
-                                    <td>
-                                        @item.TicketStatus.Name
-                                    </td>
+
                                 </tr>
                             }
                         </tbody>

@@ -1,22 +1,15 @@
 ﻿@using BugTracker.Models
-@model DispTicketsVM
+@model AdminTicketsVM
 
-@{ 
-//var DispTicketsVM = (DispTicketsVM)ViewData["TicketsCollection"];
-
-}
-
-<div class="col-md-12">
-    <div class="panel panel-info">
+<div class="col-md-11 center-block">
+    <div class="panel panel-inverse">
         <div class="panel-heading">
             <div class="pull-left">
-                <strong>Tickets</strong><br />
-                @Model.TitleDesc
+                <strong>@Model.Title</strong><br />
             </div>
-                <div class="pull-right ticket-box-header-btns"><a href="#" data-perform="panel-collapse"><i class="ti-plus"></i></a> </div>
-                <br />
+            <div class="pull-right ticket-box-header-btns"><a href="#" data-perform="panel-collapse"><i class="ti-plus" style="position: relative; bottom: 8px;"></i></a> </div>
             <br />
-            </div>
+        </div>
         <div class="panel-wrapper collapse" aria-expanded="false">
             <div class="panel-body">
                 <div class="table-responsive">
@@ -37,7 +30,7 @@
                             </tr>
                         </thead>
                         <tbody class="disp-tick-tbody display" cellspacing="0" width="100%">
-                            @foreach (var item in Model.TicketList.OrderByDescending(m => m.Created))
+                            @foreach (var item in Model.Tickets)
                             {
                                 <tr class="ticket-tbl-row">
                                     <td>
@@ -74,8 +67,8 @@
 
 
                                     <td>
-                                        <div class="ticket-tbl-title">
-                                            <a href="@Url.Action("Ticket","BT", new { Id = item.Id })">@item.Title</a>
+                                        <div class="ticket-tbl-title admin-tbl-title">
+                                            @item.Title
                                         </div>
                                     </td>
                                     <td>
@@ -92,7 +85,7 @@
                                         }
                                     </td>
                                     <td>
-                                        <div class="ticket-tbl-body">
+                                        <div class="ticket-tbl-body admin-tbl-body">
                                             @item.Description
                                         </div>
                                     </td>
@@ -101,9 +94,9 @@
                             }
                         </tbody>
                     </table>
-                    <br />
                 </div>
             </div>
         </div>
     </div>
 </div>
+

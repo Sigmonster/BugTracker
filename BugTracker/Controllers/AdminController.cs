@@ -14,6 +14,7 @@ using System.Web.Security;
 
 namespace BugTracker.App_Start
 {
+    [Authorize(Roles = "Project Manager, Admin")]
     public class AdminController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -111,16 +112,16 @@ namespace BugTracker.App_Start
 
         //
         //######################Start Edit Users Section########################
-        //ALL User List Section
-        // GET: Admin/EditUsers
-        [Authorize(Roles = "Admin")]
-        public ActionResult EditUsers()
-        {
-            var users = db.Users.ToList();
+        ////ALL User List Section
+        //// GET: Admin/EditUsers
+        //[Authorize(Roles = "Admin")]
+        //public ActionResult EditUsers()
+        //{
+        //    var users = db.Users.ToList();
 
-            ViewData["AllUsers"] = users;
-            return View();
-        }
+        //    ViewData["AllUsers"] = users;
+        //    return View();
+        //}
 
         //
         //Get Edit User Roles
@@ -148,10 +149,14 @@ namespace BugTracker.App_Start
         {
             UserRolesHelper helper = new UserRolesHelper(db);
             string userId = AdminUserViewModel.Id;
-
-            if (!User.IsInRole("DemoAcc"))
+            var editedUserAccount = db.Users.Find(userId);
+            var currentUser = db.Users.Find(User.Identity.GetUserId());
+            if (User.IsInRole("DemoAcc"))
             {
-                if (ModelState.IsValid)
+                string errcode = User.Identity.Name + " Permission not granted, EditUserRoles, Edited User: " + editedUserAccount.Email;
+                return RedirectToAction("Err403", "BT", new { errcode = errcode });
+            }
+            if (ModelState.IsValid)
                 {
                     var selectedRoleList = AdminUserViewModel.SelectedRoles;
                     string[] currentRoleList = helper.ListUserRoles(userId).ToArray();
@@ -188,7 +193,7 @@ namespace BugTracker.App_Start
                     }
                     return RedirectToAction("EditUserRoles", "Admin", userId);
                 }
-            }
+
             return RedirectToAction("EditUserRoles", "Admin", userId);
         }
         //End POST Edit User Roles
@@ -251,7 +256,8 @@ namespace BugTracker.App_Start
             }
             if (User.IsInRole("DemoAcc"))
             {
-                allowed = false;
+                string errcode = User.Identity.Name + " Permission not granted, ProjectEdit, ProjectId: " + currentProject.Id;
+                return RedirectToAction("Err403", "BT", new { errcode = errcode });
             }
 
 
@@ -297,15 +303,19 @@ namespace BugTracker.App_Start
         [Authorize(Roles = "Admin, Project Manager")]
         public async Task<ActionResult> ProjectCreate([Bind(Include = "Id,Name")] Projects projects)
         {
-            if (!User.IsInRole("DemoAcc"))
+            if (User.IsInRole("DemoAcc"))
             {
-                if (ModelState.IsValid)
-                {
-                    db.Projects.Add(projects);
-                    await db.SaveChangesAsync();
-                    return RedirectToAction("Projects", "Admin");
-                }
+                string errcode = User.Identity.Name + " Permission not granted, ProjectCreate";
+                return RedirectToAction("Err403", "BT", new { errcode = errcode });
             }
+
+            if (ModelState.IsValid)
+            {
+                db.Projects.Add(projects);
+                await db.SaveChangesAsync();
+                return RedirectToAction("Projects", "Admin");
+            }
+
 
             return View(projects);
         }

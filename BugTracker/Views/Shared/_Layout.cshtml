@@ -42,7 +42,7 @@
         <!-- Top Navigation -->
         <nav class="navbar navbar-default navbar-static-top m-b-0">
             <div class="navbar-header">
-                <a class="navbar-toggle hidden-sm hidden-md hidden-lg " href="javascript:void(0)" data-toggle="collapse" data-target=".navbar-collapse"><i class="ti-menu"></i></a>
+                <a class="navbar-toggle hidden-sm hidden-md hidden-lg " id="mobile-nav-left"href="javascript:void(0)" data-toggle="collapse" data-target=".navbar-collapse"><i class="ti-menu"></i></a>
                 <div class="top-left-part"><a class="logo" href="/Home/Index"><b><img src="~/Template/plugins/images/eliteadmin-logo.png" alt="home" /></b><span class="hidden-xs"><img src="~/Template/plugins/images/eliteadmin-text.png" alt="home" /></span></a></div>
                 <ul class="nav navbar-top-links navbar-left hidden-xs">
                     <li><a href="javascript:void(0)" class="open-close hidden-xs waves-effect waves-light"><i class="icon-arrow-left-circle ti-menu"></i></a></li>
@@ -73,6 +73,7 @@
                         <!-- /.dropdown-messages -->
                 
                     </li>
+
                     <!-- /.dropdown -->
                     <!-- End Top Right Notification Button-->
                     <!-- Start Top Right Pencil Button-->
@@ -180,7 +181,7 @@
             <div class="sidebar-nav navbar-collapse slimscrollsidebar">
                 <ul class="nav" id="side-menu">
                     <!-- Hidden Search for Mobile -->
-                    <li class="sidebar-search hidden-sm hidden-md hidden-lg">
+                    @*<li class="sidebar-search hidden-sm hidden-md hidden-lg">
                         <!-- input-group -->
                         <div class="input-group custom-search-form">
                             <input type="text" class="form-control" placeholder="Search~.">
@@ -189,7 +190,7 @@
                             </span>
                         </div>
                         <!-- /input-group -->
-                    </li>
+                    </li>*@
                     <!-- End Hidden Search for Mobile-->
                     <!-- Start Left Nav User Section -->
                     <li class="user-pro">
@@ -215,7 +216,7 @@
                     <li class="nav-small-cap m-t-10">--- Main Menu</li>
                     <!-- Start Views -->
                     <li>
-                        <a href="index.html" class="waves-effect"><i class="linea-icon linea-basic fa-fw" data-icon="E"></i> <span class="hide-menu"> Views <span class="fa arrow"></span> <span class="label label-rouded label-custom pull-right">4</span></span></a>
+                        <a href="index.html" class="waves-effect"><i class="linea-icon linea-basic fa-fw" data-icon="E"></i> <span class="hide-menu"> Views <span class="fa arrow"></span> @*<span class="label label-rouded label-custom pull-right">4</span>*@</span></a>
                         <ul class="nav nav-second-level">
                             <li> <a href="/Home/Index"><i class="ti-home"></i> My Home</a> </li>
                             <li> <a href="@Url.Action("MyTickets","BT")"> My Tickets</a> </li>
@@ -228,7 +229,7 @@
                     <li>
                        @if(User.IsInRole("Project Manager") || User.IsInRole("Admin"))
                        {
-                        <a href="index.html" class="waves-effect"><i class="linea-icon linea-basic fa-fw" data-icon="E"></i> <span class="hide-menu"> Project Manager<span class="fa arrow"></span> <span class="label label-rouded label-custom pull-right">4</span></span></a>
+                        <a href="index.html" class="waves-effect"><i class="linea-icon linea-basic fa-fw" data-icon="E"></i> <span class="hide-menu"> Project Manager<span class="fa arrow"></span> @*<span class="label label-rouded label-custom pull-right">4</span>*@</span></a>
                         <ul class="nav nav-second-level">
                             <li> <a href="/BT/PMDashBoard"><i class="ti-home"></i> PM Dashboard</a> </li>
                             <li> <a href="@Url.Action("ManageProject","BT")"> Manage Projects</a> </li>
@@ -243,6 +244,7 @@
                     <li>
                         <a href="/BT/MyNotifications" class="waves-effect"><i class="ti-email"></i> <span class="hide-menu">Notification Inbox <span class="fa arrow"></span></span></a>
                     </li>
+                    </ul>
             </div> 
             <!-- End Left navbar-header Collapse -->
         </div>
@@ -288,12 +290,14 @@
                                 <p>This Web App was built by Alexander(AJ) Sigmon. The app was built using Visual Studio, ASP.NET, C#, HTML5, CSS, and Javascript. Additionally, the frameworks Entity, Bootstrap, JQuery, and multiple other JQuery/CSS Plugins/Frameworks.</p>
                                 <hr />
                                 <p>Without further ado, let's start by learning how the roles are configured.</p>
-                                <p>The User Roles are hierarchical in nature, just like you would expect. The “Admin Role” is at the top of the food chain and has the most insight into the application alternatively the “Registered User” Role is at the bottom and has no access. It is added to a User Account upon Registration and must be removed before the user can start using the application.</p>
-                                <p>However, not all permissions are inherited from “lower” Roles. Some features are exclusive to a particular Role, in which case, the specific Role is the only Role has access to the feature. For instance, the Project Manager Role can add users to projects but the Admin Role cannot. Therefore, should a user who is an Admin need access to add users to projects, the user will need to have both the Project Manger and Admin Role(s) added to the user's account. Since the Admin Role is the only Roles that can Add/Remove User Roles the user in the example could technically add the Project Manager Role to their own User Account and freely add users to projects that they're a member of.</p>
+                                <p>The User Roles are hierarchical in nature, just like you would expect. The “Admin Role” is at the top of the food chain and has the most insight into the application, alternatively, the “Registered User” Role is at the bottom and has no access. It is added to a User Account upon Registration and must be removed before the user can start using the application.</p>
+                                <p>However, not all permissions are inherited from “lower” Roles. Some Roles have features that are exclusive to the particular Role, in which case, the specific Role is the only Role has access to the feature. For instance, the Submitter Role can create tickets and the Project Manager Role cannot. Therefore, should a user who is a Project Manager need access to create tickets, the user will need to have both the Project Manger and Submitter Role(s) added to the user's account.</p>
                                 <p>Here are the User Roles along with the most notable permissions listed.</p>
                                 <br />
-                                <div class="pull-right">
-                                    <button class="fcbtn btn btn-outline btn-success btn-1d" id="show-Me-Start" data-dismiss="modal">Show me around! <i class="fa fa-arrow-right"></i></button>
+                                <div class="row">
+                                    <div class="pull-right">
+                                        <button class="fcbtn btn btn-outline btn-success btn-1d" id="show-Me-Start" data-dismiss="modal">Show me around! <i class="fa fa-arrow-right"></i></button>
+                                    </div>
                                 </div>
                                 <b>Registered User</b>
                                 <ul>
@@ -317,14 +321,16 @@
                                 <ul>
                                     <li>Create/Edit Projects.</li>
                                     <li>Add Users to Projects.</li>
-                                    <li>Edit/Comment/Upload files to only Tickets in their Projects.</li>
+                                    <li>Edit/Comment/Upload files to Tickets only in their Projects.</li>
                                     <li>View all Tickets/Projects.</li>
                                 </ul>
                                 <b>Admins</b>
                                 <ul>
                                     <li>Create/Edit Projects.</li>
+                                    <li>Add Users to Projects.</li>
+                                    <li>Edit/Comment/Upload files to all Tickets.</li>
                                     <li>Add/Remove User Roles.</li>
-                                    <li>Edit User Account Information.</li>
+                                    <li>Edit User's Account Information.</li>
                                     <li>View All Tickets/Projects.</li>
                                 </ul>
 
@@ -344,7 +350,7 @@
                             <div class="popover-content">
                                 <p>Here you will find the majority of views for the application. Some of these views are specific to user roles.</p>
                                 <p><b>Most Importantly,</b> The <u>"Project Manager"</u> navigational section is here. You must be logged in as a Project Manager to see this section.</p>
-                                <p>The "Views" Section is the main navigational bar for Developers/Submitters, but is also available to Project Managers and Admin as well.</p>
+                                <p>The "Views" Section is the main navigational bar for Developers/Submitters, but is also available to Project Managers and Admins as well.</p>
                                 <p>Lastly, the Notification Inbox is available to all users. Notifications are sent to users when tickets they're associated are interacted with.</p>
                                 <br />
                                 <div class="pull-right">
@@ -376,45 +382,45 @@
                         <div class="rpanel-title"> Account Options <span><i class="ti-close right-side-toggle"></i></span> </div>
                         <div class="r-panel-body">
                             @*<ul>
-                                    <li><b>Layout Options</b></li>
-                                    <li>
-                                        <div class="checkbox checkbox-info">
-                                            <input id="checkbox1" type="checkbox" class="fxhdr">
-                                            <label for="checkbox1"> Fix Header </label>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="checkbox checkbox-warning">
-                                            <input id="checkbox2" type="checkbox" checked="" class="fxsdr">
-                                            <label for="checkbox2"> Fix Sidebar </label>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="checkbox checkbox-success">
-                                            <input id="checkbox4" type="checkbox" class="open-close">
-                                            <label for="checkbox4"> Toggle Sidebar </label>
-                                        </div>
-                                    </li>
-                                </ul>
-                                <ul id="themecolors" class="m-t-20">
-                                    <li><b>With Light sidebar</b></li>
-                                    <li><a href="javascript:void(0)" theme="default" class="default-theme">1</a></li>
-                                    <li><a href="javascript:void(0)" theme="green" class="green-theme">2</a></li>
-                                    <li><a href="javascript:void(0)" theme="gray" class="yellow-theme">3</a></li>
-                                    <li><a href="javascript:void(0)" theme="blue" class="blue-theme working">4</a></li>
-                                    <li><a href="javascript:void(0)" theme="purple" class="purple-theme">5</a></li>
-                                    <li><a href="javascript:void(0)" theme="megna" class="megna-theme">6</a></li>
-                                    <li><b>With Dark sidebar</b></li>
-                                    <li><a href="javascript:void(0)" theme="default-dark" class="default-dark-theme">7</a></li>
-                                    <li><a href="javascript:void(0)" theme="green-dark" class="green-dark-theme">8</a></li>
-                                    <li><a href="javascript:void(0)" theme="gray-dark" class="yellow-dark-theme">9</a></li>
+        <li><b>Layout Options</b></li>
+        <li>
+            <div class="checkbox checkbox-info">
+                <input id="checkbox1" type="checkbox" class="fxhdr">
+                <label for="checkbox1"> Fix Header </label>
+            </div>
+        </li>
+        <li>
+            <div class="checkbox checkbox-warning">
+                <input id="checkbox2" type="checkbox" checked="" class="fxsdr">
+                <label for="checkbox2"> Fix Sidebar </label>
+            </div>
+        </li>
+        <li>
+            <div class="checkbox checkbox-success">
+                <input id="checkbox4" type="checkbox" class="open-close">
+                <label for="checkbox4"> Toggle Sidebar </label>
+            </div>
+        </li>
+    </ul>
+    <ul id="themecolors" class="m-t-20">
+        <li><b>With Light sidebar</b></li>
+        <li><a href="javascript:void(0)" theme="default" class="default-theme">1</a></li>
+        <li><a href="javascript:void(0)" theme="green" class="green-theme">2</a></li>
+        <li><a href="javascript:void(0)" theme="gray" class="yellow-theme">3</a></li>
+        <li><a href="javascript:void(0)" theme="blue" class="blue-theme working">4</a></li>
+        <li><a href="javascript:void(0)" theme="purple" class="purple-theme">5</a></li>
+        <li><a href="javascript:void(0)" theme="megna" class="megna-theme">6</a></li>
+        <li><b>With Dark sidebar</b></li>
+        <li><a href="javascript:void(0)" theme="default-dark" class="default-dark-theme">7</a></li>
+        <li><a href="javascript:void(0)" theme="green-dark" class="green-dark-theme">8</a></li>
+        <li><a href="javascript:void(0)" theme="gray-dark" class="yellow-dark-theme">9</a></li>
 
-                                    <li><a href="javascript:void(0)" theme="blue-dark" class="blue-dark-theme">10</a></li>
-                                    <li><a href="javascript:void(0)" theme="purple-dark" class="purple-dark-theme">11</a></li>
-                                    <li><a href="javascript:void(0)" theme="megna-dark" class="megna-dark-theme">12</a></li>
-                                </ul>
+        <li><a href="javascript:void(0)" theme="blue-dark" class="blue-dark-theme">10</a></li>
+        <li><a href="javascript:void(0)" theme="purple-dark" class="purple-dark-theme">11</a></li>
+        <li><a href="javascript:void(0)" theme="megna-dark" class="megna-dark-theme">12</a></li>
+    </ul>*@
                             </div>
-                        </div>*@
+                        </div>
                         </div>
                         <!-- End .right-sidebar Options-->
 

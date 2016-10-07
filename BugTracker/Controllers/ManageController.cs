@@ -243,7 +243,7 @@ namespace BugTracker.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> EditAccount(EditAccountViewModel model)
         {
-            if (User.IsInRole("DemoAcc)"))
+            if (User.IsInRole("DemoAcc"))
             {
                 return View(model);
             }
@@ -274,9 +274,10 @@ namespace BugTracker.Controllers
         {
             var user = UserManager.FindById(model.UserId);
 
-            if (User.IsInRole("DemoAcc)"))
+            if (User.IsInRole("DemoAcc"))
             {
-                return RedirectToAction("EditUserRoles", "Admin", new { Id = user.Id });
+                string errcode = User.Identity.Name + " Permission not granted, EditUserAccount, EditedUser: " + user.Email;
+                return RedirectToAction("Err403", "BT", new { errcode = errcode });
             }
 
             if (!ModelState.IsValid)
@@ -309,9 +310,10 @@ namespace BugTracker.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> ChangePassword(ChangePasswordViewModel model)
         {
-            if (User.IsInRole("DemoAcc)"))
+            if (User.IsInRole("DemoAcc"))
             {
-                return View(model);
+                string errcode = User.Identity.Name + " Permission not granted, ChangePassword";
+                return RedirectToAction("Err403", "BT", new { errcode = errcode });
             }
 
             if (!ModelState.IsValid)
@@ -346,9 +348,10 @@ namespace BugTracker.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> SetPassword(SetPasswordViewModel model)
         {
-            if (User.IsInRole("DemoAcc)"))
+            if (User.IsInRole("DemoAcc"))
             {
-                return View(model);
+                string errcode = User.Identity.Name + " Permission not granted, SetPassword";
+                return RedirectToAction("Err403", "BT", new { errcode = errcode });
             }
 
             if (ModelState.IsValid)

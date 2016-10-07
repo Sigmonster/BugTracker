@@ -8,7 +8,7 @@ namespace BugTracker.Models
     public class Projects
     {
         public Projects()//Constructor
-        {//These HashSets get all TicketIDs and Users associated with the Project
+        {//These HashSets get all Tickets and Users associated with the Project
             this.Tickets = new HashSet<TicketPost>();
             this.Users = new HashSet<ApplicationUser>();
 

@@ -241,25 +241,25 @@ $('#sa-success').click(function(){
 
     // Login and recover password
     $('#to-recover').click(function() {
-        $("#loginform").slideUp();
+        $("#login-form-wrapper").slideUp();
         $("#recoverform").fadeIn();
     });
     // Hide recover password, show login.
     $('#back-to-login').click(function () {
         $("#recoverform").fadeOut();
-        $("#loginform").slideDown();
+        $("#login-form-wrapper").slideDown();
     });
     //Hide Login, show register.
     $('#go-to-register').click(function () {
-        $("#loginform").slideUp();
+        $("#login-form-wrapper").slideUp();
         $("#registerform").fadeIn();
     });
 //Hide Register, show login
     $('#to-login-from-register').click(function () {
         $("#registerform").fadeOut();
-        $("#loginform").slideDown();
+        $("#login-form-wrapper").slideDown();
     });
-
+//Top Notification Load
     $("#notificationTopButton").click(function () {
         console.log("start");
         $("#notificationDispDiv").load('/BT/TopNotification');
@@ -405,10 +405,16 @@ $('#sa-success').click(function(){
      $("#show-Me-next1").click(function () {
          $("#popover333448aj").fadeOut();
          $("#top-Right-Dropdown").fadeOut();
+         $("#mobile-nav-left").css({
+             "border": "red 2px solid"
+         });
          $("#popover603212aj").show();
      })
      $("#show-Me-next2").click(function () {
          $("#popover603212aj").fadeOut();
+         $("#mobile-nav-left").css({
+             "border": "0"
+         });
      })
 
  });

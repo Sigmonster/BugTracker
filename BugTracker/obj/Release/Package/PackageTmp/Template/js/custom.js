@@ -234,27 +234,38 @@ $(document).ready(function() {
         }
         e.preventDefault();
     });
-    
+
+$('#sa-success').click(function(){
+        swal("Good job!", "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed lorem erat eleifend ex semper, lobortis purus sed.", "success")
+    });    
+
     // Login and recover password
     $('#to-recover').click(function() {
-        $("#loginform").slideUp();
+        $("#login-form-wrapper").slideUp();
         $("#recoverform").fadeIn();
     });
     // Hide recover password, show login.
     $('#back-to-login').click(function () {
         $("#recoverform").fadeOut();
-        $("#loginform").slideDown();
+        $("#login-form-wrapper").slideDown();
     });
     //Hide Login, show register.
     $('#go-to-register').click(function () {
-        $("#loginform").slideUp();
+        $("#login-form-wrapper").slideUp();
         $("#registerform").fadeIn();
     });
 //Hide Register, show login
     $('#to-login-from-register').click(function () {
         $("#registerform").fadeOut();
-        $("#loginform").slideDown();
+        $("#login-form-wrapper").slideDown();
     });
+
+    $("#notificationTopButton").click(function () {
+        console.log("start");
+        $("#notificationDispDiv").load('/BT/TopNotification');
+        console.log("End");
+    });
+
     
 //JQuery DataTables
     $(document).ready(function () {
@@ -289,27 +300,73 @@ $(document).ready(function() {
 
 
         });
-        
+         //MultipleTickets Checkbox Select Tables (PM Dashboard)  
+        var table = $('.myDTcheckbox').DataTable({
+            "order": [],//Disable Initial Sort
+            dom: 'Blfrtip',
+            buttons: [
+          {
+              extend: 'collection',
+              buttons: ['columnsToggle']
+          }],
+            'columnDefs': [
+                {
+                 "targets": [0],
+                 'searchable': true,
+                 'orderable':false,
+            }, {
+                 "targets": [1],
+                 'searchable': true,
+                 'orderable':false,
+            }, {
+                "targets": [3],
+                "visible": false,
 
-        $('.tk-status:contains("Open")').addClass('ticket-label ticket-Open'); 
-        $('.tk-status:contains("InProgress")').addClass('ticket-label ticket-InProgress');
-        $('.tk-status:contains("Pending")').addClass('ticket-label ticket-Pending');
-        $('.tk-status:contains("Resolved")').addClass('ticket-label ticket-Resolved');
+            }, {
+                "targets": [9],
+                "visible": false,
+            }, {
+                "targets": ["11"],
+                "visible": false,
+            }],
+            "lengthMenu": [10, 25, 50, 75, 100]
 
-        $('.tk-priority:contains("Critical")').addClass('ticket-label ticket-Critical');
-        $('.tk-priority:contains("Major")').addClass('ticket-label ticket-Major');
-        $('.tk-priority:contains("Minor")').addClass('ticket-label ticket-Minor');
-        $('.tk-priority:contains("Trivial")').addClass('ticket-label ticket-Trivial');
-        $('.tk-priority:contains("Blocker")').addClass('ticket-label ticket-Blocker');
 
-        $('.tk-type:contains("Bug")').addClass('ticket-label ticket-Bug');
-        $('.tk-type:contains("Task")').addClass('ticket-label ticket-Task');
-        $('.tk-type:contains("Feature")').addClass('ticket-label ticket-Feature');
+        });
+
+
+
+        //$('.tk-status:contains("Open")').addClass('ticket-label ticket-Open'); 
+        //$('.tk-status:contains("InProgress")').addClass('ticket-label ticket-InProgress');
+        //$('.tk-status:contains("Pending")').addClass('ticket-label ticket-Pending');
+        //$('.tk-status:contains("Resolved")').addClass('ticket-label ticket-Resolved');
+
+        //$('.tk-priority:contains("Critical")').addClass('ticket-label ticket-Critical');
+        //$('.tk-priority:contains("Major")').addClass('ticket-label ticket-Major');
+        //$('.tk-priority:contains("Minor")').addClass('ticket-label ticket-Minor');
+        //$('.tk-priority:contains("Trivial")').addClass('ticket-label ticket-Trivial');
+        //$('.tk-priority:contains("Blocker")').addClass('ticket-label ticket-Blocker');
+
+        //$('.tk-type:contains("Bug")').addClass('ticket-label ticket-Bug');
+        //$('.tk-type:contains("Task")').addClass('ticket-label ticket-Task');
+        //$('.tk-type:contains("Feature")').addClass('ticket-label ticket-Feature');
 
         //Standard DataTable
         $('.myTablez').DataTable({
             "order": []//Disable Initial Sort
         });
+
+        //Standard DataTable w/ checkboxes
+        $('.myTablez-chkbx').DataTable({
+            "order": [],//Disable Initial Sort
+            'columnDefs': [
+                {
+                    "targets": [0],
+                    'searchable': true,
+                    'orderable':false,
+                },]
+        });
+
 
     });
 //End JQuery DataTables
@@ -320,5 +377,44 @@ $(document).ready(function() {
          orgText = $(this).html();
          newText = orgText.replace('/Uploads/', '');
          $(this).html(newText);
+
+        
      })
-     });
+     //Hide Register, show login
+     //$('#to-login-from-register').click(function () {
+     //    $("#registerform").fadeOut();
+     //    $("#loginform").slideDown();
+     //});
+
+     //$("#notificationTopButton").click(function () {
+     //    console.log("start");
+     //    $("#notificationDispDiv").load('/BT/TopNotification');
+     //    console.log("End");
+     //});
+
+ });
+//Demo Walk-Thru Code.
+ $(document).ready(function () {
+     //$("#DemoHelp").click(function () {
+     //    $(".modal-content").modal("show");
+     //})
+     $("#show-Me-Start").click(function () {
+         $("#popover333448aj").fadeIn();
+         $("#top-Right-Dropdown").fadeIn();
+     })
+     $("#show-Me-next1").click(function () {
+         $("#popover333448aj").fadeOut();
+         $("#top-Right-Dropdown").fadeOut();
+         $("#mobile-nav-left").css({
+             "border": "red 2px solid"
+         });
+         $("#popover603212aj").show();
+     })
+     $("#show-Me-next2").click(function () {
+         $("#popover603212aj").fadeOut();
+         $("#mobile-nav-left").css({
+             "border": "0"
+         });
+     })
+
+ });

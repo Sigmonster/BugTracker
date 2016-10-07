@@ -1,11 +1,12 @@
-﻿@model BugTracker.Models.Projects
+﻿@using BugTracker.Models
+@model ProjectDetailsVM
 
 
 <div class="col-md-12">
     <div class="panel panel-info">
         <div class="panel-heading">
             <div class="pull-left">
-                <strong>Project: @Model.Name</strong>
+                <strong>Project: @Model.Project.Name</strong>
             </div>
             @*Short Description*@
             <div class="pull-right slim-heading-btns"><a href="#" data-perform="panel-collapse"><i class="ti-minus"></i></a> </div>
@@ -21,39 +22,18 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label class="control-label col-md-3">Title:</label>
+                                        <label class="control-label col-md-3">Project:</label>
                                         <div class="col-md-9">
-                                            <p class="form-control-static"> @Model.Name </p>
+                                            <p class="form-control-static"> @Model.Project.Name </p>
                                         </div>
                                     </div>
                                 </div>
                                 <!--/span-->
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label class="control-label col-md-3">Unassigned Tickets:</label>
+                                        <label class="control-label col-md-3">Unassigned:</label>
                                         <div class="col-md-9">
-                                            <p class="form-control-static">@Model.Tickets.Where(t => t.AssignedToUser == null).Count()</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!--/span-->
-                            </div>
-                            <!--/row-->
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label class="control-label col-md-3">Project Managers</label>
-                                        <div class="col-md-9">
-                                            <p class="form-control-static">PM# here</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!--/span-->
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label class="control-label col-md-3">More</label>
-                                        <div class="col-md-9">
-                                            <p class="form-control-static">More#</p>
+                                            <p class="form-control-static">@Model.UnassignedCount</p>
                                         </div>
                                     </div>
                                 </div>
@@ -63,18 +43,48 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label class="control-label col-md-3">Developers</label>
+                                        <label class="control-label col-md-3">PMs:</label>
                                         <div class="col-md-9">
-                                            <p class="form-control-static">Developer # here</p>
+                                            <p class="form-control-static">
+                                                @for(int i = 0; i < Model.ProjectManagers.ToArray().Length ; i++)
+                                                {
+                                                    @Model.ProjectManagers[i].DisplayName
+                                                    if(i != (Model.ProjectManagers.ToArray().Length - 1))
+                                                    {
+                                                        @:,  
+                                                    }
+                                                }
+                                            </p>
                                         </div>
                                     </div>
                                 </div>
                                 <!--/span-->
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label class="control-label col-md-3">More here</label>
+                                        <label class="control-label col-md-3">Ticket Count:</label>
                                         <div class="col-md-9">
-                                            <p class="form-control-static">## </p>
+                                            <p class="form-control-static">@Model.TotalTickets</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--/span-->
+                            </div>
+                            <!--/row-->
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label col-md-3">Developers:</label>
+                                        <div class="col-md-9">
+                                            <p class="form-control-static">@Model.DeveloperCount</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--/span-->
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label col-md-3"></label>
+                                        <div class="col-md-9">
+                                            <p class="form-control-static"></p>
                                         </div>
                                     </div>
                                 </div>
@@ -85,24 +95,16 @@
                     </form>
                 </div>
                 <div class="clearfix"></div>
-                <dl class="dl-horizontal">
-                    <dt>
-                        Unassigned Tickets
-                    </dt>
-
-                    <dd>
-                        @Model.Tickets.Where(t => t.AssignedToUser == null).Count()
-                    </dd>
-
-                </dl>
-                <p>
-                    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-                    @Html.ActionLink("Back to List", "Index")
-                </p>
-                <a href="@Url.Action("Create", "Ticket", new { projectId = Model.Id })" class="fcbtn btn btn-info btn-outline btn-1d">Create Ticket</a>
-            </div>
+            </div>  
         </div>
     </div>
 </div>
+@if (User.IsInRole("Submitter"))
+{
+    @Html.Partial("_CreateTicketPartial", new TicketPost() { ProjectID = Model.Project.Id })
+}
+@if(User.IsInRole("Developer") || User.IsInRole("Project Manager") || User.IsInRole("Admin"))
+{
+    @Html.Partial("_DisplayTicketsPartial")
+}
 
-@Html.Partial("_DisplayTicketsPartial")

@@ -8,7 +8,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <link rel="icon" type="image/png" sizes="16x16" href="~/Template/plugins/images/favicon.png">
-    <title>Elite Admin - is a responsive admin template</title>
+    <title>BugTracker - Visibility is the key.</title>
     <!-- Bootstrap Core CSS -->
     <link href="~/Template/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     @*<link href="~/Template/plugins/bower_components/datatables/jquery.dataTables.min.css" rel="stylesheet" type="text/css" />Orgin*@
@@ -23,6 +23,7 @@
     <link href="~/Template/css/style.css" rel="stylesheet">
     <!-- color CSS you can use different color css from css/colors folder -->
     <link href="~/Template/css/colors/blue.css" id="theme" rel="stylesheet">
+    <link href="~/Template/plugins/bower_components/toast-master/css/jquery.toast.css" rel="stylesheet" />
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <link href="~/Template/css/AJStyles.css" rel="stylesheet" />
@@ -41,66 +42,42 @@
         <!-- Top Navigation -->
         <nav class="navbar navbar-default navbar-static-top m-b-0">
             <div class="navbar-header">
-                <a class="navbar-toggle hidden-sm hidden-md hidden-lg " href="javascript:void(0)" data-toggle="collapse" data-target=".navbar-collapse"><i class="ti-menu"></i></a>
-                <div class="top-left-part"><a class="logo" href="index.html"><b><img src="~/Template/plugins/images/eliteadmin-logo.png" alt="home" /></b><span class="hidden-xs"><img src="~/Template/plugins/images/eliteadmin-text.png" alt="home" /></span></a></div>
+                <a class="navbar-toggle hidden-sm hidden-md hidden-lg " id="mobile-nav-left"href="javascript:void(0)" data-toggle="collapse" data-target=".navbar-collapse"><i class="ti-menu"></i></a>
+                <div class="top-left-part"><a class="logo" href="/Home/Index"><b><img src="~/Template/plugins/images/eliteadmin-logo.png" alt="home" /></b><span class="hidden-xs"><img src="~/Template/plugins/images/eliteadmin-text.png" alt="home" /></span></a></div>
                 <ul class="nav navbar-top-links navbar-left hidden-xs">
                     <li><a href="javascript:void(0)" class="open-close hidden-xs waves-effect waves-light"><i class="icon-arrow-left-circle ti-menu"></i></a></li>
                     <li>
-                        <form role="search" class="app-search hidden-xs">
+                        @*<form role="search" class="app-search hidden-xs">
                             <input type="text" placeholder="Search~." class="form-control">
                             <a href=""><i class="fa fa-search"></i></a>
-                        </form>
+                        </form>*@
                     </li>
                 </ul>
                 <!-- Start Top Right Nav Section -->
                 <ul class="nav navbar-top-links navbar-right pull-right">
                     <!-- Start Top Right Notification Button-->
                     <li class="dropdown">
-                        <a class="dropdown-toggle waves-effect waves-light" data-toggle="dropdown" href="javascript:void(0)">
+                        <a class="dropdown-toggle waves-effect waves-light" id="notificationTopButton" data-toggle="dropdown" href="">
                             <i class="icon-envelope"></i>
                             <div class="notify"><span class="heartbit"></span><span class="point"></span></div>
                         </a>
                         <ul class="dropdown-menu mailbox animated bounceInDown">
                             <li>
-                                <div class="drop-title">You have 4 new messages</div>
+                                <div class="drop-title" style="font-size:13px;">Most recent Notificaitons(10 max)!</div>
                             </li>
-                            <li>
-                                <div class="message-center">
-                                    <a href="javascript:void(0)">
-                                        <div class="user-img"> <img src="~/Template/img/blank-profile-picture.svg" alt="user" class="img-circle"> <span class="profile-status online pull-right"></span> </div>
-                                        <div class="mail-contnet">
-                                            <h5>Pavan kumar</h5>
-                                            <span class="mail-desc">Just see the my admin!</span> <span class="time">9:30 AM</span>
-                                        </div>
-                                    </a> <a href="javascript:void(0)">
-                                        <div class="user-img"> <img src="~/Template/img/blank-profile-picture.svg" alt="user" class="img-circle"> <span class="profile-status busy pull-right"></span> </div>
-                                        <div class="mail-contnet">
-                                            <h5>Sonu Nigam</h5>
-                                            <span class="mail-desc">I've sung a song! See you at</span> <span class="time">9:10 AM</span>
-                                        </div>
-                                    </a> <a href="javascript:void(0)">
-                                        <div class="user-img"> <img src="~/Template/img/blank-profile-picture.svg" alt="user" class="img-circle"> <span class="profile-status away pull-right"></span> </div>
-                                        <div class="mail-contnet">
-                                            <h5>Arijit Sinh</h5>
-                                            <span class="mail-desc">I am a singer!</span> <span class="time">9:08 AM</span>
-                                        </div>
-                                    </a> <a href="javascript:void(0)">
-                                        <div class="user-img"> <img src="~/Template/img/blank-profile-picture.svg" alt="user" class="img-circle"> <span class="profile-status offline pull-right"></span> </div>
-                                        <div class="mail-contnet">
-                                            <h5>Pavan kumar</h5>
-                                            <span class="mail-desc">Just see the my admin!</span> <span class="time">9:02 AM</span>
-                                        </div>
-                                    </a>
-                                </div>
+                            <li><div id="notificationDispDiv"></div>
+                               @*@Html.Partial("_TopNotifications")*@
                             </li>
-                            <li> <a class="text-center" href="javascript:void(0);"> <strong>See all notifications</strong> <i class="fa fa-angle-right"></i> </a></li>
+                            <li> <a class="text-center" href="/BT/MyNotifications"> <strong>See all notifications</strong> <i class="fa fa-angle-right"></i> </a></li>
                         </ul>
                         <!-- /.dropdown-messages -->
+                
                     </li>
+
                     <!-- /.dropdown -->
                     <!-- End Top Right Notification Button-->
                     <!-- Start Top Right Pencil Button-->
-                    <li class="dropdown">
+                    @*<li class="dropdown">
                         <a class="dropdown-toggle waves-effect waves-light" data-toggle="dropdown" href="javascript:void(0)">
                             <i class="icon-note"></i>
                             <div class="notify"><span class="heartbit"></span><span class="point"></span></div>
@@ -154,18 +131,26 @@
                         </ul>
                         <!-- /.dropdown-tasks -->
                     </li>
-                    <!-- /.dropdown -->
+                    <!-- /.dropdown -->*@
                     <!-- End Top Right Pencil Button-->
                     <!-- Start Top Right User Drop-Down Button-->
                     <li class="dropdown">
                         <a class="dropdown-toggle profile-pic" data-toggle="dropdown" href="javascript:void(0)"> <img src="~/Template/img/blank-profile-picture.svg" alt="user-img" width="36" class="img-circle"><b class="hidden-xs">@Html.Partial("_LoginPartial")</b></a>
-                        <ul class="dropdown-menu dropdown-user animated flipInY">
+                        <ul class="dropdown-menu dropdown-user animated flipInY" id="top-Right-Dropdown">
                             <li><a href="@Url.Action("Index","Home")"><i class="ti-home"></i> My Home</a></li>
-                            <li><a href="javascript:void(0)"><i class="ti-email"></i> Inbox</a></li>
-                            <li><a href="javascript:void(0)"><i class="ti-email"></i> Notification Inbox</a></li>
+                            <li><a href="/BT/MyNotifications"><i class="ti-email"></i> Notification Inbox</a></li>
                             <li role="separator" class="divider"></li>
-                            <li><a href="@Url.Action("Index","Manage")"><i class="ti-settings"></i> Account Setting</a></li>
-                            <li><a href="@Url.Action("Dashboard","Admin")"><i class="ti-settings"></i> Admin</a></li>
+                            <li><a href="@Url.Action("Index","Manage")"><i class="ti-settings"></i> Account Settings</a></li>
+                            <li><div class="popover fade left in demo-rightNavPopover" role="tooltip" id="popover333448aj" style="top: 10.5px; display: block; display:none;"><div class="arrow" style="top: 44%;"></div><h3 class="popover-title">Navigational Links</h3>
+                                <div class="popover-content">Here you will find many Navigational Links for all Users.<br /><br /> <b>**Most Importantly**</b> - This is the <b>only</b> spot where you can access the <u>Admin Dashboard.</u> You will need to be logged in as an Admin to see this option.<br />
+                                <br />
+                                <button class="fcbtn btn btn-outline btn-success btn-1d" id="show-Me-next1" data-dismiss="modal">Next! <i class="fa fa-arrow-right"></i></button>
+                                <br />
+                                </div></div></li>
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <li><a href="@Url.Action("Dashboard", "Admin")"><i class="ti-settings"></i> Admin</a></li>
+                            }
                             <li role="separator" class="divider"></li>
                             <li></li>
                             <li>
@@ -196,7 +181,7 @@
             <div class="sidebar-nav navbar-collapse slimscrollsidebar">
                 <ul class="nav" id="side-menu">
                     <!-- Hidden Search for Mobile -->
-                    <li class="sidebar-search hidden-sm hidden-md hidden-lg">
+                    @*<li class="sidebar-search hidden-sm hidden-md hidden-lg">
                         <!-- input-group -->
                         <div class="input-group custom-search-form">
                             <input type="text" class="form-control" placeholder="Search~.">
@@ -205,16 +190,18 @@
                             </span>
                         </div>
                         <!-- /input-group -->
-                    </li>
+                    </li>*@
                     <!-- End Hidden Search for Mobile-->
                     <!-- Start Left Nav User Section -->
                     <li class="user-pro">
-                        <a href="javascript:void(0)" class="waves-effect"><img src="~/Template/img/blank-profile-picture.svg" alt="user-img" class="img-circle"> <span class="hide-menu"> @Html.Partial("_LoginPartial")<span class="fa arrow"></span></span></a>
-                        <ul class="nav nav-second-level">
-                            <li><a href="@Url.Action("Index","Home")"><i class="ti-home"></i> MyHome</a></li>
-                            <li><a href="javascript:void(0)"><i class="ti-email"></i> Notification Inbox</a></li>
+                        <a href="javascript:void(0)" class="waves-effect"><img src="~/Template/img/blank-profile-picture.svg" alt="user-img" class="img-circle"> <span class="hide-menu"> @Html.Partial("_LoginPartial")@*<span class="fa arrow"></span>*@</span></a>
+                        <ul class="nav nav-second-level collapse">
+                            <li><a href="/BT/MyNotifications"><i class="ti-email"></i> Notification Inbox</a></li>
                             <li><a href="@Url.Action("Index","Manage")"><i class="ti-settings"></i> Account Setting</a></li>
-                            <li><a href="@Url.Action("Dashboard","Admin")"><i class="ti-settings"></i> Admin</a></li>
+                            @if (User.IsInRole("Admin"))
+                            {
+                            <li><a href="@Url.Action("Dashboard", "Admin")"><i class="ti-settings"></i> Admin</a></li>
+                            }
                             <li>
                                 @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutFormLeftNav", @class = "navbar-right" }))
                                 {
@@ -229,105 +216,35 @@
                     <li class="nav-small-cap m-t-10">--- Main Menu</li>
                     <!-- Start Views -->
                     <li>
-                        <a href="index.html" class="waves-effect"><i class="linea-icon linea-basic fa-fw" data-icon="E"></i> <span class="hide-menu"> Views <span class="fa arrow"></span> <span class="label label-rouded label-custom pull-right">4</span></span></a>
+                        <a href="index.html" class="waves-effect"><i class="linea-icon linea-basic fa-fw" data-icon="E"></i> <span class="hide-menu"> Views <span class="fa arrow"></span> @*<span class="label label-rouded label-custom pull-right">4</span>*@</span></a>
                         <ul class="nav nav-second-level">
-                            <li> <a href="@Url.Action("Index","Home")"><i class="ti-home"></i> My Home</a> </li>
+                            <li> <a href="/Home/Index"><i class="ti-home"></i> My Home</a> </li>
                             <li> <a href="@Url.Action("MyTickets","BT")"> My Tickets</a> </li>
                             <li> <a href="@Url.Action("MyProjects","BT")"> My Projects</a> </li>
+                            <li></li>
                         </ul>
                     </li>
                     <!-- End Views -->
                     <!--Start Project Manager Views-->
                     <li>
-                        <a href="index.html" class="waves-effect"><i class="linea-icon linea-basic fa-fw" data-icon="E"></i> <span class="hide-menu"> Project Manager Views <span class="fa arrow"></span> <span class="label label-rouded label-custom pull-right">4</span></span></a>
+                       @if(User.IsInRole("Project Manager") || User.IsInRole("Admin"))
+                       {
+                        <a href="index.html" class="waves-effect"><i class="linea-icon linea-basic fa-fw" data-icon="E"></i> <span class="hide-menu"> Project Manager<span class="fa arrow"></span> @*<span class="label label-rouded label-custom pull-right">4</span>*@</span></a>
                         <ul class="nav nav-second-level">
-                            <li> <a href="@Url.Action("Index","Home")"><i class="ti-home"></i> Project Manager Home</a> </li>
-                            <li> <a href="@Url.Action("-","BT")"> Manage Projects</a> </li>
-                            <li> <a href="@Url.Action("-","BT")"> Manage Projects Tickets</a> </li>
+                            <li> <a href="/BT/PMDashBoard"><i class="ti-home"></i> PM Dashboard</a> </li>
+                            <li> <a href="@Url.Action("ManageProject","BT")"> Manage Projects</a> </li>
                             <li> <a href="@Url.Action("GlobalTickets", "BT")"> Global Tickets</a> </li>
-                            <li> <a href="@Url.Action("ProjectManager", "BT")"> Global Projects</a> </li>
+                            <li> <a href="@Url.Action("Projects", "Admin")"> Global Projects</a> </li>
                         </ul>
+
+                       }
                     </li>
                     <!--Start Project Manager Views-->
                     <!-- Start Notification Section-->
                     <li>
-                        <a href="javascript:void(0)" class="waves-effect"><i class="ti-email"></i> <span class="hide-menu">Notification Inbox <span class="fa arrow"></span></span></a>
-                        <ul class="nav nav-second-level">
-                            <li> <a href="javascript:void(0)">Link1.1</a></li>
-                            <li> <a href="javascript:void(0)">Link1.2</a></li>
-                            <li> <a href="javascript:void(0)">Link1.3</a></li>
-                        </ul>
+                        <a href="/BT/MyNotifications" class="waves-effect"><i class="ti-email"></i> <span class="hide-menu">Notification Inbox <span class="fa arrow"></span></span></a>
                     </li>
-                    <!-- End Notification Section-->
-                    <!-- Start Analytics Section-->
-                    <li>
-                        <a href="javascript:void(0)" class="waves-effect"><i class="ti-bar-chart"></i> <span class="hide-menu">Analytics<span class="fa arrow"></span> <span class="label label-rouded label-info pull-right">13</span> </span></a>
-                        <ul class="nav nav-second-level">
-                            <li><a href="javascript:void(0)">Link2.1</a></li>
-                            <li><a href="javascript:void(0)">Link2.2</a></li>
-                            <li><a href="javascript:void(0)">Link2.3</a></li>
-                        </ul>
-                    </li>
-                    <!-- End Analytics Section-->
-                    <!-- Start Drop-Down 1.1 -->
-                    <li>
-                        <a href="javascript:void(0)" class="waves-effect"><i data-icon="&#xe00b;" class="linea-icon linea-basic fa-fw"></i> <span class="hide-menu">Drop-Down 1.1<span class="fa arrow"></span></span></a>
-                        <ul class="nav nav-second-level">
-                            <li><a href="javascript:void(0)">Link3.1</a></li>
-                            <li><a href="javascript:void(0)">Link3.2</a></li>
-                            <li><a href="javascript:void(0)">Link3.3</a></li>
-                        </ul>
-                    </li>
-                    <!-- Start Drop-Down 1.1 -->
-                    <!-- End Main Menu Section -->
-                    <!-- Start Drop-Down 2.1 -->
-                    <!-- Start Next Menu Section -->
-
-                    @*<li class="nav-small-cap">--- Next Menu Section</li>
-                    <li>
-                        <a href="javascript:void(0)" class="waves-effect active"><i data-icon="&#xe008;" class="linea-icon linea-basic fa-fw"></i> <span class="hide-menu">Drop-Down 2.1<span class="fa arrow"></span><span class="label label-rouded label-purple pull-right">15</span></span></a>
-                        <ul class="nav nav-second-level">
-                            <li><a href="javascript:void(0)">Link4.1</a></li>
-                            <li><a href="javascript:void(0)">Link4.2</a></li>
-                            <li><a href="javascript:void(0)">Link4.3</a></li>
-                        </ul>
-                    </li>
-                    <!-- End Drop-Down 2.1 -->
-                    <!-- Start Drop-Down 3.1 -->
-                    <li>
-                        <a href="javascript:void(0)" class="waves-effect"><i data-icon="&#xe006;" class="linea-icon linea-basic fa-fw"></i> <span class="hide-menu">Drop-Down 3.1<span class="fa arrow"></span></span></a>
-                        <ul class="nav nav-second-level">
-                            <li> <a href="javascript:void(0)">Link5.1</a> </li>
-                            <li><a href="javascript:void(0)">Link5.2</a></li>
-                            <li><a href="javascript:void(0)">Link5.3</a></li>
-                        </ul>
-                    </li>
-                    <!-- End Drop-Down 3.1 -->
-                    <!-- Start Drop-Down 4.1 -->
-                    <li>
-                        <a href="javascript:void(0)" class="waves-effect"><i data-icon="O" class="linea-icon linea-software fa-fw"></i> <span class="hide-menu">Drop-Down 4.1<span class="fa arrow"></span><span class="label label-rouded label-danger pull-right">7</span></span></a>
-                        <ul class="nav nav-second-level">
-                            <li><a href="javascript:void(0)">Link6.1</a></li>
-                            <li><a href="javascript:void(0)">Link6.2</a></li>
-                            <li><a href="javascript:void(0)">Link6.3</a></li>
-                        </ul>
-                    </li>
-                    <!-- End Drop-Down 4.1 -->
-
-                    <li> <a href="widgets.html" class="waves-effect"><i data-icon="P" class="linea-icon linea-basic fa-fw"></i> <span class="hide-menu">Widgets</span></a> </li>
-                    <li> <a href="map-google.html" class="waves-effect"><i data-icon="Q" class="linea-icon linea-basic fa-fw"></i><span class="hide-menu">Google Map</span></a> </li>
-                    <li> <a href="map-vector.html" class="waves-effect"><i data-icon="S" class="linea-icon linea-basic fa-fw"></i><span class="hide-menu">Vector Map</span></a> </li>
-                    <li> <a href="calendar.html" class="waves-effect"><i data-icon="A" class="linea-icon linea-elaborate fa-fw"></i> <span class="hide-menu">Calendar</span></a></li>
-                    <li><a href="login.html" class="waves-effect"><i class="icon-logout fa-fw"></i> <span class="hide-menu">Log out</span></a></li>
-
-                    <!-- End Next Menu Section -->
-                    <!-- Start Support Menu Section -->
-                    <li class="nav-small-cap">--- Support</li>
-                    <li><a href="documentation.html" class="waves-effect"><i class="fa fa-circle-o text-danger"></i> <span class="hide-menu">Documentation</span></a></li>
-                    <li><a href="gallery.html" class="waves-effect"><i class="fa fa-circle-o text-info"></i> <span class="hide-menu">Gallery</span></a></li>
-                    <li><a href="faq.html" class="waves-effect"><i class="fa fa-circle-o text-success"></i> <span class="hide-menu">Faqs</span></a></li>
-                    <!-- End Support Menu Section -->*@
-                </ul>
+                    </ul>
             </div> 
             <!-- End Left navbar-header Collapse -->
         </div>
@@ -345,101 +262,178 @@
                         <h4 class="page-title">@ViewBag.Title</h4>
                     </div>
                     <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
-                        <ol class="breadcrumb">
+                        @*<ol class="breadcrumb">
                             <li><a href="javascript:void(0)">Dashboard</a></li>
                             <li class="active">Starter Page</li>
-                        </ol>
+                        </ol>*@
+                        @if (User.IsInRole("DemoAcc") || User.IsInRole("Admin"))
+                        {
+                            <button id="DemoHelp" data-toggle="modal" data-target="#DemoModalMain" class="fcbtn btn btn-danger btn-outline btn-1d">Demo Account Help!</button>
+                        }
+
                     </div>
                     <!-- /.col-lg-12 -->
                 </div>
                 <!--End Title Row-->
+                
+                <div class="modal fade" id="DemoModalMain" role="dialog">
 
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content" id="demoHelpModal">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                <h4 class="modal-title" id="myLargeModalLabel">Welcome to my Bug Tracker Web Application!</h4>
+                            </div>
+                            <div class="modal-body">
+                                <h4>I'm pleased that you stopped by!</h4>
+                                <p>First, a quick introduction and short description. Then a quick walk-thru that shows how the user interface works. If you want to skip the introduction and go right to the UI click on the "Show me around!" button below.</p>
+                                <p>This Web App was built by Alexander(AJ) Sigmon. The app was built using Visual Studio, ASP.NET, C#, HTML5, CSS, and Javascript. Additionally, the frameworks Entity, Bootstrap, JQuery, and multiple other JQuery/CSS Plugins/Frameworks.</p>
+                                <hr />
+                                <p>Without further ado, let's start by learning how the roles are configured.</p>
+                                <p>The User Roles are hierarchical in nature, just like you would expect. The “Admin Role” is at the top of the food chain and has the most insight into the application, alternatively, the “Registered User” Role is at the bottom and has no access. It is added to a User Account upon Registration and must be removed before the user can start using the application.</p>
+                                <p>However, not all permissions are inherited from “lower” Roles. Some Roles have features that are exclusive to the particular Role, in which case, the specific Role is the only Role has access to the feature. For instance, the Submitter Role can create tickets and the Project Manager Role cannot. Therefore, should a user who is a Project Manager need access to create tickets, the user will need to have both the Project Manger and Submitter Role(s) added to the user's account.</p>
+                                <p>Here are the User Roles along with the most notable permissions listed.</p>
+                                <br />
+                                <div class="row">
+                                    <div class="pull-right">
+                                        <button class="fcbtn btn btn-outline btn-success btn-1d" id="show-Me-Start" data-dismiss="modal">Show me around! <i class="fa fa-arrow-right"></i></button>
+                                    </div>
+                                </div>
+                                <b>Registered User</b>
+                                <ul>
+                                    <li>Anyone can Register an Account.</li>
+                                    <li>When Account is Registered it is added to the “Registered User” Role.</li>
+                                    <li>The Registered User Role cannot use any part of the application.</li>
+                                </ul>
+                                <b>Submitter</b>
+                                <ul>
+                                    <li>Create Tickets</li>
+                                    <li>View Tickets in which they're the Creator(Owner)</li>
+                                    <li>Edit/Comment/Upload files to tickets they are assigned.</li>
+                                </ul>
+                                <b>Developer</b>
+                                <ul>
+                                    <li>Tickets can only be Assigned to Developers.</li>
+                                    <li>Edit/Comment/Upload files to tickets they are assigned.</li>
+                                    <li>View any Tickets that are in their Projects.</li>
+                                </ul>
+                                <b>Project Manager</b>
+                                <ul>
+                                    <li>Create/Edit Projects.</li>
+                                    <li>Add Users to Projects.</li>
+                                    <li>Edit/Comment/Upload files to Tickets only in their Projects.</li>
+                                    <li>View all Tickets/Projects.</li>
+                                </ul>
+                                <b>Admins</b>
+                                <ul>
+                                    <li>Create/Edit Projects.</li>
+                                    <li>Add Users to Projects.</li>
+                                    <li>Edit/Comment/Upload files to all Tickets.</li>
+                                    <li>Add/Remove User Roles.</li>
+                                    <li>Edit User's Account Information.</li>
+                                    <li>View All Tickets/Projects.</li>
+                                </ul>
 
-
-
-
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger waves-effect text-left" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                        <!-- /.modal-content -->
+                    </div>
+                </div>
                 <!-- Start Main Body Content-->
                 <div class="row">
                     <div class="col-md-12">
+                        <div class="popover fade right in demo-left-nav1" role="tooltip" id="popover603212aj" style="display: block; display:none;">
+                            <div class="arrow" style="top: 20%;"></div><h3 class="popover-title">Main Menu Views</h3>
+                            <div class="popover-content">
+                                <p>Here you will find the majority of views for the application. Some of these views are specific to user roles.</p>
+                                <p><b>Most Importantly,</b> The <u>"Project Manager"</u> navigational section is here. You must be logged in as a Project Manager to see this section.</p>
+                                <p>The "Views" Section is the main navigational bar for Developers/Submitters, but is also available to Project Managers and Admins as well.</p>
+                                <p>Lastly, the Notification Inbox is available to all users. Notifications are sent to users when tickets they're associated are interacted with.</p>
+                                <br />
+                                <div class="pull-right">
+                                    <button class="fcbtn btn btn-outline btn-success btn-1d" id="show-Me-next2" data-dismiss="modal">Get to Tracking! <i class="fa fa-close"></i></button>
+                                </div>
+                                <br />
+                               <div class="clearfix"></div>
+                            </div>
+                        </div>
+
                         @*<div class="white-box">*@
-                            @*<h3 class="box-title">Blank Starter page</h3>*@
-                            @*@if (Request.IsAuthenticated) {*@ 
-                            @RenderBody()
-                            @*}
-                            else{
-                                    Url.Action("Login", "Account");
-                                    @RenderPage("~/Views/Account/Login.cshtml");
-                                }*@
-                                    
+                        @*<h3 class="box-title">Blank Starter page</h3>*@
+                        @*@if (Request.IsAuthenticated) {*@
+                        @RenderBody()
+                        @*}
+                    else{
+                            Url.Action("Login", "Account");
+                            @RenderPage("~/Views/Account/Login.cshtml");
+                        }*@
+
                         @*</div>*@
                     </div>
                 </div>
                 <!-- End Main Body Content-->
-
-
-
-
-
                 <!-- Start .right-sidebar Options-->
                 <!-- Content Section for Top Right Settings(Gear). Button Toggler is in Nav-Bar-->
                 <div class="right-sidebar">
                     <div class="slimscrollright">
-                        <div class="rpanel-title"> Service Panel <span><i class="ti-close right-side-toggle"></i></span> </div>
+                        <div class="rpanel-title"> Account Options <span><i class="ti-close right-side-toggle"></i></span> </div>
                         <div class="r-panel-body">
-                            <ul>
-                                <li><b>Layout Options</b></li>
-                                <li>
-                                    <div class="checkbox checkbox-info">
-                                        <input id="checkbox1" type="checkbox" class="fxhdr">
-                                        <label for="checkbox1"> Fix Header </label>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="checkbox checkbox-warning">
-                                        <input id="checkbox2" type="checkbox" checked="" class="fxsdr">
-                                        <label for="checkbox2"> Fix Sidebar </label>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="checkbox checkbox-success">
-                                        <input id="checkbox4" type="checkbox" class="open-close">
-                                        <label for="checkbox4"> Toggle Sidebar </label>
-                                    </div>
-                                </li>
-                            </ul>
-                            <ul id="themecolors" class="m-t-20">
-                                <li><b>With Light sidebar</b></li>
-                                <li><a href="javascript:void(0)" theme="default" class="default-theme">1</a></li>
-                                <li><a href="javascript:void(0)" theme="green" class="green-theme">2</a></li>
-                                <li><a href="javascript:void(0)" theme="gray" class="yellow-theme">3</a></li>
-                                <li><a href="javascript:void(0)" theme="blue" class="blue-theme working">4</a></li>
-                                <li><a href="javascript:void(0)" theme="purple" class="purple-theme">5</a></li>
-                                <li><a href="javascript:void(0)" theme="megna" class="megna-theme">6</a></li>
-                                <li><b>With Dark sidebar</b></li>
-                                <br />
-                                <li><a href="javascript:void(0)" theme="default-dark" class="default-dark-theme">7</a></li>
-                                <li><a href="javascript:void(0)" theme="green-dark" class="green-dark-theme">8</a></li>
-                                <li><a href="javascript:void(0)" theme="gray-dark" class="yellow-dark-theme">9</a></li>
+                            @*<ul>
+        <li><b>Layout Options</b></li>
+        <li>
+            <div class="checkbox checkbox-info">
+                <input id="checkbox1" type="checkbox" class="fxhdr">
+                <label for="checkbox1"> Fix Header </label>
+            </div>
+        </li>
+        <li>
+            <div class="checkbox checkbox-warning">
+                <input id="checkbox2" type="checkbox" checked="" class="fxsdr">
+                <label for="checkbox2"> Fix Sidebar </label>
+            </div>
+        </li>
+        <li>
+            <div class="checkbox checkbox-success">
+                <input id="checkbox4" type="checkbox" class="open-close">
+                <label for="checkbox4"> Toggle Sidebar </label>
+            </div>
+        </li>
+    </ul>
+    <ul id="themecolors" class="m-t-20">
+        <li><b>With Light sidebar</b></li>
+        <li><a href="javascript:void(0)" theme="default" class="default-theme">1</a></li>
+        <li><a href="javascript:void(0)" theme="green" class="green-theme">2</a></li>
+        <li><a href="javascript:void(0)" theme="gray" class="yellow-theme">3</a></li>
+        <li><a href="javascript:void(0)" theme="blue" class="blue-theme working">4</a></li>
+        <li><a href="javascript:void(0)" theme="purple" class="purple-theme">5</a></li>
+        <li><a href="javascript:void(0)" theme="megna" class="megna-theme">6</a></li>
+        <li><b>With Dark sidebar</b></li>
+        <li><a href="javascript:void(0)" theme="default-dark" class="default-dark-theme">7</a></li>
+        <li><a href="javascript:void(0)" theme="green-dark" class="green-dark-theme">8</a></li>
+        <li><a href="javascript:void(0)" theme="gray-dark" class="yellow-dark-theme">9</a></li>
 
-                                <li><a href="javascript:void(0)" theme="blue-dark" class="blue-dark-theme">10</a></li>
-                                <li><a href="javascript:void(0)" theme="purple-dark" class="purple-dark-theme">11</a></li>
-                                <li><a href="javascript:void(0)" theme="megna-dark" class="megna-dark-theme">12</a></li>
-                            </ul>
+        <li><a href="javascript:void(0)" theme="blue-dark" class="blue-dark-theme">10</a></li>
+        <li><a href="javascript:void(0)" theme="purple-dark" class="purple-dark-theme">11</a></li>
+        <li><a href="javascript:void(0)" theme="megna-dark" class="megna-dark-theme">12</a></li>
+    </ul>*@
+                            </div>
                         </div>
+                        </div>
+                        <!-- End .right-sidebar Options-->
+
+
                     </div>
+                    <!-- /.container-fluid -->
+                    <footer class="footer text-center"> 2016 &copy; BugTracker brought to you by Sigmonster Enterprises </footer>
                 </div>
-                <!-- End .right-sidebar Options-->
+                <!-- /#page-wrapper -->
+                <!-- End Page Main Body Content Wrapper, Including Right-SideBar, & Footer -->
 
 
             </div>
-            <!-- /.container-fluid -->
-            <footer class="footer text-center"> 2016 &copy; BugStomp brought to you by Sigmonster Enterprises </footer>
-        </div>
-        <!-- /#page-wrapper -->
-        <!-- End Page Main Body Content Wrapper, Including Right-SideBar, & Footer -->
-
-
-    </div>
     <!--End Body Wrapper-->
     <!-- jQuery -->
     @*<script src="~/TemplateHelper/DataTables-1.10.12/media/js/jquery.js"></script>*@
@@ -455,6 +449,16 @@
     <script src="~/Template/js/waves.js"></script>
     <!-- Custom Theme JavaScript -->
     <script src="~/Template/js/custom.js"></script>
+    <script src="~/Template/js/cbpFWTabs.js"></script>
+    <script type="text/javascript">
+      (function() {
+
+                [].slice.call( document.querySelectorAll( '.sttabs' ) ).forEach( function( el ) {
+                    new CBPFWTabs( el );
+                });
+
+            })();
+    </script>
     <!--Style Switcher -->
     <script src="~/Template/plugins/bower_components/styleswitcher/jQuery.style.switcher.js"></script>
     
@@ -468,6 +472,8 @@
     <script src="~/TemplateHelper/DataTables-1.10.12/media/js/jquery.dataTables.js"></script>
     <script src="~/TemplateHelper/DataTables-1.10.12/extensions/Buttons/js/dataTables.buttons.js"></script>
     <script src="~/TemplateHelper/DataTables-1.10.12/extensions/Buttons/js/buttons.colVis.min.js"></script>
+    <script src="~/Template/plugins/bower_components/toast-master/js/jquery.toast.js"></script>
+
     @RenderSection("scripts", required: false) 
     @*<script>
     $(document).ready(function(){

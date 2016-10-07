@@ -18,6 +18,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
+    <title>BugTracker - Login</title>
+
     <link rel="icon" type="image/png" sizes="16x16" href="../Template/plugins/images/favicon.png">
     <!-- Bootstrap Core CSS -->
     <link href="../Template/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -32,6 +34,7 @@
     <section id="wrapper" class="login-register">
         <div class="login-box">
             <div class="white-box">
+                <p class="text-danger">@ViewBag.ErrorMsg</p>
                 <!-- Start Login Section -->
                 @Html.Partial("_LoginFormPartial", Model.LoginViewModel)
                 <!-- End Login Section -->

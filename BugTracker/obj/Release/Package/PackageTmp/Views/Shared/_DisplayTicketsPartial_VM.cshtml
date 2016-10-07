@@ -14,11 +14,11 @@
                 <strong>Tickets</strong><br />
                 @Model.TitleDesc
             </div>
-                <div class="pull-right ticket-box-header-btns"><a href="#" data-perform="panel-collapse"><i class="ti-minus"></i></a> </div>
+                <div class="pull-right ticket-box-header-btns"><a href="#" data-perform="panel-collapse"><i class="ti-plus"></i></a> </div>
                 <br />
             <br />
             </div>
-        <div class="panel-wrapper collapse in" aria-expanded="true">
+        <div class="panel-wrapper collapse" aria-expanded="false">
             <div class="panel-body">
                 <div class="table-responsive">
                     <table class="table table-striped compact myDT">
@@ -55,17 +55,17 @@
                                         </div>
                                     </td>
                                     <td>
-                                        <span class="tk-status">
+                                        <span class="tk-status ticket-label status-@item.TicketStatusID">
                                             @item.TicketStatus.Name
                                         </span>
                                     </td>
                                     <td>
-                                        <span class="tk-priority">
+                                        <span class="tk-priority ticket-label priority-@item.TicketPriorityID">
                                             @item.TicketPriority.Name
                                         </span>
                                     </td>
                                     <td>
-                                        <span class="tk-type">
+                                        <span class="tk-type ticket-label type-@item.TicketTypeID">
                                             @item.TicketType.Name
                                         </span>
                                     </td>

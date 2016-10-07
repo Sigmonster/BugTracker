@@ -10,6 +10,11 @@
 .panel-heading strong{
     font-size: 20px;
 }
+.addrmusers{
+    min-height:495px;
+    max-height:800px;
+    overflow-y:auto;
+}
 /*DataTable Project Users*/
 .epu-tbl-row:hover{
     background-color: #a5eeff;
@@ -31,6 +36,7 @@
     resize: both;
     overflow: hidden;
     border:1px solid #dcd6d6;
+    min-height: 44px;
 }
 .ticket-tbl-title{
     width:100px;
@@ -39,6 +45,8 @@
     resize: both;
     overflow: hidden;
     border:1px solid #dcd6d6;
+    min-height: 44px;
+    min-width: 200px;
 }
 .ticket-tbl-time{
     max-width:60px;
@@ -64,47 +72,42 @@
     white-space: nowrap;
     vertical-align: baseline;
     border-radius: .25em;
-    min
+
 }
-.ticket-Open{
+.ticket-Open, .status-3{
     background-color:skyblue;
 }
-.ticket-InProgress{
+.ticket-InProgress, .status-2{
     background-color:lightgreen;
 }
-.ticket-Pending{
+.ticket-Pending, .status-4{
     background-color:cornflowerblue;
 }
-.ticket-Resolved{
+.ticket-Resolved, .status-1{
     background-color:#000000;
 }
-        /*$('.tk - priority:contains("Critical")').addClass('ticket-label ticket-Critical');
-        $('.tk - priority:contains("Major")').addClass('ticket-label ticket-Major');
-        $('.tk - priority:contains("Minor")').addClass('ticket-label ticket-Minor');
-        $('.tk - priority:contains("Trivial")').addClass('ticket-label ticket-Trivial');
-        $('.tk - priority:contains("Blocker")').addClass('ticket-label ticket-Blocker');*/
-.ticket-Critical{
+.ticket-Critical, .priority-1{
     background-color:red;
 }
-.ticket-Major{
+.ticket-Major, .priority-2{
     background-color:orangered;
 }
-.ticket-Minor{
+.ticket-Minor, .priority-3{
     background-color:darkblue;
 }
-.ticket-Trivial{
+.ticket-Trivial, .priority-4{
     background-color:#a5a4a4;
 }
-.ticket-Blocker{
+.ticket-Blocker, .priority-5{
     background-color:orangered;
 }
-.ticket-Bug{
+.ticket-Bug, .type-1{
     background-color:#069f1b;
 }
-.ticket-Task{
+.ticket-Task, .type-2{
     background-color:#c8a600;
 }
-.ticket-Feature{
+.ticket-Feature, .type-5{
     background-color:#0dff00;
 }
 
@@ -143,10 +146,23 @@
     padding: 5px;
     margin-bottom:2em;
 }
+.comment-wrapper p{
+    display:none;
+}
+
+.comment-wrapper textarea{
+
+    width:100%;
+    height:150px;
+    border:none;
+   
+}
+
 /*Comment Add Partial*/
 .comment-add-textarea textarea{
     width:100%;
     height:100px;
+    border: lightgray solid 1px;
 }
 /*EndComment Add Partial*/
 /*End Comment Partial*/
@@ -160,7 +176,7 @@
 /*Slim Partial Dropdown*/
 .slim-btn-dropdown{
     padding:2px 5px 2px 5px;
-    border:1px white;
+    border:1px solid white;
     margin-left:5px;
 
 }
@@ -186,3 +202,142 @@
         border-left: 5px solid #03a9f3 !important;
 }
 /*End Ticket Attachments*/
+/*Start Create Ticket*/
+.create-ticket-reminders blockquote{
+        border-left: 5px solid #03a9f3 !important;
+}
+/*End Create Ticket*/
+/*Start User Landing Page - /Home/Index */
+.user-bg .overlay-box {
+    background:#00c292;
+
+}
+.user-list-1 li:last-child{
+    border-bottom: 1px solid rgba(120, 130, 140, 0.13);
+}
+.white-box-lg {
+    height: 432px;
+    overflow-y:auto;
+}
+/*END User Landing Page - /Home/Index */
+
+/*START PM Dashboard*/
+.pmProjAnchor{
+
+    margin-left:15px !important;
+}
+.pmProjAnchor:hover {
+    color:#01c0c8 !important;
+}
+/*END PM Dashboard*/
+
+/*History*/
+.hist-list-property > div:nth-child(even) {background: #CCC}
+.hist-list-property > div:nth-child(odd) {background: #efefef}
+
+.hist-list-container > .hist-header:nth-child(4n+1) {background: aliceblue;}
+.hist-list-container  .hist-header:nth-child(4n+1):hover {background: cyan;}
+.hist-header:hover {
+   background-color:cyan;
+}
+.hist-list-container{
+    max-height:600px;
+    overflow-y:auto;
+    padding-top:5px;
+    padding-bottom:5px;
+}
+
+/*Notifications*/
+.notification-tbody a{
+        color: blue;
+    font-size: large;
+}
+.notification-center .unread td {
+  font-weight: 600;
+}
+.notification-center a {
+  color: #686868;
+  padding: 2px 0 3px 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: inline-block;
+}
+.notification-proj-btn{
+    padding-left: 5px !important;
+    overflow: hidden !important;
+    white-space: nowrap !important;
+    text-overflow: ellipsis !important;
+}
+
+/*Admin Section*/
+
+.sttabs nav li.tab-current a{
+    color: deepskyblue;
+}
+
+.tabs-style-underline nav li a::after{
+    background: deepskyblue;
+}
+.dashboard-box{
+    margin-top:40px;
+    padding:2px;
+    max-height:600px;
+    overflow:auto;
+}
+.admin-dash-panel-body section{
+    padding:0;
+}
+/*Admin Ticket Tables*/
+.admin-tbl-title{
+    min-height: 45px;
+    min-width: 150px;
+}
+.admin-tbl-body{
+    width:165px;
+    min-height: 45px;
+}
+/*Demo Help Section*/
+.demo-rightNavPopover{
+    left: -281px;
+}
+.demo-rightNavPopover > .popover-title,
+.demo-left-nav1 > .popover-title {
+background-color: #fb9678;
+color:white;
+font-weight:bold;
+font-size: 21px;
+
+}
+.demo-left-nav1{
+    top: 73.5px;
+    left: 218.047px;
+    display: block;
+    position: fixed;
+
+}
+@media screen and (max-width: 767.5px){
+    .demo-rightNavPopover{
+            top: 252.5px !important;
+            left:0;
+    }
+
+}
+@media screen and (max-width: 767.5px){
+    .demo-rightNavPopover .arrow{
+            display:none;
+    }
+
+}
+@media screen and (max-width:767.5px){
+    .demo-left-nav1 {
+        left:0;
+        position: absolute;
+        top: -110px;
+    }
+}
+@media screen and (max-width:767.5px){
+    .demo-left-nav1 .arrow{
+        display:none;
+    }
+}
+

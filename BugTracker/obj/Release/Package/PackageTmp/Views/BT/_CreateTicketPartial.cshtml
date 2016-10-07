@@ -1,0 +1,90 @@
+﻿@model BugTracker.Models.TicketPost
+@{ 
+    
+}
+<div class="col-xs-12">
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            <div class="pull-left">
+                <strong>Create Ticket</strong>
+            </div>
+            @*Short Description*@
+            <div class="pull-right slim-heading-btns"><a href="#" data-perform="panel-collapse"><i class="ti-plus"></i></a> </div>
+            <div class="clearfix"></div>
+        </div>
+        <div class="panel-wrapper collapse" aria-expanded="false">
+            <div class="panel-body">
+
+
+                @using (Html.BeginForm("CreateTicket", "BT", FormMethod.Post, new { enctype = "Multipart/form-data" }))
+                {
+                    @Html.AntiForgeryToken()
+
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                    <div class="col-md-6 comment-add-textarea">
+                        <div class="row">
+                            <div class="col-md-2" style="text-align:right;">
+                                <h6><b>Type:</b></h6>
+                            </div>
+                            <div class="col-md-4">
+                                @Html.DropDownList("TicketTypeID", null, " - Select Type - ", htmlAttributes: new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.TicketTypeID, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="row m-t-10">
+                            <div class="col-md-2" style="text-align:right;">
+                                <h6><b>Priority:</b></h6>
+                            </div>
+                            <div class="col-md-4">
+                                @Html.DropDownList("TicketPriorityID", null, " - Select Priority - ", htmlAttributes: new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.TicketPriorityID, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="row m-t-10">
+                            <div class="col-md-2" style="text-align:right;">
+                                <h6><b>Title:</b></h6>
+                            </div>
+                            <div class="col-md-7">
+                                @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control", required = "required" } })
+                                @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="row m-t-10">
+                            <div class="col-md-2" style="text-align:right;">
+                                <h6><b>Description:</b></h6>
+                            </div>
+                            <div class="col-md-7">
+                                @Html.TextAreaFor(model => model.Description,  new { @class = "form-control", required = "required", style = "max-width:290px;" })
+                                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="row col-xs-9 m-t-10 m-r-0">
+                            <div class="pull-right">
+                                @Html.HiddenFor(model => model.Project)
+                                @Html.HiddenFor(model => model.ProjectID)
+                                <input type="submit" value="Save" class="fcbtn btn btn-info btn-outline btn-1d" />
+                            </div>
+                        </div>
+
+                    </div>
+                }
+                <div class="col-md-6">
+                    <div class="row create-ticket-reminders">
+                        <blockquote>
+                            All tickets for this project will intially be unassigned until a project manager assigns them to a developer.
+                        </blockquote>
+                        <br />
+                        <blockquote>
+                            When a new ticket is created it will automatically be set as open.
+                        </blockquote>
+                        <br />
+                        <blockquote>
+                            You will be set as the owner/submitter for the ticket when it is created.
+                        </blockquote>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

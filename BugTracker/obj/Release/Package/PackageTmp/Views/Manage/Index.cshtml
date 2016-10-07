@@ -4,7 +4,7 @@
 }
       <!-- .row -->
 <div class="row">
-    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 center-block">
         <div class="panel panel-default">
             <div class="panel-heading">
                 Account Details
@@ -13,14 +13,14 @@
                         <a class="dropdown-toggle" id="examplePanelDropdown" data-toggle="dropdown" href="#" aria-expanded="false" role="button">Edit <span class="caret"></span></a>
                         <ul class="dropdown-menu bullet dropdown-menu-right" aria-labelledby="examplePanelDropdown" role="menu">
                             <li role="presentation"><a href="@Url.Action("EditAccount","Manage")" role="menuitem"><i class="icon wb-reply" aria-hidden="true"></i> Edit Details</a></li>
-                            <li role="presentation"><a href="@if (Model.HasPassword){@Url.Action("ChangePassword","Manage")}else{@Url.Action("SetPassword","Manage")}" role="menuitem"><i class="icon wb-share" aria-hidden="true"></i> Change Password</a></li>
-                            <li role="presentation"><a href="javascript:void(0)" role="menuitem"><i class="icon wb-trash" aria-hidden="true"></i> Request Access</a></li>
+                            <li role="presentation"><a href="@Url.Action("ChangePassword","Manage")" role="menuitem"> Change Password</a></li>
                         </ul>
                     </div>
                 </div>
             </div>
             <div class="panel-wrapper collapse in">
-                <p class="text-success">@ViewBag.StatusMessage</p>
+
+                <p class="text-success text-center m-t-10">@ViewBag.StatusMessage</p>
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-md-10 center-block">
@@ -47,13 +47,17 @@
                                             <td><b>User Name:</b></td>
                                             <td>@Model.UserUserName</td>
                                         </tr>
+                                        <tr>
+                                            <td><b>Phone Number:</b></td>
+                                            <td>@Model.PhoneNumber</td>
+                                        </tr>
                                     </tbody>
                                 </table>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="panel-footer"> Panel Footer </div>
+                <div class="panel-footer"> If you're having issues with your account, please inform a Project Manager or Systems Administrator. </div>
             </div>
         </div>
     </div>

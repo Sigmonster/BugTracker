@@ -8,8 +8,13 @@
 var DispTicketsVM_Owner = (DispTicketsVM)ViewData["DispTicketsVM_Owner"];
 }
 
+@if (User.IsInRole("Developer"))
+{
+    @Html.Partial("_DisplayTicketsPartial")
+}
 
-@Html.Partial("_DisplayTicketsPartial")
-
-@Html.Partial("_DisplayTicketsPartial_VM", DispTicketsVM_Owner)
+@if (User.IsInRole("Submitter"))
+{
+    @Html.Partial("_DisplayTicketsPartial_VM", DispTicketsVM_Owner)
+}
 
